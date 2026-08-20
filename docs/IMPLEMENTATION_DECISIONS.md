@@ -119,6 +119,41 @@ it is covered by tests, including a regression test that runs `derive_event_id`
 in two separate interpreter subprocesses and asserts the results match. That
 assertion is precisely what the previous implementation would have failed.
 
+## D12. Persistence is provisioned but the running API uses in-memory repositories
+
+`app/models/sql.py`, `alembic/versions/0001_initial.py` and the Postgres service
+in `docker-compose.yml` are real and complete, including the CHECK constraints
+that mirror Invariant 1. But `api/deps.py` wires the orchestrator to
+`InMemoryCaseRepository` and `InMemoryCustomerRepository`.
+
+This is deliberate and it is a limitation, not a feature. Writing an ORM mapping
+layer here would have added several hundred lines of entity-to-row translation
+that could not be executed or tested in the build environment, on top of a
+FastAPI tier that is already unverified. Given that `app/core/errors.py` shipped
+referencing a class that never existed, adding more unexecutable code was the
+wrong trade.
+
+Consequence: **case state does not survive a backend restart.** The demo,
+benchmark and test suite are unaffected, since they construct repositories
+directly. Implementing `app/repositories/sql.py` against the existing schema is
+the first task after `docker compose up` is confirmed working, and it should be
+written with a live database to test against.
+
+## D13. Money scales through Decimal, not binary floating point
+
+`Money.scaled()` previously computed `int(self.paise * factor + 0.5)`. The error
+is far below one paisa at realistic magnitudes, but "far below a paisa" is not a
+property worth relying on in the one module whose purpose is exactness, and
+`int(x + 0.5)` hides the rounding rule inside an idiom.
+
+Now both `scaled()` and `percent()` convert through `Decimal(str(x))` and
+quantize with explicit `ROUND_HALF_UP`. `scripts/static_check.py` fails the
+build on any float literal or `float()` cast in a money-handling module, so this
+cannot regress silently.
+
+Found by the static checker on its first run, which is a reasonable argument for
+the static checker.
+
 ## Standing verification items
 
 These are **UNVERIFIED** and must be resolved before any submission or

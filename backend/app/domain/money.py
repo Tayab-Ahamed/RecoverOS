@@ -8,6 +8,8 @@ the unit explicit in the type and refuse to accept ambiguous input.
 
 from __future__ import annotations
 
+from decimal import ROUND_HALF_UP, Decimal
+
 from dataclasses import dataclass
 
 from app.domain.errors import MoneyError
@@ -76,14 +78,36 @@ class Money:
             raise MoneyError("subtraction would produce a negative amount")
         return Money(self.paise - other.paise)
 
-    def scaled(self, factor: float) -> Money:
-        """Multiply by a ratio, rounding half-up to the nearest paisa."""
-        if factor < 0:
-            raise MoneyError(f"factor must be non-negative, got {factor}")
-        return Money(int(self.paise * factor + 0.5))
+    def scaled(self, factor: float | int | str | Decimal) -> Money:
+        """Multiply by a ratio, rounding half-up to the nearest paisa.
 
-    def percent(self, pct: float) -> Money:
-        return self.scaled(pct / 100.0)
+        Uses Decimal rather than binary floating point. `paise * 0.1` is not
+        exact in base 2, and while the error is far below a paisa at realistic
+        magnitudes, "far below a paisa" is not a property worth relying on in
+        the module whose entire purpose is exactness. Decimal with explicit
+        ROUND_HALF_UP makes the rounding rule visible instead of implicit in an
+        `int(x + 0.5)` trick.
+        """
+        if isinstance(factor, float | int):
+            if factor < 0:
+                raise MoneyError(f"factor must be non-negative, got {factor}")
+        ratio = Decimal(str(factor))
+        if ratio < 0:
+            raise MoneyError(f"factor must be non-negative, got {factor}")
+        scaled = (Decimal(self.paise) * ratio).quantize(
+            Decimal(1), rounding=ROUND_HALF_UP
+        )
+        return Money(int(scaled))
+
+    def percent(self, pct: float | int | str | Decimal) -> Money:
+        """Take a percentage, e.g. `Money.from_rupees(100).percent(10)`."""
+        ratio = Decimal(str(pct))
+        if ratio < 0:
+            raise MoneyError(f"percentage must be non-negative, got {pct}")
+        scaled = (Decimal(self.paise) * ratio / Decimal(100)).quantize(
+            Decimal(1), rounding=ROUND_HALF_UP
+        )
+        return Money(int(scaled))
 
     def _same_currency(self, other: Money) -> None:
         if self.currency != other.currency:

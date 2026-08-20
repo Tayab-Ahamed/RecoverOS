@@ -47,3 +47,12 @@ migrate:
 
 scan:
 	./scripts/secret_scan.sh
+
+static:	## Parse every module and check imports, boundaries and money hygiene
+	cd backend && python3 -m scripts.static_check
+
+verify-all:	## Everything provable without a network: static, tests, demo, benchmark
+	cd backend && python3 -m scripts.verify
+
+verify-quick:	## Same, with a 2,000-event benchmark instead of 10,000
+	cd backend && python3 -m scripts.verify --quick
