@@ -11,6 +11,8 @@ from fastapi import APIRouter, Header, HTTPException, Request, Response
 
 from app.api.deps import get_container
 from app.core.logging import get_logger
+from app.domain.errors import MissingProviderEventId
+from app.webhooks.event_id import is_derived, resolve_event_id
 
 router = APIRouter(tags=["webhooks"])
 log = get_logger(__name__)
@@ -31,7 +33,17 @@ async def razorpay_webhook(
         # could mark cases as recovered.
         raise HTTPException(503, "webhook secret is not configured")
 
-    event_id = x_razorpay_event_id or f"body:{hash(raw)}"
+    # Replay protection is only as strong as this identifier, so it must be
+    # durable across process restarts. Deriving one is permitted outside
+    # production only, for the signed local replay path. See D11.
+    try:
+        event_id = resolve_event_id(
+            x_razorpay_event_id,
+            raw,
+            allow_derived=not container.settings.is_production,
+        )
+    except MissingProviderEventId as exc:
+        raise HTTPException(400, "missing provider event id") from exc
     result = container.webhooks.handle(raw, x_razorpay_signature, event_id)
 
     log.info(
@@ -41,6 +53,7 @@ async def razorpay_webhook(
             "reason": result.reason,
             "event_type": result.event_type,
             "case_id": result.case_id,
+            "derived_event_id": is_derived(event_id),
         },
     )
 

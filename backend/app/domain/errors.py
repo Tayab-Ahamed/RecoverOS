@@ -23,3 +23,12 @@ class PolicyViolation(DomainError):
 
 class MoneyError(DomainError):
     """An invalid monetary value or operation."""
+
+
+class MissingProviderEventId(DomainError):
+    """A provider event arrived with no event id.
+
+    Treated as malformed rather than recoverable: without a stable identifier
+    supplied by the provider, exactly-once processing of a payment event cannot
+    be guaranteed. See docs/IMPLEMENTATION_DECISIONS.md, D11.
+    """

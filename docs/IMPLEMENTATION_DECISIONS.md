@@ -88,6 +88,37 @@ The probability that drives prioritisation comes from
 `app/detection/rules.py`. The agent contributes explanation, not arithmetic.
 This keeps prioritisation reproducible and auditable.
 
+## D11. A provider event with no event id is malformed, not recoverable
+
+**Was:** the webhook route fell back to `f"body:{hash(raw)}"` when the provider
+event id header was absent.
+
+**Defect:** `hash()` of a bytes object is randomised per interpreter process
+unless `PYTHONHASHSEED` is pinned. Replay protection keyed on that value does
+not survive a restart, so an already-processed `payment_link.paid` event could
+be accepted a second time and a case could be credited twice. This was a real
+bug found in review, not a hypothetical.
+
+**Now:** identity resolution lives in `app/webhooks/event_id.py`:
+
+- A provider-supplied id always wins. A whitespace-only header counts as
+  absent.
+- Outside production, an id may be derived as `body:sha256:<hex>` for the
+  signed local replay path. A digest is deterministic across processes,
+  machines and interpreter versions.
+- **In production, a missing id raises `MissingProviderEventId` and the request
+  is rejected with HTTP 400.** Manufacturing a deduplication key from content
+  the sender controls is worse than refusing: two distinct events with
+  identical bodies would collapse into one, and one event redelivered with a
+  byte-level difference would be processed twice.
+- `is_derived()` lets audit consumers distinguish a real provider id from a
+  manufactured one, and the webhook log line records it.
+
+The logic sits in a standard-library module rather than in the FastAPI route so
+it is covered by tests, including a regression test that runs `derive_event_id`
+in two separate interpreter subprocesses and asserts the results match. That
+assertion is precisely what the previous implementation would have failed.
+
 ## Standing verification items
 
 These are **UNVERIFIED** and must be resolved before any submission or
