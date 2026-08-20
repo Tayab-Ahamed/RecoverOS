@@ -59,7 +59,7 @@
     "policy_violations": 4490,
     "policy_violation_rate": 0.449
   },
-  "wall_clock_seconds": 113.074,
+  "wall_clock_seconds": 112.284,
   "data_label": "SYNTHETIC EVALUATION DATA",
   "disclaimer": "Recovery outcomes are produced by a seeded simulation whose conversion priors were chosen by the authors. These numbers demonstrate that the control system behaves correctly at batch scale. They are NOT a prediction of real-world recovery rates."
 }
