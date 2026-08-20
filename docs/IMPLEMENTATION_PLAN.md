@@ -34,7 +34,7 @@ must close before Phase 9.
 
 ## What "complete and tested" means here
 
-Executed in a sandbox with no network: 89 tests pass, a 10,000-event benchmark
+Executed in a sandbox with no network: 100 tests pass, a 10,000-event benchmark
 runs to completion, and the invariant auditor reports zero policy violations.
 
 "Written, not executed" means exactly that. The FastAPI, SQLAlchemy, Alembic,

@@ -22,7 +22,7 @@ No database, no Redis, no credentials, no network, no `pip install`:
 ```bash
 cd backend
 python3 -m scripts.demo                                    # four narrated scenarios
-python3 -m unittest discover -s tests -t . -v               # 89 tests
+python3 -m unittest discover -s tests -t . -v               # 100 tests
 python3 -m scripts.run_benchmark --events 10000 --seed 42   # measured batch run
 ```
 
@@ -155,7 +155,7 @@ I would rather be trusted than impressive, so:
 **Executed and passing in this repository**
 
 - The full recovery loop, end to end, over 10,000 events.
-- 89 tests, including reproducibility, invariant, and governance-cost tests.
+- 100 tests, including reproducibility, invariant, and governance-cost tests.
 - The benchmark, the invariant auditor, and the narrated demo.
 
 **Written but never executed** — no package index was available in the build
@@ -194,7 +194,7 @@ backend/
     evaluation/    dataset generator and benchmark harness
     api/           FastAPI surface
     models/        SQLAlchemy schema
-  tests/           89 tests, standard library only
+  tests/           100 tests, standard library only
   scripts/         demo, benchmark
 frontend/          React + TypeScript dashboard with audit drawer
 docs/              plan, decisions and deviations, demo script
