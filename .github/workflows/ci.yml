@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  offline-verification:
+    # These steps need no third-party packages, so they can never be skipped
+    # because of a dependency resolution problem.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test suite
+        run: cd backend && python -m unittest discover -s tests -t . -v
+      - name: Benchmark with invariant audit
+        run: cd backend && python -m scripts.run_benchmark --events 10000 --seed 42
+      - name: Narrated demo
+        run: cd backend && python -m scripts.demo
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r backend/requirements-dev.txt
+      - name: Lint
+        run: cd backend && ruff check .
+      - name: Type check
+        run: cd backend && mypy app
+      - name: Architectural contracts
+        run: cd backend && lint-imports
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: a secret removed in a later commit is still a leak.
+          fetch-depth: 0
+      - name: Secret scan
+        run: ./scripts/secret_scan.sh
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: cd frontend && npm install
+      - run: cd frontend && npm run build

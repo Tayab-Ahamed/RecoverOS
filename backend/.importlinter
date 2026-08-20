@@ -1,0 +1,44 @@
+[importlinter]
+root_package = app
+include_external_packages = True
+
+[importlinter:contract:layers]
+name = Architectural layers
+type = layers
+layers =
+    app.api
+    app.services
+    app.agents | app.detection | app.policies | app.integrations
+    app.repositories
+    app.models | app.schemas
+    app.domain
+    app.core
+
+[importlinter:contract:agents-cannot-move-money]
+# The central safety claim of this system, enforced as a build step rather
+# than as a comment: no reasoning or policy module may reach a payment
+# provider. Only app.services.executor may.
+name = Agents and policy cannot reach a payment provider
+type = forbidden
+source_modules =
+    app.agents
+    app.detection
+    app.policies
+forbidden_modules =
+    app.integrations.razorpay
+    app.integrations.mock_razorpay
+
+[importlinter:contract:domain-is-pure]
+name = Domain has no outward dependencies
+type = forbidden
+source_modules =
+    app.domain
+forbidden_modules =
+    app.api
+    app.services
+    app.agents
+    app.integrations
+    app.repositories
+    app.models
+    fastapi
+    sqlalchemy
