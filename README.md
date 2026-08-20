@@ -141,7 +141,7 @@ a bug in application code cannot corrupt the ledger.
 | --- | --- | --- | --- |
 | A | Rs 8,499 expired card | `RECOVERED` | The loop executes, and only verified capture counts |
 | B | Rs 4,999 declined, never pays | `ESCALATED` | Bounded attempts, then a compliant handover |
-| C | Rs 1,299, customer opted out | `STOPPED`, **zero provider calls** | An AI that cannot be told no does not belong in payments |
+| C | Rs 1,299, customer opted out | `INELIGIBLE`, **zero provider calls** | An AI that cannot be told no does not belong in payments |
 | D | Rs 75,000 above threshold | `AWAITING_APPROVAL` | Autonomy is bounded by value |
 
 Scenario C is the one to watch. Recoverable revenue is deliberately abandoned.

@@ -139,6 +139,31 @@ class AuditRecord:
     decision_id: str | None = None
     external_event_id: str | None = None
 
+    def render(self) -> str:
+        """One-line human-readable form, for CLI output and log inspection.
+
+        Deliberately includes the authorization references: an audit line that
+        does not say which policy version and decision permitted the action is
+        not an audit line.
+        """
+        transition = (
+            f"{self.from_state} -> {self.to_state}"
+            if self.from_state and self.to_state
+            else (str(self.to_state) if self.to_state else "-")
+        )
+        refs = []
+        if self.policy_version_id:
+            refs.append(f"policy={self.policy_version_id}")
+        if self.decision_id:
+            refs.append(f"decision={self.decision_id}")
+        if self.external_event_id:
+            refs.append(f"event={self.external_event_id}")
+        suffix = f"  [{' '.join(refs)}]" if refs else ""
+        return (
+            f"{self.at.strftime('%H:%M:%S')}  {str(self.actor):<18} "
+            f"{self.action:<22} {transition:<34} {self.detail}{suffix}"
+        )
+
 
 @dataclass
 class RecoveryCase:

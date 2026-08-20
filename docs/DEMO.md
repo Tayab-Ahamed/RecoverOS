@@ -31,8 +31,9 @@ contacts stay inside the ceiling, then the case escalates to a human.
 
 ### C. Policy refusal (the most important scenario)
 
-Rs 1,299 recoverable, from a customer who opted out. Zero provider calls are
-made. The money is deliberately left on the table.
+Rs 1,299 recoverable, from a customer who opted out. The case terminates at
+`INELIGIBLE` before any plan is even proposed, and zero provider calls are made.
+The money is deliberately left on the table.
 
 **Point:** an AI that cannot be told no has no business touching payments. Show
 the provider call count: zero.

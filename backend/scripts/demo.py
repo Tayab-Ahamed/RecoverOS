@@ -22,6 +22,7 @@ from app.domain.entities import (  # noqa: E402
     RiskEvent,
     RiskEventType,
     new_id,
+    utcnow,
 )
 from app.domain.money import Money  # noqa: E402
 from app.domain.states import CaseState  # noqa: E402
@@ -65,6 +66,7 @@ def make_case(cases, rupees, reason, event_type=RiskEventType.PAYMENT_FAILED):
         event_type=event_type,
         amount=Money.from_rupees(rupees),
         reason=reason,
+        occurred_at=utcnow(),
     )
     case = RecoveryCase(id=new_id("case"), customer_id=event.customer_id, event=event)
     cases[case.id] = case
