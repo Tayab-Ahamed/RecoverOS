@@ -1,0 +1,33 @@
+# Secrets: this entry exists in the first commit, before any .env can be added.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+dist/
+.vite/
+*.local
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+
+# Generated evaluation artifacts are kept, but local scratch runs are not.
+evaluation/runs/scratch_*.json
