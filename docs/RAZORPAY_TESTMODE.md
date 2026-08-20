@@ -38,10 +38,12 @@ In `.env`:
 
 ```
 PAYMENT_PROVIDER=razorpay
-RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
-RAZORPAY_KEY_SECRET=xxxxxxxxxxxxxxxx
+RAZORPAY_KEY_ID=<your test key id>
+RAZORPAY_KEY_SECRET=<your test key secret>
 RAZORPAY_WEBHOOK_SECRET=<the secret you set in the dashboard>
 ```
+
+Note the angle-bracket placeholders. `scripts/secret_scan.sh` fails the build on anything shaped like a real key, in documentation included, so do not paste a real key into this file to make it look tidy.
 
 `RAZORPAY_WEBHOOK_SECRET` is **not** your API secret. It is the string you type
 into the dashboard when creating the webhook. Signature verification fails
