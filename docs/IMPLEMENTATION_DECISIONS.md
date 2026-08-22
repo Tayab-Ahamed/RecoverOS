@@ -139,6 +139,13 @@ directly. Implementing `app/repositories/sql.py` against the existing schema is
 the first task after `docker compose up` is confirmed working, and it should be
 written with a live database to test against.
 
+Webhook replay protection is a separate hardening path: production containers
+use `RedisIdempotencyStore`, whose atomic `SET NX` claim prevents two workers
+from processing the same provider event concurrently. The SQL API path uses
+the existing `webhook_events` table, and local mock mode intentionally keeps
+the in-memory implementation so the offline demo has no infrastructure
+dependency. This does not replace durable case persistence.
+
 ## D13. Money scales through Decimal, not binary floating point
 
 `Money.scaled()` previously computed `int(self.paise * factor + 0.5)`. The error
@@ -160,10 +167,13 @@ These are **UNVERIFIED** and must be resolved before any submission or
 production use. They are deliberately isolated so no unverified claim leaks
 into the README.
 
-1. **Buildathon track requirements.** `razorpay.com/buildathon/` returned an
-   error page on every attempt. Track numbering, wording, deadlines, team size
-   and submission format are unverified. No compliance claim is made anywhere
-   in this repository.
+1. **Buildathon track requirements.** Razorpay’s public Buildathon post
+   describes three tracks—virality, revenue, and multi-agent systems—but does
+   not expose the official numbering or submission rubric. RecoverOS is
+   positioned for the multi-agent systems track because its diagnosis and
+   strategy agents propose actions while deterministic governance controls
+   execution. Exact numbering, deadlines, team size, and submission format
+   remain unverified from the unavailable buildathon page.
 2. **Failed-attempt linkage.** Whether a failed attempt on a Payment Link emits
    `payment.failed` with a resolvable link association is unverified against a
    live account. The handler reads `notes.reference_id` as the fallback path.
@@ -174,3 +184,13 @@ into the README.
    publish thresholds. Batch execution has no throttle tuned to a real limit.
 5. **Test-mode capability.** Whether Subscriptions are enabled by default on a
    fresh test account is unverified.
+
+## Persistence progress
+
+The first SQL repository slice now round-trips customers, risk events, case
+state, nested diagnosis/plan payloads, and provenance against SQLite. The new
+fields are introduced in forward-only migration `0002`; the original `0001`
+schema is not rewritten. The API remains on in-memory repositories until audit,
+evidence, and transactional unit-of-work wiring are covered by restart tests.
+Production boot refuses this state explicitly, so a deployment cannot mistake
+the local repository implementation for durable storage.

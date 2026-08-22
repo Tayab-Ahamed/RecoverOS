@@ -71,6 +71,7 @@ class RiskEvent(Base):
     occurred_at: Mapped[object] = mapped_column(DateTime(timezone=True), nullable=False)
     provenance: Mapped[str] = mapped_column(String(32), nullable=False)
     external_ref: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    metadata_json: Mapped[str] = mapped_column(Text, nullable=False, default="{}")
 
     __table_args__ = (
         CheckConstraint("amount_paise > 0", name="ck_risk_event_amount_positive"),
@@ -121,6 +122,8 @@ class RecoveryCase(Base):
     recovery_probability: Mapped[float | None] = mapped_column(Float, nullable=True)
     provenance: Mapped[str] = mapped_column(String(32), nullable=False)
     dataset_run_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    diagnosis_json: Mapped[str | None] = mapped_column(Text, nullable=True)
+    plan_json: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[object] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

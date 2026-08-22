@@ -14,8 +14,10 @@ from app.domain.entities import Customer, Diagnosis, FailureReason, RiskEvent
 from app.domain.states import Actor
 
 SYSTEM = (
-    "You are a payments failure analyst. Explain concisely why a payment failed "
-    "and what would plausibly recover it. Never invent payment states."
+    "You are a payments failure analyst. Diagnose only from the supplied evidence. "
+    "Return JSON with rationale, confidence, and risk_factors. Never invent payment "
+    "states, customer consent, or provider capabilities. Keep the rationale under "
+    "240 characters and risk_factors as short strings."
 )
 
 CAUSE_NARRATIVE: dict[FailureReason, str] = {
@@ -63,23 +65,39 @@ class DiagnosisAgent:
     def diagnose(self, event: RiskEvent, customer: Customer) -> Diagnosis:
         probability = recovery_probability(event, customer)
         rationale = CAUSE_NARRATIVE.get(event.reason, CAUSE_NARRATIVE[FailureReason.UNKNOWN])
+        evidence = [f"failure reason={event.reason}", f"amount={event.amount}"]
+        risk_factors: list[str] = []
+        if customer.opted_out:
+            risk_factors.append("customer opted out")
+        if customer.contacts_this_window:
+            risk_factors.append(f"{customer.contacts_this_window} prior contacts in window")
+        if customer.lifetime_value.paise >= 1_000_000:
+            risk_factors.append("high lifetime value")
+        if event.reason in {FailureReason.TECHNICAL_ERROR, FailureReason.AUTHENTICATION_FAILED}:
+            risk_factors.append("failure may be transient")
         used_llm = False
+        confidence = probability
 
         if self.llm is not None and self.llm.name != "deterministic":
             try:
                 out = self.llm.complete_json(
                     SYSTEM,
-                    f"Failure reason: {event.reason}. Amount: {event.amount}. "
-                    f"Customer lifetime value: {customer.lifetime_value}.",
-                    '{"rationale": str, "confidence": float}',
+                    f"Failure reason: {event.reason}. Event type: {event.event_type}. "
+                    f"Amount: {event.amount}. Customer lifetime value: "
+                    f"{customer.lifetime_value}. Opted out: {customer.opted_out}. "
+                    f"Contacts in window: {customer.contacts_this_window}.",
+                    '{"rationale": str, "confidence": float, "risk_factors": [str]}',
                 )
                 if isinstance(out.get("rationale"), str) and out["rationale"].strip():
-                    rationale = out["rationale"].strip()
+                    rationale = out["rationale"].strip()[:240]
                     used_llm = True
-            except LLMError:
-                # Fall back to the deterministic narrative. The system degrades
-                # to rule-based behaviour rather than stopping, and the record
-                # states that no model output was used.
+                if isinstance(out.get("confidence"), (float, int)):
+                    confidence = max(0.0, min(1.0, float(out["confidence"])))
+                if isinstance(out.get("risk_factors"), list):
+                    risk_factors = [str(item)[:100] for item in out["risk_factors"][:4]]
+            except (LLMError, TypeError, ValueError):
+                # The system degrades to a deterministic diagnosis rather than
+                # stopping, and the record states that no model output was used.
                 used_llm = False
 
         return Diagnosis(
@@ -88,5 +106,7 @@ class DiagnosisAgent:
             rationale=rationale,
             produced_by=self.actor,
             is_llm_output=used_llm,
-            confidence=probability,
+            confidence=confidence,
+            evidence=evidence,
+            risk_factors=risk_factors,
         )

@@ -6,6 +6,9 @@ export type Diagnosis = {
   rationale: string
   produced_by: string
   is_llm_output: boolean
+  confidence: number
+  evidence: string[]
+  risk_factors: string[]
 }
 
 export type Plan = {
@@ -14,6 +17,10 @@ export type Plan = {
   rationale: string
   produced_by: string
   is_llm_output: boolean
+  confidence: number
+  evidence: string[]
+  alternatives_considered: string[]
+  expected_recovery_value: Money | null
 }
 
 export type Evidence = {
@@ -72,4 +79,43 @@ export type Metrics = {
   audit_records: number
   policy_version: string
   policy_checksum: string
+}
+
+export type BenchmarkArm = {
+  strategy: string
+  cases: number
+  recovered_revenue_rupees: string
+  recovery_rate: number
+  recovered_cases: number
+  contacts_made: number
+  recovery_per_contact_paise: number
+  policy_violations: number
+  strategy_mix: Record<string, number>
+  adaptive_explanations: number
+}
+
+export type BenchmarkReport = {
+  dataset: {
+    run_id: string
+    seed: number
+    events: number
+    customers: number
+    provenance: string
+    profile: string
+  }
+  adaptive_agent: BenchmarkArm
+  fixed_baseline: BenchmarkArm
+  ungoverned: BenchmarkArm
+  ai_lift: {
+    recovered_revenue_delta_paise: number
+    recovery_rate_delta: number
+    contacts_delta: number
+    recovery_per_contact_delta_paise: number
+    interpretation: string
+  }
+  headline: {
+    label: string
+    message: string
+    not_production_claim: boolean
+  }
 }

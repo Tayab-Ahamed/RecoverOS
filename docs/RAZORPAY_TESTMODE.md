@@ -1,27 +1,21 @@
-# Phase 3b runbook: first real Razorpay Test Mode recovery
+# Razorpay Test Mode verification runbook
 
-This is the gate that turns RecoverOS from a well-tested simulation into a
-payment-recovery prototype. Nothing in this repository has ever made a network
-call to Razorpay.
+This is the final gate that turns RecoverOS from a reproducible simulation into a payment-recovery prototype: one case, one real Payment Link, one real signed webhook, and one `RECOVERED` state reached only because Razorpay confirmed captured money.
 
-**Goal:** one case, one real Payment Link, one real signed webhook, one
-`RECOVERED` state reached only because Razorpay said the money arrived.
+Razorpay documents that webhooks are asynchronous server-to-server notifications, that Test Mode has its own webhook configuration, that webhook URLs must be publicly reachable on ports 80 or 443, and that signatures use HMAC-SHA256 over the raw request body. Razorpay also recommends identifying duplicate deliveries with `x-razorpay-event-id` and not assuming webhook order. See [About Webhooks](https://razorpay.com/docs/webhooks/), [Validate and Test Webhooks](https://razorpay.com/docs/webhooks/validate-test/), [Payment Webhook Events](https://razorpay.com/docs/webhooks/payments/), and [Payment Link Webhook Events](https://razorpay.com/docs/webhooks/payment-links/).
 
 ## Prerequisites
 
-- A Razorpay account in **Test Mode**. Test keys do not require completed KYC.
-- A public HTTPS URL for webhook delivery. `ngrok http 8000` or a Cloudflare
-  tunnel is fine. Razorpay cannot reach `localhost`.
+Use a Razorpay account in **Test Mode**, never Live Mode. You need a public HTTPS staging URL or a supported tunnel such as zrok. Razorpay cannot deliver directly to `localhost`, and its documentation lists several common relay domains as blocked.
 
-## 1. Bring the stack up
+## 1. Start the stack
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-The backend, Postgres, Redis and the frontend start. `alembic upgrade head`
-runs on boot. Confirm:
+Confirm the health endpoints:
 
 ```bash
 curl localhost:8000/health
@@ -29,86 +23,99 @@ curl localhost:8000/health/db
 curl localhost:8000/health/redis
 ```
 
-This is the first time this path has ever been executed. Expect to fix
-something here.
+For a no-Docker local review, follow [LOCAL_RUN.md](LOCAL_RUN.md) and use the mock provider first.
 
-## 2. Switch off the mock
+## 2. Configure Test Mode credentials
 
-In `.env`:
+Set these values in `.env` without committing them:
 
-```
+```dotenv
 PAYMENT_PROVIDER=razorpay
-RAZORPAY_KEY_ID=<your test key id>
-RAZORPAY_KEY_SECRET=<your test key secret>
-RAZORPAY_WEBHOOK_SECRET=<the secret you set in the dashboard>
+RAZORPAY_KEY_ID=<test-key-id>
+RAZORPAY_KEY_SECRET=<test-key-secret>
+RAZORPAY_WEBHOOK_SECRET=<webhook-secret-created-in-dashboard>
 ```
 
-Note the angle-bracket placeholders. `scripts/secret_scan.sh` fails the build on anything shaped like a real key, in documentation included, so do not paste a real key into this file to make it look tidy.
+The webhook secret is not the API secret. It is the value entered when the webhook is created in the Razorpay Dashboard. Restart the backend and confirm `/health/razorpay` is healthy.
 
-`RAZORPAY_WEBHOOK_SECRET` is **not** your API secret. It is the string you type
-into the dashboard when creating the webhook. Signature verification fails
-silently-looking if you confuse them, so check this first when a webhook is
-rejected.
+## 3. Expose the webhook endpoint
 
-Restart the backend. `/health/razorpay` should return 200.
+If using zrok:
 
-## 3. Register the webhook
+```bash
+zrok share public http://localhost:8000
+```
 
-Dashboard -> Settings -> Webhooks -> Add New Webhook.
+Keep the process running. Use the generated HTTPS hostname as the webhook base URL.
 
-- URL: `https://<your-tunnel>/api/webhooks/razorpay`
-- Secret: the value of `RAZORPAY_WEBHOOK_SECRET`
-- Events: `payment_link.paid`, `payment.captured`, `payment.failed`,
-  `payment_link.expired`
+## 4. Register the Test Mode webhook
 
-Test and Live modes have separate webhook configurations. Register in Test.
+In the Razorpay Dashboard, switch to **Test Mode**, open **Account & Settings → Webhooks**, and add:
 
-## 4. Run one case
+```text
+https://<public-host>/api/webhooks/razorpay
+```
+
+Use the exact value of `RAZORPAY_WEBHOOK_SECRET`. Subscribe to at least:
+
+```text
+payment_link.paid
+payment.captured
+payment.failed
+payment_link.expired
+```
+
+Test and Live modes have separate webhook configurations. Do not configure this endpoint in Live Mode for the buildathon demonstration.
+
+## 5. Generate one recovery action
+
+For the synthetic local proof, use:
 
 ```bash
 curl -X POST localhost:8000/api/v1/demo/seed
 curl -X POST localhost:8000/api/v1/demo/run
-curl localhost:8000/api/v1/cases | jq
+curl localhost:8000/api/v1/cases
 ```
 
-Take the `short_url` from the executing case and open it in a browser. Pay with
-a test card; on the mock bank page choose **Success**.
-
-## 5. Watch the loop close
+For a real Test Mode proof, use the dedicated live-labelled launcher:
 
 ```bash
-curl localhost:8000/api/v1/cases/<case_id>/audit | jq
+curl -X POST localhost:8000/api/v1/demo/live-test-case \
+  -H 'Content-Type: application/json' \
+  -d '{"amount_rupees":4999,"reason":"CARD_EXPIRED"}'
 ```
 
-What must be true:
+The endpoint refuses to run unless `PAYMENT_PROVIDER=razorpay`, resets the demo store to prevent provenance mixing, creates one `LIVE_TEST_MODE` case, and sends the bounded plan through the real Razorpay Payment Links adapter. Open the returned Payment Link and complete it with Razorpay Test Mode credentials.
 
-- the case is `RECOVERED`
-- the transition's actor is `OUTCOME_VERIFIER`, not the executor
-- the audit record carries the real Razorpay `external_event_id`
-- provenance on the case is `LIVE_TEST_MODE`, not `SYNTHETIC`
-- replaying the same webhook body is rejected as a duplicate
+## 6. Verify the state transition
 
-If the state changed to `RECOVERED` without a signed webhook, something is
-wrong and it matters more than any other bug in the system.
+```bash
+curl localhost:8000/api/v1/cases/<case_id>
+curl localhost:8000/api/v1/cases/<case_id>/audit
+```
 
-## Known unknowns to resolve here
+The following must all be true:
 
-These are documented as standing verification items and can only be settled
-against a real account:
+| Check | Expected result |
+| --- | --- |
+| Case state | `RECOVERED` only after captured evidence |
+| Recovery actor | `OUTCOME_VERIFIER`, never the executor or agent |
+| Evidence | Real Razorpay payment and webhook event identifiers |
+| Provenance | `LIVE_TEST_MODE`, never `SYNTHETIC` |
+| Signature | Validated against the raw request body and webhook secret |
+| Replay | Same event ID is rejected or ignored without double-counting |
+| Ordering | `payment.authorized` cannot be treated as captured recovery |
 
-1. Whether a failed Payment Link attempt emits `payment.failed` carrying a
-   resolvable link association. Scenario B and the notes-based fallback in
-   `WebhookHandler._extract` depend on it.
-2. Whether `subscription.pending` and `subscription.halted` behave as assumed,
-   and whether Subscriptions are enabled on a fresh test account.
-3. Published rate limits. A limiter exists; thresholds are not documented.
+If the state changes to `RECOVERED` without a signed captured webhook, stop the demonstration and fix it before submission.
 
-## What not to do
+## 7. Capture evidence for the submission
 
-- Do not create thousands of real Payment Links to reproduce the benchmark. The
-  10,000-event run is synthetic on purpose.
-- Do not add cancellation, retry or subscription APIs to reach parity with the
-  spec. Create and fetch are sufficient to prove the loop. Razorpay has no
-  merchant-callable retry API in any case; it auto-retries and then halts.
-- Do not point this at Live keys. Production config refuses a mock provider and
-  weak secrets, but it cannot protect you from real customers.
+Record the Test Mode dashboard view, the generated Payment Link, the webhook delivery, the case detail drawer, and the audit trail. Redact all secrets, customer contact details, and API credentials. Keep the synthetic benchmark and the live Test Mode evidence in separate labelled sections.
+
+## Known verification items
+
+A real account is still required to settle the exact failed Payment Link payload shape and any account-specific webhook behavior. The implementation handles the documented Payment Link and payment events, validates signatures before parsing, uses durable event identity for idempotency, and treats provider event order as non-authoritative.
+
+## Safety rules
+
+Do not create thousands of real Payment Links to reproduce the benchmark. Do not paste credentials into documentation or source control. Do not use Live Mode credentials. Do not claim synthetic recovery percentages as production performance.

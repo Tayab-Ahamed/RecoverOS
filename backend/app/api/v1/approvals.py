@@ -43,6 +43,7 @@ def approve(case_id: str, approver: str = Body(embed=True)) -> dict:
         container.approvals.approve(case, customer, approver)
     except IllegalTransition as exc:
         raise HTTPException(409, str(exc)) from exc
+    container.persist()
     return {"case": case_out(case)}
 
 
@@ -60,4 +61,5 @@ def deny(
         container.approvals.deny(case, approver, reason)
     except IllegalTransition as exc:
         raise HTTPException(409, str(exc)) from exc
+    container.persist()
     return {"case": case_out(case)}

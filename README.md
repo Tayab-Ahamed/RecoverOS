@@ -1,257 +1,243 @@
 # RecoverOS
 
-**A governed autonomous revenue recovery system for failed payments.**
+> **Recover revenue without spending customer trust.**
 
-When a payment fails, revenue is at risk and someone has to decide what to do
-about it. RecoverOS decides and acts on its own — but every action it takes must
-be authorized by deterministic policy first, and no recovery is ever recorded as
-successful unless the payment provider independently confirms the money arrived.
+[![CI](https://github.com/Tayab-Ahamed/RecoverOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Tayab-Ahamed/RecoverOS/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Razorpay Buildathon](https://img.shields.io/badge/Razorpay%20Buildathon-AI%20Revenue%20Recovery-0f8fff.svg)](https://razorpay.com/buildathon/)
 
-> **AI proposes. Deterministic software authorizes. The provider executes.
-> Webhooks verify.**
+RecoverOS is a **policy-governed agentic revenue recovery control plane** for failed payments, checkout drop-offs, subscription failures, and overdue receivables. It detects revenue drift, diagnoses what is happening, proposes the smallest useful intervention, passes that proposal through deterministic guardrails, executes only authorized actions, and counts recovery only after signed payment-provider evidence.
 
-The interesting engineering problem here is not making an agent act. It is
-making an agent that acts on money **provably unable** to act outside its
-mandate.
+> **AI proposes. Policy authorizes. Providers execute. Webhooks verify.**
+
+RecoverOS is not a chatbot attached to a payments table. It is a bounded operating system for the moment between **payment failure** and **verified comeback**.
 
 ---
 
-## Prove it in 60 seconds
+## Why this is different
 
-No installs. No Docker. No network. No API keys. The entire recovery loop is
-standard-library Python.
+Most recovery systems stop at a list of failed payments or a fixed retry sequence. RecoverOS closes the loop while keeping the cost of automation visible.
+
+| Conventional recovery | RecoverOS |
+| --- | --- |
+| Sends the same retry to everyone | Chooses a proportionate intervention from case evidence |
+| Treats AI output as an instruction | Treats AI output as a proposal that must pass deterministic policy |
+| Counts an API response as success | Counts revenue only after a captured-payment webhook is verified |
+| Hides unsafe edge cases | Makes opt-outs, ceilings, escalations, and refusals first-class states |
+| Optimizes only for gross recovery | Measures recovered money, customer contacts, policy cost, and auditability |
+| Looks like an admin table | Presents a Revenue Observatory with Mission Control, Agent Fleet, Decision Theatre, and Proof Lab |
+
+> An agent that cannot be told **no** is not deployable in payments.
+
+---
+
+## The AI and agentic loop
+
+RecoverOS uses multiple bounded agents with explicit responsibilities. The agents reason about a case; they do not get direct access to the provider or the authority to declare success.
+
+```mermaid
+flowchart LR
+    S[Revenue Sentinel\nDetect drift] --> D[Diagnosis Agent\nExplain risk]
+    D --> P[Strategist Agent\nChoose intervention]
+    P --> G[Policy Engine\nAuthorize or refuse]
+    G -->|allowed| X[Executor\nCreate bounded action]
+    G -->|blocked / threshold| H[Human Handoff]
+    X --> W[Razorpay / Mock Provider]
+    W --> E[Signed Webhook]
+    E --> V[Outcome Verifier\nProve capture]
+    V --> R[Recovered]
+```
+
+| Agent or control | Responsibility | Hard boundary |
+| --- | --- | --- |
+| `REVENUE_SENTINEL` | Detect revenue at risk and prioritize the field | Cannot contact a customer or call a provider |
+| `DIAGNOSIS_AGENT` | Produce a structured failure hypothesis, evidence, risk factors, and recovery probability | Cannot execute or mark a case recovered |
+| `STRATEGIST_AGENT` | Compare interventions, estimate expected recoverable value, and propose the next move | Cannot bypass policy or reach the provider |
+| `POLICY_ENGINE` | Enforce consent, retry/contact ceilings, approval thresholds, discounts, and provenance | Cannot reason freely or call a provider |
+| `EXECUTOR` | Perform the exact action authorized by policy | Cannot self-authorize or execute unapproved work |
+| `OUTCOME_VERIFIER` | Verify signed provider events and captured-payment evidence | Cannot treat authorization or intent as recovered money |
+
+When a live LLM is configured, structured model output is validated and treated like any other proposal. Offline mode uses a transparent, reproducible evidence-backed fallback so the loop can be demonstrated without credentials.
+
+---
+
+## The Revenue Observatory
+
+The frontend is designed as a **merchant command center**, not a generic AI dashboard.
+
+### Mission Control
+
+Mission Control leads with recovery value and agent activity. The Recovery Pulse shows verified revenue returned to orbit, floating value, capture-backed conversion, and control status.
+
+The **Revenue River** turns a payment case into a visible journey across `SIGNAL → DIAGNOSIS → PROPOSAL → POLICY → PROOF`. Each signal capsule is interactive.
+
+The **AI & Agentic Control Plane** exposes the four agents, their statuses, execution trace, and broadcast stream derived from audit events. The **Focus Capsule** shows the selected signal’s evidence, expected value, contact budget, proposed intervention, and restraint state.
+
+### Proof Lab
+
+Proof Lab compares the adaptive planner with a fixed payment-link baseline on the same synthetic batch and under the same policy gate. It also shows the ungoverned risk arm so reviewers can see what unsafe automation buys—and what it costs.
+
+### Case Ledger
+
+The ledger is the audit surface for every transition, policy decision, provider call, webhook, refusal, escalation, and verified outcome. It answers: **“Why did we contact this customer, and what proves that the money arrived?”**
+
+---
+
+## Measured AI value
+
+These figures come from the committed seeded artifact at [`evaluation/runs/run_benchmark_42_200.json`](evaluation/runs/run_benchmark_42_200.json). This is a synthetic control-system evaluation, not a production forecast.
+
+| Arm | Recovered revenue | Recovery rate | Customer contacts | Policy violations |
+| --- | ---: | ---: | ---: | ---: |
+| **Adaptive agent** | **Rs 5,24,423.70** | **86.46%** | **302** | **0** |
+| Fixed payment-link baseline | Rs 4,31,681.00 | 71.17% | 316 | **0** |
+| Ungoverned risk demo | Rs 6,06,529.00 | 100.00% | 466 | **96** |
+
+On this batch, the adaptive planner recovered **Rs 92,742.70 more** than the fixed baseline, recovered 26 more cases, and used 14 fewer customer contacts, while both governed arms recorded zero policy violations.
+
+The ungoverned arm is intentionally shown. It recovers more gross money by violating the contract: it contacts opted-out or over-budget cases and creates 96 violations. RecoverOS treats that as a failure, not as a growth metric.
+
+> **Interpretation:** these numbers demonstrate batch-scale behavior of a seeded simulation whose conversion priors were chosen by the authors. They are not a prediction of real-world recovery rates.
+
+---
+
+## Five invariants enforced in code
+
+1. No case reaches `RECOVERED` without verified captured-payment evidence.
+2. No provider action executes without deterministic policy authorization.
+3. No case exceeds its attempt or customer-contact ceiling.
+4. No opted-out customer is contacted.
+5. Every financial or state transition produces an audit record.
+
+The benchmark re-derives these invariants from the audit trail after every run. A governed run that violates one fails verification.
+
+---
+
+## Prove it locally
+
+The deterministic core can be verified without Docker, network access, API keys, or a live payment account.
 
 ```bash
 cd backend
 python3 -m scripts.verify --quick
 ```
 
-That runs static verification, 100 tests, a narrated 4-scenario demo, and a
-2,000-case benchmark with a full invariant audit. Drop `--quick` for the real
-10,000-case run.
-
-Or run the pieces individually:
+The quick verification runs architectural boundary checks, tests, narrated scenarios, and a 2,000-case governed-versus-ungoverned benchmark. For the larger reproducible benchmark:
 
 ```bash
-python3 -m scripts.static_check                            # imports, boundaries, money hygiene
-python3 -m unittest discover -s tests -t . -q              # 100 tests
-python3 -m scripts.demo                                    # narrated walkthrough
-python3 -m scripts.run_benchmark --events 10000 --seed 42  # governed vs ungoverned
+python3 -m scripts.static_check
+python3 -m unittest discover -s tests -t . -q
+python3 -m scripts.demo
+python3 -m scripts.run_benchmark --events 10000 --seed 42
 ```
 
-Requires Python 3.12 or 3.13. Both are covered in CI.
+The four narrated scenarios show a card-expired recovery, repeated-decline escalation, opt-out refusal, and high-value human approval.
 
 ---
 
-## What governance actually costs
+## Run the full stack
 
-The benchmark runs the same 10,000 synthetic at-risk payments twice: once
-through the full policy engine, once with governance removed and everything
-else identical.
-
-| | Governed | Ungoverned |
-| --- | --- | --- |
-| Revenue at risk | Rs 2,97,16,216 | Rs 2,97,16,216 |
-| Recovered | Rs 2,34,10,077 | Rs 2,82,39,080 |
-| Recovery rate | 81.83% | 98.71% |
-| Customer contacts | 13,796 | 21,540 |
-| Stopped by policy | 115 | 0 |
-| Escalated to a human | 2,132 | 0 |
-| Audit records | 168,028 | 224,242 |
-| **Policy violations** | **0** | **4,490** |
-
-Removing the policy engine recovers about **Rs 48 lakh more** — by contacting
-customers who opted out, exceeding attempt ceilings, and making 7,744 extra
-contacts. It also commits 4,490 violations that would be indefensible in an
-audit or a regulatory conversation.
-
-Governance costs roughly 17 percentage points of recovery rate. That is the
-price of a system you can actually deploy against real customers, and RecoverOS
-treats it as the product rather than as overhead.
-
-> **On reading these numbers correctly:** this is a deterministic synthetic
-> benchmark against a mock provider, seeded and reproducible. It is **not a
-> prediction of production recovery rate**, and it must not be quoted as one.
-> What it demonstrates is that the control system holds at batch scale: zero
-> invariant violations across 168,028 audit records. Same seed, same numbers,
-> byte for byte — asserted by a test.
-
----
-
-## The loop
-
-```
-DETECT  -> DIAGNOSE -> DECIDE -> GOVERN -> ACT -> VERIFY -> RECOVER
-                                    |                 |
-                                 refuse           STOP / RETRY / ESCALATE
-```
-
-| Stage | Component | Deterministic? |
-| --- | --- | --- |
-| Detect | `app/detection` | Yes |
-| Diagnose | Diagnosis agent | Reasoning |
-| Decide | Strategist agent | Reasoning |
-| Govern | Policy engine | **Yes** |
-| Act | Executor | Yes |
-| Verify | Outcome verifier | Yes |
-
-The two reasoning agents produce *proposals*. They cannot reach a payment
-provider and they cannot mark their own work successful.
-
-## Three structural guarantees
-
-Not conventions — each is enforced in code and covered by tests.
-
-**1. Reasoning cannot reach a provider.** `app.agents`, `app.detection` and
-`app.policies` are forbidden from importing any provider module. Only the
-executor may call one. Enforced by `import-linter` in CI *and* by
-`scripts/static_check.py`, which parses the AST and needs nothing installed —
-because a safety claim you can only check when the network is up is not a safety
-claim.
-
-**2. The executor refuses unauthorized work.** `RecoveryExecutor.execute()`
-refuses unless the policy decision allows it *and* the case is in state
-`APPROVED`. There is no path from proposal to provider call that skips the
-policy engine. `PLANNED -> EXECUTING` and `POLICY_CHECK -> EXECUTING` are
-tested as forbidden transitions.
-
-**3. The actor cannot declare its own success.** `CaseState.RECOVERED` is
-writable only by `Actor.OUTCOME_VERIFIER`, which transitions only on a
-signature-verified webhook carrying a **captured** payment. `payment.authorized`
-is explicitly not recovery — authorized money is not captured money. A database
-CHECK constraint mirrors this: a `RECOVERED` row with no payment evidence cannot
-exist.
-
-## Five invariants
-
-1. No case reaches `RECOVERED` without verified captured payment evidence.
-2. No action executes without policy authorization.
-3. No case exceeds its attempt or contact ceiling.
-4. No opted-out customer is ever contacted.
-5. Every financial or state transition has an audit record.
-
-The benchmark re-derives all five from the audit log after every run and fails
-loudly on violation.
-
----
-
-## The demo, in three beats
-
-`python3 -m scripts.demo`
-
-| | Scenario | Outcome |
-| --- | --- | --- |
-| **A** | Rs 8,499, card expired | Payment link, payment confirmed by webhook → `RECOVERED` |
-| **B** | Rs 4,999, card declined | Attempt ceiling reached → `ESCALATED`, not abandoned |
-| **C** | Rs 1,299, customer opted out | `INELIGIBLE`, **zero provider calls** |
-| **D** | Rs 75,000, high value | Holds at `AWAITING_APPROVAL`, no self-approval |
-
-Scenario C is the one that matters. Recoverable revenue is deliberately left on
-the table, before a plan is even proposed, and the audit trail proves no contact
-was attempted. **An AI that cannot be told no is not deployable in payments.**
-
-Together: it can act, it knows when not to act, and it knows when a human must
-decide.
-
----
-
-## Verification status
-
-Honesty about what has actually been run matters more than a green badge.
-
-| Area | Status |
-| --- | --- |
-| Domain, money, state machine | Executed, tested |
-| Detection, policy engine | Executed, tested |
-| Executor, verifier, orchestrator | Executed, tested |
-| Webhook signature and replay handling | Executed, tested |
-| 10,000-case benchmark and invariant audit | Executed, reproducible |
-| Architectural boundaries | Statically verified |
-| FastAPI HTTP layer | **Written, never executed** |
-| SQLAlchemy models, Alembic migration | **Written, never executed** |
-| Redis, Docker Compose, React UI | **Written, never executed** |
-| Razorpay Test Mode, live calls | **Never exercised** |
-
-The build environment had no package index, so anything requiring a third-party
-dependency could not be run. That is a real limitation, and one of those
-unexecuted modules did ship with a defect that no test could have caught — which
-is exactly why `scripts/static_check.py` now parses every module and verifies
-that every import resolves, without importing anything.
-
-**Expect to fix something on first `docker compose up`.** The verified core is
-the part that decides and moves money.
-
----
-
-## Full stack
+The default configuration uses the deterministic mock provider and mock reasoning client.
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-Backend on `:8000`, frontend on `:5173`, Postgres, Redis, migrations on boot.
-Defaults use the deterministic mock provider and mock reasoning client, so this
-runs with no credentials at all.
-
-For a real Razorpay Test Mode recovery, follow **[docs/RAZORPAY_TESTMODE.md](docs/RAZORPAY_TESTMODE.md)**.
-
-## Layout
-
-```
-backend/app/
-  domain/         Money, 17-state machine, entities — pure, zero dependencies
-  detection/      deterministic risk scoring
-  agents/         diagnosis + strategist (propose only)
-  policies/       policy engine, versioned and checksummed
-  services/       orchestrator, executor, verifier, state machine, approvals
-  integrations/   provider protocol, Razorpay adapter, deterministic mock
-  webhooks/       signature verification, durable event identity
-  evaluation/     dataset generator + governed vs ungoverned harness
-  api/            FastAPI surface (unexecuted)
-  models/         SQLAlchemy tables (unexecuted)
-backend/tests/    100 tests, standard library only
-backend/scripts/  verify, static_check, demo, run_benchmark
-frontend/         React + TypeScript + Vite
-docs/             architecture, API, decisions, plan, demo, Razorpay runbook
-```
-
-## Docs
-
-| | |
+| Service | URL |
 | --- | --- |
-| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Layering, guarantees, state machine |
-| [API.md](docs/API.md) | Endpoint reference |
-| [RAZORPAY_TESTMODE.md](docs/RAZORPAY_TESTMODE.md) | Phase 3b runbook |
-| [IMPLEMENTATION_DECISIONS.md](docs/IMPLEMENTATION_DECISIONS.md) | D1–D13, including every bug found in review |
-| [IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md) | Phase status |
-| [DEMO.md](docs/DEMO.md) | Presenter script |
+| Frontend | `http://localhost:5173` |
+| Backend health | `http://localhost:8000/health` |
+| API documentation | `http://localhost:8000/docs` |
 
-`IMPLEMENTATION_DECISIONS.md` records deviations and defects rather than hiding
-them — including a reproducibility bug where payment outcomes were seeded on
-random case IDs, a silent revenue loss where policy denial dropped outstanding
-money without escalation, and a webhook replay key derived from `hash()`, which
-is randomized per process and so would not have survived a restart.
+For frontend development:
 
-## Configuration
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-All configuration is environment variables, validated at startup with fail-fast
-errors. See `.env.example`. Production config **refuses to boot** with a mock
-provider, a JWT secret under 32 characters, a placeholder secret, or local
-webhook replay enabled.
+For real Razorpay Test Mode recovery, follow [`docs/RAZORPAY_TESTMODE.md`](docs/RAZORPAY_TESTMODE.md). The live path requires private Test Mode credentials and a public HTTPS webhook URL. No credentials are included here.
 
-Policy defaults: 3 attempts max, 2 contacts max, Rs 100 minimum recovery value,
-10% maximum discount, Rs 50,000 manual review threshold. Policy versions are
-checksummed and every decision records the version that authorized it.
+---
 
-## Data provenance
+## API surfaces
 
-Every record is labelled `SYNTHETIC` or `LIVE_TEST_MODE`, the two are never
-mixed in one run, and the UI shows a red banner if mixing is ever detected.
-Simulated results must never be readable as real ones.
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/v1/metrics` | Portfolio metrics and provenance summary |
+| `GET /api/v1/cases` | Case ledger with optional state filtering |
+| `GET /api/v1/cases/{id}` | Case detail and audit trail |
+| `GET /api/v1/benchmark` | Adaptive, baseline, and ungoverned proof |
+| `GET /api/v1/approvals` | Human approval queue |
+| `POST /api/v1/approvals/{id}/approve` | Explicit human approval |
+| `POST /api/v1/approvals/{id}/deny` | Explicit human denial |
+| `POST /api/v1/webhooks/razorpay` | Signature-verified provider event intake |
+| `POST /api/v1/demo/live-test-case` | Safe Razorpay Test Mode launcher |
+
+---
+
+## Repository map
+
+```text
+backend/app/
+  domain/         Money, entities, and the state machine
+  detection/      Deterministic revenue-risk signals
+  agents/         Diagnosis and strategy agents; proposal only
+  policies/       Versioned and checksummed authorization rules
+  services/       Orchestrator, executor, verifier, audit, approvals
+  integrations/   Provider protocol, Razorpay adapter, mock provider
+  webhooks/       Signature verification and event identity
+  evaluation/     Seeded benchmark dataset and harness
+  api/            FastAPI routes and response schemas
+  models/         SQLAlchemy models and migrations
+frontend/
+  src/components/ Revenue Observatory, Agent Fleet, Decision Theatre, Proof Lab
+backend/tests/    Domain, API, webhook, SQL, idempotency, and safety coverage
+docs/              Architecture, API, demo, Test Mode, concept, submission
+```
+
+---
+
+## Verification and honest scope
+
+| Capability | Current state |
+| --- | --- |
+| Domain model, money arithmetic, and state machine | Executed and tested |
+| Detection, diagnosis, strategy, policy, executor, verifier | Executed and tested |
+| Webhook signature verification and replay handling | Executed and tested |
+| Adaptive-versus-baseline benchmark | Seeded and reproducible |
+| Architectural import boundaries | Statically verified |
+| FastAPI HTTP layer and SQLite persistence | Executed locally |
+| React and TypeScript frontend | Production build passes |
+| Razorpay Test Mode | Ready for private credentials and public webhook URL |
+| Production traffic and Postgres deployment | Not included in this demo repository |
+
+Synthetic and live data are labelled separately as `SYNTHETIC` or `LIVE_TEST_MODE`. The application refuses to mix them in one run.
+
+---
+
+## Documentation
+
+| Document | Purpose |
+| --- | --- |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Layering, state machine, and structural guarantees |
+| [`docs/API.md`](docs/API.md) | API contract and endpoint reference |
+| [`docs/DEMO.md`](docs/DEMO.md) | Presenter script for the buildathon demo |
+| [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | Buildathon submission narrative |
+| [`docs/RAZORPAY_TESTMODE.md`](docs/RAZORPAY_TESTMODE.md) | Razorpay Test Mode and webhook runbook |
+| [`docs/MISSION_CONTROL_CONCEPT.md`](docs/MISSION_CONTROL_CONCEPT.md) | Product concept and interaction model |
+| [`docs/INTERNSHIP_PORTFOLIO.md`](docs/INTERNSHIP_PORTFOLIO.md) | Portfolio-ready project summary |
+
+---
+
+## Configuration and safety defaults
+
+All configuration is supplied through environment variables and validated at startup. Production configuration refuses to boot with a mock provider, placeholder secrets, a short JWT secret, or local webhook replay enabled.
+
+The default policy is intentionally bounded: three maximum attempts, two maximum contacts, minimum recovery value, maximum discount, and a manual-review threshold for high-value cases. Policy versions are checksummed, and every authorization records the policy version that made the decision.
 
 ---
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [`LICENSE`](LICENSE).

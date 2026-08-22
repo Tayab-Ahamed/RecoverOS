@@ -7,7 +7,7 @@ No database, no Redis, no credentials, no network:
 ```bash
 cd backend
 python3 -m scripts.demo                                   # four narrated scenarios
-python3 -m unittest discover -s tests -t . -v              # 100 tests
+python3 -m unittest discover -s tests -t . -v              # 106 tests
 python3 -m scripts.run_benchmark --events 10000 --seed 42  # measured batch
 ```
 

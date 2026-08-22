@@ -96,6 +96,8 @@ class Diagnosis:
     produced_by: Actor
     is_llm_output: bool
     confidence: float = 0.0
+    evidence: list[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -106,6 +108,10 @@ class InterventionPlan:
     rationale: str
     produced_by: Actor
     is_llm_output: bool
+    evidence: list[str] = field(default_factory=list)
+    alternatives_considered: list[str] = field(default_factory=list)
+    expected_recovery_value: Money | None = None
+    confidence: float = 0.0
 
 
 @dataclass

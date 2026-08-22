@@ -10,12 +10,19 @@ from __future__ import annotations
 from app.agents.diagnosis_agent import DiagnosisAgent
 from app.agents.llm import AnthropicClient, DeterministicLLMClient
 from app.agents.strategist_agent import StrategistAgent
-from app.core.config import Settings, get_settings
+from app.core.config import ConfigError, Settings, get_settings
 from app.domain.entities import RecoveryCase
-from app.integrations.idempotency import InMemoryIdempotencyStore
+from app.integrations.idempotency import (
+    InMemoryIdempotencyStore,
+    RedisIdempotencyStore,
+    SqlIdempotencyStore,
+)
 from app.integrations.mock_razorpay import MockRazorpayProvider
 from app.policies.engine import PolicyEngine
 from app.repositories.memory import InMemoryCaseRepository, InMemoryCustomerRepository
+from app.repositories.sql import SqlAuditRepository, SqlCaseRepository, SqlCustomerRepository
+from app.core.db import get_session_factory
+from app.models.sql import Base
 from app.services.approval import ApprovalService
 from app.services.audit import AuditLog
 from app.services.executor import RecoveryExecutor
@@ -44,6 +51,11 @@ def _build_llm(settings: Settings):
 class Container:
     def __init__(self, settings: Settings | None = None) -> None:
         self.settings = settings or get_settings()
+        if self.settings.is_production:
+            raise ConfigError(
+                "production boot is blocked until the SQL unit-of-work is wired; "
+                "in-memory repositories are permitted only outside production"
+            )
         self.audit = AuditLog()
         self.state_machine = StateMachine(self.audit)
         self.provider = _build_provider(self.settings)
@@ -51,9 +63,23 @@ class Container:
         self.policy = PolicyEngine()
         self.executor = RecoveryExecutor(self.provider, self.state_machine, self.audit)
         self.verifier = OutcomeVerifier(self.state_machine, self.audit)
-        self.cases = InMemoryCaseRepository()
-        self.customers = InMemoryCustomerRepository()
-        self.idempotency = InMemoryIdempotencyStore()
+        self._db_session = None
+        if self.settings.database_url:
+            self._db_session = get_session_factory()()
+            self.cases = SqlCaseRepository(self._db_session)
+            self.customers = SqlCustomerRepository(self._db_session)
+            self.sql_audit = SqlAuditRepository(self._db_session)
+            self.audit.load(self.sql_audit.all())
+        else:
+            self.cases = InMemoryCaseRepository()
+            self.customers = InMemoryCustomerRepository()
+            self.sql_audit = None
+        if self.settings.is_production:
+            self.idempotency = RedisIdempotencyStore(self.settings.redis_url)
+        elif self._db_session is not None:
+            self.idempotency = SqlIdempotencyStore(self._db_session)
+        else:
+            self.idempotency = InMemoryIdempotencyStore()
 
         self.orchestrator = RecoveryOrchestrator(
             policy=self.policy,
@@ -75,6 +101,16 @@ class Container:
             case_lookup=self._lookup_case,
         )
 
+    def persist(self) -> None:
+        if self._db_session is None:
+            return
+        self.sql_audit.sync(self.audit.all())
+        self._db_session.commit()
+
+    def close(self) -> None:
+        if self._db_session is not None:
+            self._db_session.close()
+
     def _lookup_case(self, reference_id: str) -> RecoveryCase | None:
         return self.cases.get(reference_id)
 
@@ -89,7 +125,25 @@ def get_container() -> Container:
     return _container
 
 
-def reset_container() -> None:
-    """Used by the demo reset endpoint and by tests."""
+def restart_container() -> None:
+    """Drop the process container while preserving durable database state."""
     global _container
+    if _container is not None:
+        _container.close()
+    _container = None
+
+
+def reset_container() -> None:
+    """Used by the demo reset endpoint and by tests; clears durable demo state."""
+    global _container
+    if _container is not None:
+        # The demo reset must reset durable demo state as well as the process
+        # object graph; otherwise re-seeding the same synthetic event IDs
+        # violates the database's one-case-per-risk-event invariant.
+        if _container._db_session is not None:
+            _container._db_session.rollback()
+            for table in reversed(Base.metadata.sorted_tables):
+                _container._db_session.execute(table.delete())
+            _container._db_session.commit()
+        _container.close()
     _container = None

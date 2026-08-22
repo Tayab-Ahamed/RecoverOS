@@ -48,12 +48,12 @@ def main() -> int:
     out = pathlib.Path(args.out) if args.out else OUT_DIR / f"{dataset.run_id}.json"
     out.write_text(json.dumps(report, indent=2) + "\n")
 
-    g, u = report["governed"], report["ungoverned"]
+    g, b, u = report["governed"], report["fixed_baseline"], report["ungoverned"]
     print(f"\n=== RecoverOS benchmark: {dataset.run_id} ===")
     print(f"SYNTHETIC EVALUATION DATA  seed={args.seed}  events={args.events}")
     print(f"wall clock: {report['wall_clock_seconds']}s\n")
     row = "{:<26} {:>18} {:>18}"
-    print(row.format("metric", "governed", "ungoverned"))
+    print(row.format("metric", "adaptive", "fixed baseline"))
     print("-" * 64)
     for key, label in [
         ("cases", "cases"),
@@ -68,11 +68,18 @@ def main() -> int:
         ("audit_records", "audit records"),
         ("policy_violations", "POLICY VIOLATIONS"),
     ]:
-        print(row.format(label, str(g[key]), str(u[key])))
+        print(row.format(label, str(g[key]), str(b[key])))
     print("-" * 64)
+    lift = report["ai_lift"]
+    print(
+        "\nAdaptive planner vs fixed baseline: "
+        f"{lift['recovered_revenue_delta_paise'] / 100:.2f} Rs recovered delta, "
+        f"{lift['contacts_delta']} contacts delta, "
+        f"{lift['recovery_per_contact_delta_paise'] / 100:.2f} Rs/contact delta"
+    )
     print(f"\nartifact: {out}")
 
-    if g["policy_violations"] != 0:
+    if g["policy_violations"] != 0 or b["policy_violations"] != 0:
         print("\nFAIL: the governed run violated policy. This is a hard failure.")
         return 1
     print("\nPASS: governed run completed with zero policy violations.")

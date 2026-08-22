@@ -5,8 +5,10 @@ return 404. Health checks are the deliberate exception and are served at both
 the root and the versioned prefix, because probes should not have to know about
 API versioning.
 
-This surface is **written but has never been executed** — no ASGI server has
-run in the build environment. Treat it as unverified.
+This surface is executed by the local TestClient contract suite and the SQL
+restart check. The live Razorpay path still requires merchant Test Mode
+credentials and a public webhook URL.
+
 
 ## Health
 
@@ -44,14 +46,18 @@ Approval **re-runs the policy engine** rather than trusting the earlier
 decision. Time passes between a human opening the queue and clicking approve;
 ceilings and opt-out status can change in that window.
 
-## Metrics
+## Metrics and proof
 
-| Method | Path |
-| --- | --- |
-| GET | `/api/v1/metrics` |
+| Method | Path | Notes |
+| --- | --- | --- |
+| GET | `/api/v1/metrics` | Current dataset metrics and provenance |
+| GET | `/api/v1/benchmark?events=200&seed=42` | Synthetic adaptive-versus-baseline proof |
 
 Revenue at risk, recovered revenue, recovery rate, contacts, escalations and
-policy violations for the current dataset, with its provenance label.
+policy violations are reported for the current dataset. The benchmark endpoint
+runs an adaptive planner, a fixed payment-link baseline, and an ungoverned risk
+arm over the same labelled synthetic batch. It also reports recovery per contact
+and the adaptive-versus-baseline delta. It is unavailable in production.
 
 ## Webhooks
 
@@ -82,6 +88,7 @@ Razorpay does not retry something we deliberately do not handle.
 | POST | `/api/v1/demo/seed` | Load the synthetic demo dataset |
 | POST | `/api/v1/demo/run` | Advance all cases through the loop |
 | POST | `/api/v1/demo/replay-webhook` | Locally signed webhook replay |
+| POST | `/api/v1/demo/live-test-case` | One labelled Razorpay Test Mode case; refuses mock mode |
 
 Replay is gated behind `ENABLE_LOCAL_WEBHOOK_REPLAY` and the production config
 guard refuses to boot with it enabled.

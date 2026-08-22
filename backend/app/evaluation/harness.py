@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 
+from app.agents.strategist_agent import StrategistAgent
 from app.detection.rules import detect
 from app.domain.entities import DataProvenance, InterventionType, RecoveryCase
 from app.domain.money import Money
@@ -36,6 +37,34 @@ WEBHOOK_SECRET = "benchmark_secret"
 GOVERNED_RULES = PolicyRules()
 
 
+class FixedBaselineStrategist:
+    """A deliberately simple baseline for measuring adaptive planning value."""
+
+    def plan(self, case, diagnosis, customer):
+        from app.domain.entities import InterventionPlan
+        from app.domain.states import Actor
+
+        if customer.opted_out:
+            intervention = InterventionType.STOP
+            contact = False
+        else:
+            intervention = InterventionType.PAYMENT_LINK
+            contact = True
+        expected = case.revenue_at_risk.scaled(diagnosis.recovery_probability)
+        return InterventionPlan(
+            intervention=intervention,
+            discount_percentage=0.0,
+            contact_customer=contact,
+            rationale="Fixed baseline: payment link for every eligible case; no adaptive reasoning.",
+            produced_by=Actor.STRATEGIST_AGENT,
+            is_llm_output=False,
+            evidence=["fixed baseline", f"reason={case.event.reason}"],
+            alternatives_considered=["PAYMENT_LINK"],
+            expected_recovery_value=expected,
+            confidence=diagnosis.confidence,
+        )
+
+
 @dataclass
 class RunMetrics:
     strategy: str
@@ -57,6 +86,8 @@ class RunMetrics:
     webhooks_rejected: int = 0
     duplicate_webhooks_ignored: int = 0
     audit_records: int = 0
+    strategy_mix: dict[str, int] = field(default_factory=dict)
+    adaptive_explanations: int = 0
     violations: list[str] = field(default_factory=list)
 
     @property
@@ -95,6 +126,9 @@ class RunMetrics:
             "webhooks_rejected": self.webhooks_rejected,
             "duplicate_webhooks_ignored": self.duplicate_webhooks_ignored,
             "audit_records": self.audit_records,
+            "strategy_mix": self.strategy_mix,
+            "adaptive_explanations": self.adaptive_explanations,
+            "recovery_per_contact_paise": round(self.recovered_revenue / self.contacts_made, 2) if self.contacts_made else 0.0,
             "policy_violations": len(self.violations),
             "policy_violation_rate": self.policy_violation_rate,
         }
@@ -167,7 +201,12 @@ def run_strategy(
     """
     if strategy == "recoveros":
         rules = GOVERNED_RULES
+        strategist = StrategistAgent()
+    elif strategy == "fixed_baseline":
+        rules = GOVERNED_RULES
+        strategist = FixedBaselineStrategist()
     elif strategy == "ungoverned":
+        strategist = FixedBaselineStrategist()
         rules = PolicyRules(
             max_recovery_attempts=99,
             max_customer_contacts=99,
@@ -200,6 +239,7 @@ def run_strategy(
         executor=executor,
         state_machine=sm,
         audit=audit,
+        strategist=strategist,
         approver=(lambda case, decision: True) if auto_approve else None,
     )
 
@@ -220,6 +260,14 @@ def run_strategy(
         cases_by_ref[case.id] = case
         all_cases.append(case)
         orchestrator.advance(case, customer)
+
+        # Record the selected intervention so the benchmark measures what the
+        # planner actually chose, not only the final payment outcome.
+        if case.plan is not None:
+            key = str(case.plan.intervention)
+            metrics.strategy_mix[key] = metrics.strategy_mix.get(key, 0) + 1
+            if case.plan.intervention is not InterventionType.PAYMENT_LINK:
+                metrics.adaptive_explanations += 1
 
         # ---- VERIFY: drive provider callbacks through the real signed path ----
         attempt = 0
@@ -280,9 +328,21 @@ def run_strategy(
 
 
 def compare(dataset: Dataset) -> dict:
-    """Run both strategies over the same dataset and report the difference."""
+    """Run adaptive, fixed-rule, and ungoverned strategies on one dataset."""
     governed, _, _ = run_strategy(dataset, "recoveros")
+    baseline, _, _ = run_strategy(dataset, "fixed_baseline")
     ungoverned, _, _ = run_strategy(dataset, "ungoverned")
+    ai_lift = {
+        "recovered_revenue_delta_paise": governed.recovered_revenue - baseline.recovered_revenue,
+        "recovery_rate_delta": round(governed.recovery_rate - baseline.recovery_rate, 4),
+        "contacts_delta": governed.contacts_made - baseline.contacts_made,
+        "recovery_per_contact_delta_paise": round(
+            (governed.recovered_revenue / governed.contacts_made if governed.contacts_made else 0.0)
+            - (baseline.recovered_revenue / baseline.contacts_made if baseline.contacts_made else 0.0),
+            2,
+        ),
+        "interpretation": "adaptive planner versus fixed payment-link baseline; both use the same governed policy",
+    }
     return {
         "dataset": {
             "run_id": dataset.run_id,
@@ -293,5 +353,8 @@ def compare(dataset: Dataset) -> dict:
             "profile": dataset.profile,
         },
         "governed": governed.to_dict(),
+        "adaptive_agent": governed.to_dict(),
+        "fixed_baseline": baseline.to_dict(),
         "ungoverned": ungoverned.to_dict(),
+        "ai_lift": ai_lift,
     }

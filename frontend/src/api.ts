@@ -17,6 +17,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   metrics: () => request<import("./types").Metrics>(`${V1}/metrics`),
 
+  benchmark: (events = 200, seed = 42) =>
+    request<import("./types").BenchmarkReport>(`${V1}/benchmark?events=${events}&seed=${seed}`),
+
   cases: (state?: string) =>
     request<{ total: number; results: import("./types").Case[] }>(
       `${V1}/cases${state ? `?state=${encodeURIComponent(state)}` : ""}`,
@@ -59,7 +62,7 @@ export const api = {
       body: JSON.stringify({ limit }),
     }),
 
-  replayWebhook: (caseId: string, paid: boolean) =>
+  replayWebhook: (caseId: string, paid: boolean | null = null) =>
     request(`${V1}/demo/replay-webhook`, {
       method: "POST",
       body: JSON.stringify({ case_id: caseId, paid }),

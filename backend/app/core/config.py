@@ -34,7 +34,10 @@ class Settings:
     log_level: str = field(default_factory=lambda: os.getenv("LOG_LEVEL", "INFO"))
     api_prefix: str = field(default_factory=lambda: os.getenv("API_PREFIX", "/api/v1"))
     cors_origins: list[str] = field(
-        default_factory=lambda: _list("CORS_ORIGINS", "http://localhost:5173")
+        default_factory=lambda: _list(
+            "CORS_ORIGINS",
+            "http://localhost:5173,http://127.0.0.1:5173,http://0.0.0.0:5173",
+        )
     )
 
     database_url: str = field(default_factory=lambda: os.getenv("DATABASE_URL", ""))
@@ -108,6 +111,8 @@ class Settings:
                 )
             if not self.database_url:
                 problems.append("DATABASE_URL is required in production")
+            if not self.redis_url:
+                problems.append("REDIS_URL is required in production")
 
         if problems:
             raise ConfigError(

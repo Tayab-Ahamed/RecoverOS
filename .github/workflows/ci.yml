@@ -7,8 +7,8 @@ on:
 
 jobs:
   offline-verification:
-    # These steps need no third-party packages, so they can never be skipped
-    # because of a dependency resolution problem.
+    # The core is dependency-light; HTTP contract tests exercise the real API
+    # and therefore install the pinned runtime dependencies below.
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -21,10 +21,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install runtime dependencies
+        run: pip install -r backend/requirements.txt
       - name: Static verification (no installs required)
         run: cd backend && python -m scripts.static_check
       - name: Test suite
         run: cd backend && python -m unittest discover -s tests -t . -v
+      - name: SQL persistence and restart check
+        run: cd backend && python -m scripts.verify_sql
       - name: Benchmark with invariant audit
         run: cd backend && python -m scripts.run_benchmark --events 10000 --seed 42
       - name: Narrated demo
@@ -62,5 +66,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: cd frontend && npm install
+      - run: cd frontend && npm ci
       - run: cd frontend && npm run build

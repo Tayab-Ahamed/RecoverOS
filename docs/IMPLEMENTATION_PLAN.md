@@ -14,7 +14,7 @@ must close before Phase 9.
 | Phase | Scope | Status |
 | --- | --- | --- |
 | 0 | Reconnaissance, contradiction resolution | Complete |
-| 1 | Foundation, configuration, logging, error shaping, health | Complete (API unexecuted) |
+| 1 | Foundation, configuration, logging, error shaping, health | Complete and locally executed |
 | 2 | Domain model, money, state machine, audit log | Complete and tested |
 | 3a | Provider port, mock adapter, signatures, idempotency | Complete and tested |
 | 4 | Detection and prioritisation | Complete and tested |
@@ -26,7 +26,7 @@ must close before Phase 9.
 | 9 | Evaluation harness and benchmark | Complete and executed |
 | 10 | API surface | Written, not executed |
 | 11 | Frontend | Written, not executed |
-| 12 | Persistence and migrations | Written, not executed |
+| 12 | Persistence and migrations | Repository slice implemented and SQLite-tested; full API wiring pending |
 | 13 | Workflow automation (n8n) | Not started, non-blocking |
 | 14 | Production hardening | Config guard in place; rest pending |
 | 15 | Deployment | Compose and Dockerfiles written, not executed |
@@ -34,7 +34,8 @@ must close before Phase 9.
 
 ## What "complete and tested" means here
 
-Executed in a sandbox with no network: 100 tests pass, a 10,000-event benchmark
+Executed locally: 106 tests pass, including HTTP contract coverage, and a
+10,000-event benchmark
 runs to completion, and the invariant auditor reports zero policy violations.
 
 "Written, not executed" means exactly that. The FastAPI, SQLAlchemy, Alembic,

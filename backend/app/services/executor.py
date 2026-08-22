@@ -69,6 +69,25 @@ class RecoveryExecutor:
             )
             return case
 
+        if plan.intervention is InterventionType.ESCALATION:
+            self.audit.record(
+                case_id=case.id,
+                actor=Actor.EXECUTOR,
+                action="ESCALATED",
+                detail="strategy selected human escalation; no customer contact or provider call",
+                decision_id=decision.id,
+                policy_version_id=decision.policy_version_id,
+            )
+            self.sm.transition(
+                case,
+                CaseState.ESCALATED,
+                Actor.EXECUTOR,
+                detail="human escalation selected by bounded strategist",
+                decision_id=decision.id,
+                policy_version_id=decision.policy_version_id,
+            )
+            return case
+
         self.sm.transition(
             case,
             CaseState.EXECUTING,

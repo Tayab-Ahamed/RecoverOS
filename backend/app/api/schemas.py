@@ -38,6 +38,9 @@ def case_out(case: RecoveryCase) -> dict:
                 "rationale": case.diagnosis.rationale,
                 "produced_by": str(case.diagnosis.produced_by),
                 "is_llm_output": case.diagnosis.is_llm_output,
+                "confidence": case.diagnosis.confidence,
+                "evidence": case.diagnosis.evidence,
+                "risk_factors": case.diagnosis.risk_factors,
             }
             if case.diagnosis
             else None
@@ -49,6 +52,10 @@ def case_out(case: RecoveryCase) -> dict:
                 "rationale": case.plan.rationale,
                 "produced_by": str(case.plan.produced_by),
                 "is_llm_output": case.plan.is_llm_output,
+                "confidence": case.plan.confidence,
+                "evidence": case.plan.evidence,
+                "alternatives_considered": case.plan.alternatives_considered,
+                "expected_recovery_value": money_out(case.plan.expected_recovery_value),
             }
             if case.plan
             else None

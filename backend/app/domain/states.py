@@ -80,7 +80,7 @@ ALLOWED_TRANSITIONS: dict[CaseState, frozenset[CaseState]] = {
     CaseState.AWAITING_APPROVAL: frozenset(
         {CaseState.APPROVED, CaseState.DENIED, CaseState.STOPPED}
     ),
-    CaseState.APPROVED: frozenset({CaseState.EXECUTING, CaseState.STOPPED}),
+    CaseState.APPROVED: frozenset({CaseState.EXECUTING, CaseState.ESCALATED, CaseState.STOPPED}),
     CaseState.DENIED: frozenset({CaseState.STOPPED, CaseState.ESCALATED}),
     CaseState.EXECUTING: frozenset(
         {CaseState.AWAITING_PAYMENT, CaseState.FAILED, CaseState.STOPPED}

@@ -41,6 +41,7 @@ class WebhookHandler:
         # Callable mapping a provider reference id to a RecoveryCase, so the
         # handler does not depend on a concrete repository.
         self.case_lookup = case_lookup
+        self.last_case = None
 
     def handle(
         self,
@@ -53,7 +54,7 @@ class WebhookHandler:
             # leaking whether the event id was recognised.
             return WebhookResult(False, "invalid signature")
 
-        if self.idempotency.seen(event_id):
+        if not self.idempotency.claim(event_id):
             return WebhookResult(False, "duplicate event ignored")
 
         try:
@@ -67,14 +68,13 @@ class WebhookHandler:
 
         reference_id, payment_id, amount, captured = self._extract(body, event_type)
         if reference_id is None:
-            self.idempotency.remember(event_id)
             return WebhookResult(False, "no resolvable case reference", event_type=event_type)
 
         case = self.case_lookup(reference_id)
         if case is None:
-            self.idempotency.remember(event_id)
             return WebhookResult(False, "unknown case", event_type=event_type)
 
+        self.last_case = case
         self.verifier.verify(
             case=case,
             event_type=event_type,
@@ -83,7 +83,6 @@ class WebhookHandler:
             amount_paise=amount or 0,
             captured=bool(captured),
         )
-        self.idempotency.remember(event_id)
         return WebhookResult(True, "processed", case_id=case.id, event_type=event_type)
 
     @staticmethod

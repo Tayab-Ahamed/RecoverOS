@@ -49,5 +49,9 @@ class AuditLog:
     def all(self) -> list[AuditRecord]:
         return list(self._records)
 
+    def load(self, records: list[AuditRecord]) -> None:
+        """Hydrate an existing append-only trail during process startup."""
+        self._records = list(records)
+
     def __len__(self) -> int:
         return len(self._records)

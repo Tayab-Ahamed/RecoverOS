@@ -5,10 +5,7 @@ import { AuditTrail } from "./AuditTrail"
 import { StateBadge } from "./StateBadge"
 
 export function CaseDetail({ caseId, onClose }: { caseId: string; onClose: () => void }) {
-  const [detail, setDetail] = useState<{
-    case: Case
-    audit_trail: AuditRecord[]
-  } | null>(null)
+  const [detail, setDetail] = useState<{ case: Case; audit_trail: AuditRecord[] } | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -16,81 +13,50 @@ export function CaseDetail({ caseId, onClose }: { caseId: string; onClose: () =>
   }, [caseId])
 
   if (error) return <div className="drawer error">{error}</div>
-  if (!detail) return <div className="drawer">Loading\u2026</div>
+  if (!detail) return <div className="drawer">Loading…</div>
 
   const c = detail.case
+  const diagnosis = c.diagnosis
+  const plan = c.plan
 
   return (
     <div className="drawer">
       <div className="drawer-header">
-        <div>
-          <h2>{c.revenue_at_risk.display} at risk</h2>
-          <div className="mono dim">{c.id}</div>
-        </div>
-        <div>
-          <StateBadge state={c.state} />
-          <button onClick={onClose}>Close</button>
-        </div>
+        <div><h2>{c.revenue_at_risk.display} at risk</h2><div className="mono dim">{c.id}</div></div>
+        <div><StateBadge state={c.state} /><button onClick={onClose}>Close</button></div>
       </div>
 
       <section>
-        <h3>Why it failed</h3>
-        {c.diagnosis ? (
-          <>
-            <p>{c.diagnosis.rationale}</p>
-            <div className="dim mono">
-              cause {c.diagnosis.cause} \u00b7 recovery prior{" "}
-              {(c.diagnosis.recovery_probability * 100).toFixed(0)}% \u00b7 by{" "}
-              {c.diagnosis.produced_by} \u00b7{" "}
-              {c.diagnosis.is_llm_output ? "model-generated" : "rule-based"}
-            </div>
-          </>
-        ) : (
-          <p className="dim">Not yet diagnosed.</p>
-        )}
+        <div className="section-kicker">01 / DIAGNOSE</div>
+        <h3>Why this revenue is at risk</h3>
+        {diagnosis ? <>
+          <p>{diagnosis.rationale}</p>
+          <div className="decision-meta">cause <strong>{diagnosis.cause}</strong> · prior <strong>{(diagnosis.recovery_probability * 100).toFixed(0)}%</strong> · confidence <strong>{(diagnosis.confidence * 100).toFixed(0)}%</strong></div>
+          <div className="evidence-list">{diagnosis.evidence.map((item) => <span key={item}>{item}</span>)}</div>
+          {diagnosis.risk_factors.length > 0 && <div className="risk-list"><span className="risk-label">Risk signals</span>{diagnosis.risk_factors.map((item) => <span key={item}>{item}</span>)}</div>}
+          <div className="dim mono">by {diagnosis.produced_by} · {diagnosis.is_llm_output ? "model-generated" : "deterministic fallback"}</div>
+        </> : <p className="dim">Not yet diagnosed.</p>}
       </section>
 
       <section>
-        <h3>What was proposed</h3>
-        {c.plan ? (
-          <>
-            <p>
-              <strong>{c.plan.intervention}</strong> \u2014 {c.plan.rationale}
-            </p>
-            <div className="dim mono">
-              proposed by {c.plan.produced_by} \u00b7 discount{" "}
-              {c.plan.discount_percentage}% \u00b7 a proposal only, not an
-              authorization
-            </div>
-          </>
-        ) : (
-          <p className="dim">No plan proposed.</p>
-        )}
+        <div className="section-kicker">02 / PROPOSE</div>
+        <h3>What the agent chose</h3>
+        {plan ? <>
+          <p><strong>{plan.intervention}</strong> — {plan.rationale}</p>
+          <div className="decision-meta">expected recoverable value <strong>{plan.expected_recovery_value?.display ?? "—"}</strong> · confidence <strong>{(plan.confidence * 100).toFixed(0)}%</strong> · discount <strong>{plan.discount_percentage}%</strong></div>
+          <div className="evidence-list">{plan.evidence.map((item) => <span key={item}>{item}</span>)}</div>
+          <div className="alternatives"><span className="risk-label">Alternatives considered</span>{plan.alternatives_considered.map((item) => <span key={item}>{item}</span>)}</div>
+          <div className="dim mono">proposed by {plan.produced_by} · {plan.is_llm_output ? "validated model output" : "evidence-backed planner"} · proposal only, not authorization</div>
+        </> : <p className="dim">No plan proposed.</p>}
       </section>
 
       <section>
+        <div className="section-kicker">03 / VERIFY</div>
         <h3>Proof of recovery</h3>
-        {c.evidence ? (
-          <div className="evidence">
-            <div>
-              <strong>{c.evidence.amount.display}</strong> captured
-            </div>
-            <div className="mono dim">
-              payment {c.evidence.payment_id} \u00b7 via {c.evidence.event_type} \u00b7
-              verified {new Date(c.evidence.verified_at).toLocaleString()}
-            </div>
-          </div>
-        ) : (
-          <p className="dim">
-            No verified payment. This case is not counted as recovered.
-          </p>
-        )}
+        {c.evidence ? <div className="evidence"><div><strong>{c.evidence.amount.display}</strong> captured</div><div className="mono dim">payment {c.evidence.payment_id} · via {c.evidence.event_type} · verified {new Date(c.evidence.verified_at).toLocaleString()}</div></div> : <p className="dim">No verified payment. This case is not counted as recovered.</p>}
       </section>
 
-      <section>
-        <h3>Audit trail ({detail.audit_trail.length} records)</h3>
-        <AuditTrail records={detail.audit_trail} />
-      </section>
+      <section><h3>Audit trail ({detail.audit_trail.length} records)</h3><AuditTrail records={detail.audit_trail} /></section>
     </div>
   )
 }

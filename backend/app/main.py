@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.deps import get_container
-from app.api.v1 import approvals, cases, demo, health, metrics, webhooks
+from app.api.v1 import approvals, benchmark, cases, demo, health, metrics, webhooks
 from app.core.config import get_settings
 from app.core.errors import classify, error_body
 from app.core.logging import configure_logging, get_logger, request_id_var
@@ -74,6 +74,7 @@ def create_app() -> FastAPI:
     app.include_router(cases.router, prefix=prefix)
     app.include_router(approvals.router, prefix=prefix)
     app.include_router(metrics.router, prefix=prefix)
+    app.include_router(benchmark.router, prefix=prefix)
     app.include_router(demo.router, prefix=prefix)
     # Webhooks are provider-facing and intentionally unversioned.
     app.include_router(webhooks.router, prefix="/api")

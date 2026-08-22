@@ -1,4 +1,4 @@
-.PHONY: help test bench demo lint typecheck contracts up down logs migrate scan verify
+.PHONY: help test bench demo lint typecheck contracts up down logs migrate scan verify verify-sql
 
 help:
 	@echo "test       run the test suite (standard library only, no install needed)"
@@ -56,3 +56,6 @@ verify-all:	## Everything provable without a network: static, tests, demo, bench
 
 verify-quick:	## Same, with a 2,000-event benchmark instead of 10,000
 	cd backend && python3 -m scripts.verify --quick
+
+verify-sql:	## Verify migrations and API state survives restart on SQLite
+	cd backend && python3 -m scripts.verify_sql
