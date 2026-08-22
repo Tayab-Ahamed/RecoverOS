@@ -12,7 +12,8 @@ from dataclasses import dataclass
 
 from app.integrations.idempotency import IdempotencyStore
 from app.integrations.signature import verify_signature
-from app.services.verifier import OutcomeVerifier
+from app.domain.states import CaseState
+from app.services.verifier import CAPTURED_EVENTS, FAILED_EVENTS, OutcomeVerifier
 
 
 class WebhookRejected(Exception):
@@ -34,6 +35,7 @@ class WebhookHandler:
         verifier: OutcomeVerifier,
         idempotency: IdempotencyStore,
         case_lookup,
+        on_outcome=None,
     ) -> None:
         self.secret = secret
         self.verifier = verifier
@@ -41,6 +43,10 @@ class WebhookHandler:
         # Callable mapping a provider reference id to a RecoveryCase, so the
         # handler does not depend on a concrete repository.
         self.case_lookup = case_lookup
+        # Optional callback used by the learning strategist. It is invoked only
+        # after signature verification, idempotency protection, and outcome
+        # verification have all succeeded.
+        self.on_outcome = on_outcome
         self.last_case = None
 
     def handle(
@@ -75,7 +81,7 @@ class WebhookHandler:
             return WebhookResult(False, "unknown case", event_type=event_type)
 
         self.last_case = case
-        self.verifier.verify(
+        verified_case = self.verifier.verify(
             case=case,
             event_type=event_type,
             external_event_id=event_id,
@@ -83,6 +89,14 @@ class WebhookHandler:
             amount_paise=amount or 0,
             captured=bool(captured),
         )
+        # Only terminal provider evidence can train the strategist. In
+        # particular, payment.authorized and unknown events must not be treated
+        # as failed outcomes merely because their payload is not captured.
+        if self.on_outcome is not None and event_type in (CAPTURED_EVENTS | FAILED_EVENTS):
+            self.on_outcome(
+                case.id,
+                verified_case.state is CaseState.RECOVERED,
+            )
         return WebhookResult(True, "processed", case_id=case.id, event_type=event_type)
 
     @staticmethod

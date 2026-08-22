@@ -20,6 +20,11 @@ export const api = {
   benchmark: (events = 200, seed = 42) =>
     request<import("./types").BenchmarkReport>(`${V1}/benchmark?events=${events}&seed=${seed}`),
 
+  agents: () => request<import("./types").AgentState>(`${V1}/agents`),
+
+  shadowEval: (events = 120, seed = 42) =>
+    request<import("./types").ShadowReport>(`${V1}/agents/shadow-eval?events=${events}&seed=${seed}`),
+
   cases: (state?: string) =>
     request<{ total: number; results: import("./types").Case[] }>(
       `${V1}/cases${state ? `?state=${encodeURIComponent(state)}` : ""}`,

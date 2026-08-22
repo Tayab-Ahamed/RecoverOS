@@ -64,6 +64,30 @@ class TestWebhookHandler(unittest.TestCase):
         r = self.sys.handler.handle(self.body, self.sig, "evt_1")
         self.assertTrue(r.accepted)
         self.assertEqual(self.case.state, CaseState.RECOVERED)
+        self.assertEqual(self.sys.outcomes, [(self.case.id, True)])
+
+    def test_authorized_event_is_not_attributed_as_failure(self):
+        body = json.dumps(
+            {
+                "event": "payment.authorized",
+                "payload": {
+                    "payment": {
+                        "entity": {
+                            "id": "pay_authorized",
+                            "amount": 849900,
+                            "status": "authorized",
+                            "notes": {"reference_id": self.case.id},
+                        }
+                    }
+                },
+            }
+        ).encode()
+        r = self.sys.handler.handle(
+            body, compute_signature(body, f.SECRET), "evt_authorized"
+        )
+        self.assertTrue(r.accepted)
+        self.assertEqual(self.case.state, CaseState.AWAITING_PAYMENT)
+        self.assertEqual(self.sys.outcomes, [])
 
     def test_bad_signature_never_reaches_domain_logic(self):
         r = self.sys.handler.handle(self.body, "deadbeef", "evt_1")
@@ -112,3 +136,4 @@ class TestWebhookHandler(unittest.TestCase):
         r = self.sys.handler.handle(body, compute_signature(body, f.SECRET), "evt_11")
         self.assertTrue(r.accepted)
         self.assertEqual(self.case.state, CaseState.FAILED)
+        self.assertEqual(self.sys.outcomes, [(self.case.id, False)])

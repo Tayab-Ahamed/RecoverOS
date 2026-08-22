@@ -97,11 +97,15 @@ class System:
         self.verifier = OutcomeVerifier(self.sm, self.audit)
         self.idempotency = InMemoryIdempotencyStore()
         self.cases: dict[str, RecoveryCase] = {}
+        self.outcomes: list[tuple[str, bool]] = []
         self.handler = WebhookHandler(
             secret=SECRET,
             verifier=self.verifier,
             idempotency=self.idempotency,
             case_lookup=self.cases.get,
+            on_outcome=lambda case_id, recovered: self.outcomes.append(
+                (case_id, recovered)
+            ),
         )
         self.orchestrator = RecoveryOrchestrator(
             policy=self.policy,

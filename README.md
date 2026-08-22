@@ -113,12 +113,14 @@ The benchmark re-derives these invariants from the audit trail after every run. 
 
 ## Prove it locally
 
-The deterministic core can be verified without Docker, network access, API keys, or a live payment account.
+The deterministic core and learning layer can be verified without Docker, network access, API keys, or a live payment account.
 
 ```bash
 cd backend
 python3 -m scripts.verify --quick
 ```
+
+The verification command now covers architecture, tests, the narrated recovery demo, the hidden-world learning benchmark, and a paired LLM shadow audit. The shadow audit measures model influence and guardrail behavior separately from recovery performance.
 
 The quick verification runs architectural boundary checks, tests, narrated scenarios, and a 2,000-case governed-versus-ungoverned benchmark. For the larger reproducible benchmark:
 
@@ -127,6 +129,7 @@ python3 -m scripts.static_check
 python3 -m unittest discover -s tests -t . -q
 python3 -m scripts.demo
 python3 -m scripts.run_benchmark --events 10000 --seed 42
+python3 -m scripts.run_shadow_eval --events 120 --seed 42
 ```
 
 The four narrated scenarios show a card-expired recovery, repeated-decline escalation, opt-out refusal, and high-value human approval.
@@ -167,7 +170,9 @@ For real Razorpay Test Mode recovery, follow [`docs/RAZORPAY_TESTMODE.md`](docs/
 | `GET /api/v1/metrics` | Portfolio metrics and provenance summary |
 | `GET /api/v1/cases` | Case ledger with optional state filtering |
 | `GET /api/v1/cases/{id}` | Case detail and audit trail |
-| `GET /api/v1/benchmark` | Adaptive, baseline, and ungoverned proof |
+| `GET /api/v1/benchmark` | Adaptive, baseline, learning, oracle, and ungoverned proof |
+| `GET /api/v1/agents` | Current learning strategist, bandit, memory, critic, and LLM telemetry |
+| `GET /api/v1/agents/shadow-eval` | Paired model influence and guardrail evaluation |
 | `GET /api/v1/approvals` | Human approval queue |
 | `POST /api/v1/approvals/{id}/approve` | Explicit human approval |
 | `POST /api/v1/approvals/{id}/deny` | Explicit human denial |
@@ -182,12 +187,12 @@ For real Razorpay Test Mode recovery, follow [`docs/RAZORPAY_TESTMODE.md`](docs/
 backend/app/
   domain/         Money, entities, and the state machine
   detection/      Deterministic revenue-risk signals
-  agents/         Diagnosis and strategy agents; proposal only
+  agents/         Diagnosis, learning strategist, bandit, memory, guardrails, prompts, and LLM adapters
   policies/       Versioned and checksummed authorization rules
   services/       Orchestrator, executor, verifier, audit, approvals
   integrations/   Provider protocol, Razorpay adapter, mock provider
   webhooks/       Signature verification and event identity
-  evaluation/     Seeded benchmark dataset and harness
+  evaluation/     Hidden-world benchmark, calibration, and LLM shadow evaluator
   api/            FastAPI routes and response schemas
   models/         SQLAlchemy models and migrations
 frontend/
@@ -221,6 +226,7 @@ Synthetic and live data are labelled separately as `SYNTHETIC` or `LIVE_TEST_MOD
 | Document | Purpose |
 | --- | --- |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Layering, state machine, and structural guarantees |
+| [`docs/AI_ARCHITECTURE.md`](docs/AI_ARCHITECTURE.md) | Learning strategist, hidden-world evaluation, and LLM safety envelope |
 | [`docs/API.md`](docs/API.md) | API contract and endpoint reference |
 | [`docs/DEMO.md`](docs/DEMO.md) | Presenter script for the buildathon demo |
 | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | Buildathon submission narrative |

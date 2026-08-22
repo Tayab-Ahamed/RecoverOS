@@ -52,6 +52,9 @@ class Settings:
     )
 
     llm_provider: str = field(default_factory=lambda: os.getenv("LLM_PROVIDER", "mock"))
+    # The learning agent is the default API strategist; set RECOVERY_STRATEGY=rules
+    # to run the original hand-written rulebook as a controlled baseline.
+    recovery_strategy: str = field(default_factory=lambda: os.getenv("RECOVERY_STRATEGY", "learning"))
     anthropic_api_key: str = field(
         default_factory=lambda: os.getenv("ANTHROPIC_API_KEY", "")
     )
@@ -88,6 +91,9 @@ class Settings:
                 )
         elif self.payment_provider != "mock":
             problems.append(f"unknown PAYMENT_PROVIDER {self.payment_provider!r}")
+
+        if self.recovery_strategy not in {"learning", "rules"}:
+            problems.append(f"unknown RECOVERY_STRATEGY {self.recovery_strategy!r}")
 
         if self.llm_provider == "anthropic" and not self.anthropic_api_key:
             problems.append("LLM_PROVIDER=anthropic requires ANTHROPIC_API_KEY")

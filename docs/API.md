@@ -51,13 +51,12 @@ ceilings and opt-out status can change in that window.
 | Method | Path | Notes |
 | --- | --- | --- |
 | GET | `/api/v1/metrics` | Current dataset metrics and provenance |
-| GET | `/api/v1/benchmark?events=200&seed=42` | Synthetic adaptive-versus-baseline proof |
+| GET | `/api/v1/benchmark?events=200&seed=42` | Synthetic proof with fixed baseline, rulebook, learning, oracle, and ungoverned arms |
+| GET | `/api/v1/agents` | Current agent, learning, and model telemetry snapshot |
+| GET | `/api/v1/agents/shadow-eval?events=120&seed=42` | Paired synthetic LLM influence and guardrail evaluation |
 
 Revenue at risk, recovered revenue, recovery rate, contacts, escalations and
-policy violations are reported for the current dataset. The benchmark endpoint
-runs an adaptive planner, a fixed payment-link baseline, and an ungoverned risk
-arm over the same labelled synthetic batch. It also reports recovery per contact
-and the adaptive-versus-baseline delta. It is unavailable in production.
+policy violations are reported for the current dataset. The benchmark endpoint runs a fixed payment-link baseline, the original rulebook, the outcome-aware learning strategist, an oracle upper-bound policy, and an ungoverned comparison over the same labelled synthetic batch. It reports recovery per contact, optimal-action rate, regret, calibration, and the learning lift relative to the rulebook; the results are synthetic and the endpoint is unavailable in production. The agent snapshot exposes the contextual learner's posterior cells, verified-outcome memory, propensity calibration, critic statistics, and LLM telemetry. The shadow evaluator pairs a learning run with a model-in-loop run over the same dataset and reports action influence, rationale quality, and catch rate against known scripted faults; it is also unavailable in production.
 
 ## Webhooks
 
@@ -89,6 +88,8 @@ Razorpay does not retry something we deliberately do not handle.
 | POST | `/api/v1/demo/run` | Advance all cases through the loop |
 | POST | `/api/v1/demo/replay-webhook` | Locally signed webhook replay |
 | POST | `/api/v1/demo/live-test-case` | One labelled Razorpay Test Mode case; refuses mock mode |
+
+`RECOVERY_STRATEGY=learning` enables the outcome-aware contextual strategist in the main API; `RECOVERY_STRATEGY=rules` selects the original rulebook baseline. The default local strategy is `learning`, while all model and learning state remains bounded and proposal-only.
 
 Replay is gated behind `ENABLE_LOCAL_WEBHOOK_REPLAY` and the production config
 guard refuses to boot with it enabled.

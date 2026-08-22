@@ -8,7 +8,7 @@ import { CaseDetail } from "./components/CaseDetail"
 import { MissionCanvas } from "./components/MissionCanvas"
 import { ProvenanceBanner } from "./components/ProvenanceBanner"
 import { StateBadge } from "./components/StateBadge"
-import type { BenchmarkReport, Case, Metrics } from "./types"
+import type { AgentState, BenchmarkReport, Case, Metrics, ShadowReport } from "./types"
 
 type View = "mission" | "proof" | "ledger"
 
@@ -17,16 +17,20 @@ export function App() {
   const [cases, setCases] = useState<Case[]>([])
   const [selected, setSelected] = useState<string | null>(null)
   const [benchmark, setBenchmark] = useState<BenchmarkReport | null>(null)
+  const [agentState, setAgentState] = useState<AgentState | null>(null)
+  const [shadowReport, setShadowReport] = useState<ShadowReport | null>(null)
   const [view, setView] = useState<View>("mission")
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [benchmarkBusy, setBenchmarkBusy] = useState(false)
+  const [shadowBusy, setShadowBusy] = useState(false)
 
   const refresh = useCallback(async () => {
     try {
-      const [m, c] = await Promise.all([api.metrics(), api.cases()])
+      const [m, c, a] = await Promise.all([api.metrics(), api.cases(), api.agents()])
       setMetrics(m)
       setCases(c.results)
+      setAgentState(a)
       setError(null)
     } catch (e) { setError((e as Error).message) }
   }, [])
@@ -38,6 +42,13 @@ export function App() {
     try { setBenchmark(await api.benchmark(200, 42)); setError(null) }
     catch (e) { setError((e as Error).message) }
     finally { setBenchmarkBusy(false) }
+  }
+
+  const runShadowEval = async () => {
+    setShadowBusy(true)
+    try { setShadowReport(await api.shadowEval(120, 42)); setError(null) }
+    catch (e) { setError((e as Error).message) }
+    finally { setShadowBusy(false) }
   }
 
   const runDemo = async () => {
@@ -87,7 +98,7 @@ export function App() {
 
       {metrics && view === "mission" && <>
         <div className="mission-intro"><div><div className="micro-label">BATCH 07 / LIVE RECOVERY WINDOW</div><h2>Keep the good money moving.</h2></div><div className="mission-intro-copy">A case is not a row. It is a journey with a cost, a consent boundary, and a proof state.</div></div>
-        <AgentFleet cases={cases} metrics={metrics} running={busy} onRun={runDemo} onFocus={openCase} />
+        <AgentFleet cases={cases} metrics={metrics} running={busy} onRun={runDemo} onFocus={openCase} agentState={agentState} shadowRunning={shadowBusy} onShadowEval={runShadowEval} shadowReport={shadowReport} />
         <section className="mission-layout"><MissionCanvas cases={cases} selectedId={selectedCase?.id ?? null} onSelect={openCase} /><AgentConsole selected={selectedCase} onInspect={() => selectedCase && setSelected(selectedCase.id)} /></section>
         <section className="mission-bottom-grid"><div className="mission-rule"><span className="micro-label">SYSTEM PROMISE</span><h3>Never spend trust to chase a rupee.</h3><p>RecoverOS may leave money unrecovered. It will not contact an opted-out customer, exceed a retry ceiling, or claim recovery before a signed capture event.</p><div className="rule-tags"><span>consent-first</span><span>paise-safe</span><span>audit-complete</span></div></div><div className="mission-next"><span className="micro-label">NEXT OBSERVATION</span><strong>{nextSignal ? nextSignal.revenue_at_risk.display : "FIELD CLEAR"}</strong><p>{nextSignal ? `${nextSignal.state.replaceAll("_", " ")} / ${nextSignal.event.reason.replaceAll("_", " ")}` : "All current signals have reached a terminal state."}</p><button className="text-action" onClick={() => nextSignal && setSelected(nextSignal.id)}>Focus signal ↗</button></div></section>
       </>}

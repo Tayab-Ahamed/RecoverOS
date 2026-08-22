@@ -23,7 +23,7 @@ def benchmark(
     report = compare(dataset)
     report["headline"] = {
         "label": "SYNTHETIC EVALUATION DATA",
-        "message": "Adaptive planning is compared with a fixed payment-link baseline under the same policy.",
+        "message": "Adaptive planning, the fixed payment-link baseline, and the hidden-world learning arms are compared under the same governed policy.",
         "not_production_claim": True,
     }
     return report

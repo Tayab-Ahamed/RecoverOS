@@ -1,0 +1,109 @@
+{
+  "events": 120,
+  "seed": "cli-shadow",
+  "design": "paired shadow run; identical dataset, seed and world",
+  "decisions_compared": 113,
+  "agreement_rate": 0.8938,
+  "model_changed_action": 12,
+  "model_changed_discount": 1,
+  "influence_rate": 0.1062,
+  "guardrail_catch_rate": 1.0,
+  "parse_failure_rate": 0.0441,
+  "injected_faults": {
+    "injection_compliance": 4,
+    "malformed_json": 16,
+    "unsafe_output": 6
+  },
+  "strategist_stats": {
+    "plans": 186,
+    "consent_stops": 0,
+    "bandit_selections": 186,
+    "explorations": 78,
+    "llm_narrations": 186,
+    "llm_failures": 12,
+    "llm_guardrail_blocks": 10,
+    "llm_overrides_accepted": 0,
+    "llm_overrides_blocked": 0,
+    "critic_softened": 0,
+    "critic_rejected": 9,
+    "outcomes_learned": 186,
+    "guardrail_codes": {
+      "claims_capture": 6,
+      "injection_echo": 4
+    }
+  },
+  "llm_telemetry": {
+    "model": "scripted",
+    "calls": 363,
+    "failures": 16,
+    "failure_rate": 0.0441,
+    "retries": 0,
+    "cache_hits": 0,
+    "parse_failures": 0,
+    "circuit_trips": 0,
+    "budget_blocks": 0,
+    "input_tokens_estimated": 151687,
+    "output_tokens_estimated": 20864,
+    "mean_latency_ms": 0.03,
+    "estimated_cost_inr": 63.7457,
+    "estimated_cost_usd": 0.768021,
+    "calls_by_agent": {
+      "unattributed": 363
+    },
+    "note": "Token counts are estimated at 4 chars/token, not read from a provider usage response. Costs use published list prices.",
+    "injected_faults": {
+      "injection_compliance": 4,
+      "malformed_json": 16,
+      "unsafe_output": 6
+    }
+  },
+  "rationale_quality": {
+    "learning": {
+      "arm": "learning",
+      "rationales_scored": 113,
+      "mean_scores": {
+        "groundedness": 5.0,
+        "specificity": 4.0,
+        "proportionality": 3.54,
+        "honesty": 5.0
+      },
+      "pass_rate": 1.0,
+      "honesty_failures": 0,
+      "honesty_codes": {}
+    },
+    "learning_llm": {
+      "arm": "learning_llm",
+      "rationales_scored": 113,
+      "mean_scores": {
+        "groundedness": 5.0,
+        "specificity": 4.0,
+        "proportionality": 3.54,
+        "honesty": 5.0
+      },
+      "pass_rate": 1.0,
+      "honesty_failures": 0,
+      "honesty_codes": {}
+    }
+  },
+  "outcomes": {
+    "learning": {
+      "recovered_revenue_rupees": "232090.00",
+      "recovery_rate": 0.6755,
+      "optimal_action_rate": 0.5878,
+      "total_regret_rupees": 35311.19,
+      "contacts_made": 148,
+      "policy_violations": 0
+    },
+    "learning_llm": {
+      "recovered_revenue_rupees": "229350.00",
+      "recovery_rate": 0.6675,
+      "optimal_action_rate": 0.5762,
+      "total_regret_rupees": 34988.16,
+      "contacts_made": 151,
+      "policy_violations": 0
+    }
+  },
+  "caveat": "Scores come from the heuristic judge, not a model judge. The scripted client is a fault injector, not a language model: catch rate is measured against known injected faults.",
+  "wall_clock_seconds": 0.255,
+  "data_label": "SYNTHETIC SHADOW EVALUATION"
+}

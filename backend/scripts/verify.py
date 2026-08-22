@@ -34,15 +34,19 @@ def main() -> int:
     events = 2000 if parsed.quick else 10000
 
     total = 0.0
-    total += run("1/4  static verification", ["-m", "scripts.static_check"])
+    total += run("1/5  static verification", ["-m", "scripts.static_check"])
     total += run(
-        "2/4  test suite",
+        "2/5  test suite",
         ["-m", "unittest", "discover", "-s", "tests", "-t", ".", "-q"],
     )
-    total += run("3/4  narrated demo", ["-m", "scripts.demo"])
+    total += run("3/5  narrated demo", ["-m", "scripts.demo"])
     total += run(
-        f"4/4  benchmark ({events:,} events)",
+        f"4/5  benchmark ({events:,} events)",
         ["-m", "scripts.run_benchmark", "--events", str(events), "--seed", "42"],
+    )
+    total += run(
+        "5/5  paired LLM shadow evaluation (120 events)",
+        ["-m", "scripts.run_shadow_eval", "--events", "120", "--seed", "42"],
     )
 
     print(f"\n{'=' * 74}")

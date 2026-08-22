@@ -94,6 +94,34 @@ export type BenchmarkArm = {
   adaptive_explanations: number
 }
 
+export type ShadowReport = {
+  events: number
+  seed: string
+  decisions_compared: number
+  agreement_rate: number
+  model_changed_action: number
+  influence_rate: number
+  guardrail_catch_rate: number | null
+  parse_failure_rate: number
+  headline?: { label: string; message: string; not_production_claim: boolean }
+}
+
+export type AgentState = {
+  strategy: string
+  llm_provider: string
+  learning_enabled: boolean
+  data_provenance: string
+  snapshot: {
+    agent?: string
+    llm_provider?: string
+    stats?: Record<string, number | Record<string, number>>
+    bandit?: { decisions?: number; explorations?: number; exploration_rate?: number; segments_learned?: number; total_observations?: number }
+    propensity?: { updates?: number; mean_correction?: number; max_correction?: number }
+    memory?: { outcomes?: number; segments?: number }
+    critic?: { reviews?: number; interventions?: number }
+  }
+}
+
 export type BenchmarkReport = {
   dataset: {
     run_id: string
@@ -106,6 +134,19 @@ export type BenchmarkReport = {
   adaptive_agent: BenchmarkArm
   fixed_baseline: BenchmarkArm
   ungoverned: BenchmarkArm
+  learning?: BenchmarkArm
+  oracle?: BenchmarkArm
+  learning_llm?: BenchmarkArm
+  learning_lift?: {
+    recovered_revenue_delta_paise: number
+    recovery_rate_delta: number
+    contacts_delta: number
+    recovery_per_contact_delta_paise: number
+    optimal_action_rate_delta?: number
+    mean_regret_delta_paise?: number
+    brier_skill_score_vs_rules?: number
+    interpretation: string
+  }
   ai_lift: {
     recovered_revenue_delta_paise: number
     recovery_rate_delta: number

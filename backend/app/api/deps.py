@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from app.agents.diagnosis_agent import DiagnosisAgent
 from app.agents.llm import AnthropicClient, DeterministicLLMClient
+from app.agents.learning_strategist import LearningStrategistAgent
 from app.agents.strategist_agent import StrategistAgent
 from app.core.config import ConfigError, Settings, get_settings
 from app.domain.entities import RecoveryCase
@@ -81,13 +82,22 @@ class Container:
         else:
             self.idempotency = InMemoryIdempotencyStore()
 
+        if self.settings.recovery_strategy == "learning":
+            self.strategist = LearningStrategistAgent(
+                llm=self.llm,
+                seed="api-learning",
+                use_critic=True,
+            )
+        else:
+            self.strategist = StrategistAgent(self.llm)
+
         self.orchestrator = RecoveryOrchestrator(
             policy=self.policy,
             executor=self.executor,
             state_machine=self.state_machine,
             audit=self.audit,
             diagnosis_agent=DiagnosisAgent(self.llm),
-            strategist=StrategistAgent(self.llm),
+            strategist=self.strategist,
             # No auto-approver: high-value cases wait for a human.
             approver=None,
         )
@@ -99,6 +109,7 @@ class Container:
             verifier=self.verifier,
             idempotency=self.idempotency,
             case_lookup=self._lookup_case,
+            on_outcome=getattr(self.strategist, "observe_outcome", None),
         )
 
     def persist(self) -> None:
