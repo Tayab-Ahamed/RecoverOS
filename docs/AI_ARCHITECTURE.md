@@ -115,3 +115,9 @@ LLM_PROVIDER=anthropic       # live model path, requires ANTHROPIC_API_KEY
 ```
 
 The main API uses the learning strategist by default in local mode. The original rulebook remains available as a controlled baseline, and the benchmark runs both arms under the same governed policy.
+
+## Runtime limitations and next hardening step
+
+Learning state is currently **process-local**. The bandit posteriors, propensity weights, outcome memory, and pending attribution map are not yet persisted to SQL, so a process restart or multi-worker deployment resets the learner. This is an explicit limitation, not a claim of durable production learning.
+
+In the live API, verified payment captures and terminal payment failures are attributed after the verifier accepts them. STOP and ESCALATION decisions that terminate without a provider event are safely excluded from webhook training today; the benchmark harness flushes those terminal decisions, while a future production hardening step should add the same explicit terminal-outcome callback to the orchestrator. No terminal case is ever marked recovered without signed provider evidence.
