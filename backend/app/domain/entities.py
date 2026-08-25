@@ -166,7 +166,7 @@ class AuditRecord:
             refs.append(f"event={self.external_event_id}")
         suffix = f"  [{' '.join(refs)}]" if refs else ""
         return (
-            f"{self.at.strftime('%H:%M:%S')}  {str(self.actor):<18} "
+            f"{self.at.strftime('%Y-%m-%d %H:%M:%S')}  {str(self.actor):<18} "
             f"{self.action:<22} {transition:<34} {self.detail}{suffix}"
         )
 

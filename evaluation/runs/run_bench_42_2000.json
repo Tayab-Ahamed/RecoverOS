@@ -1,11 +1,11 @@
 {
   "dataset": {
-    "run_id": "run_benchmark_42_2000",
+    "run_id": "run_bench_42_2000",
     "seed": 42,
     "events": 2000,
     "customers": 500,
     "provenance": "SYNTHETIC",
-    "profile": "benchmark"
+    "profile": "bench"
   },
   "experimental_design": {
     "outcome_model": "app.evaluation.ground_truth.GroundTruthWorld",
@@ -16,7 +16,7 @@
   },
   "fixed_baseline": {
     "strategy": "fixed_baseline",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -116,7 +116,7 @@
   },
   "recoveros": {
     "strategy": "recoveros",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -210,7 +210,7 @@
   },
   "learning": {
     "strategy": "learning",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -299,8 +299,6 @@
       "llm_provider": "none",
       "decides_with": "contextual bandit over verified outcomes",
       "llm_role": "narration and downward-only dissent; never the decider",
-      "persistence_path": null,
-      "loaded_from_disk": false,
       "stats": {
         "plans": 3054,
         "consent_stops": 0,
@@ -1350,7 +1348,7 @@
   },
   "learning_llm": {
     "strategy": "learning_llm",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -1439,8 +1437,6 @@
       "llm_provider": "scripted",
       "decides_with": "contextual bandit over verified outcomes",
       "llm_role": "narration and downward-only dissent; never the decider",
-      "persistence_path": null,
-      "loaded_from_disk": false,
       "stats": {
         "plans": 3054,
         "consent_stops": 0,
@@ -2517,7 +2513,7 @@
   },
   "oracle": {
     "strategy": "oracle",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -2604,7 +2600,7 @@
   },
   "ungoverned": {
     "strategy": "ungoverned",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -2697,7 +2693,7 @@
   },
   "governed": {
     "strategy": "recoveros",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -2791,7 +2787,7 @@
   },
   "adaptive_agent": {
     "strategy": "recoveros",
-    "dataset_run_id": "run_benchmark_42_2000",
+    "dataset_run_id": "run_bench_42_2000",
     "provenance": "SYNTHETIC",
     "cases": 2000,
     "eligible_cases": 1950,
@@ -2906,7 +2902,7 @@
       "note": "Fraction of the oracle's recovered revenue captured. The oracle has full knowledge of the hidden world and is not achievable; it bounds the scoreboard."
     }
   },
-  "wall_clock_seconds": 23.602,
+  "wall_clock_seconds": 25.627,
   "data_label": "SYNTHETIC EVALUATION DATA",
   "disclaimer": "Recovery outcomes are produced by a seeded simulation whose conversion priors were chosen by the authors. These numbers demonstrate that the control system behaves correctly at batch scale. They are NOT a prediction of real-world recovery rates."
 }

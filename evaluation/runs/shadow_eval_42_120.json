@@ -44,7 +44,7 @@
     "budget_blocks": 0,
     "input_tokens_estimated": 151687,
     "output_tokens_estimated": 20864,
-    "mean_latency_ms": 0.03,
+    "mean_latency_ms": 0.02,
     "estimated_cost_inr": 63.7457,
     "estimated_cost_usd": 0.768021,
     "calls_by_agent": {
@@ -104,6 +104,6 @@
     }
   },
   "caveat": "Scores come from the heuristic judge, not a model judge. The scripted client is a fault injector, not a language model: catch rate is measured against known injected faults.",
-  "wall_clock_seconds": 0.255,
+  "wall_clock_seconds": 0.154,
   "data_label": "SYNTHETIC SHADOW EVALUATION"
 }

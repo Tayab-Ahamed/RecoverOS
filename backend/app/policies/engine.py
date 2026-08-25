@@ -10,6 +10,7 @@ Decision objects as an argument.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, UTC
 
 from app.domain.entities import (
     Customer,
@@ -19,6 +20,7 @@ from app.domain.entities import (
     new_id,
 )
 from app.policies.config import DEFAULT_POLICY, PolicyVersion
+from app.policies import razorpay_rules
 
 
 @dataclass(frozen=True)
@@ -82,6 +84,18 @@ class PolicyEngine:
             denials.append("customer has opted out of contact")
             rule_ids.append("stop_after_opt_out")
 
+        # Time-of-day contact window: no outbound contact outside allowed hours.
+        if contacts_customer:
+            current_hour = datetime.now(UTC).hour
+            before = self.rules.no_contact_before_hour
+            after = self.rules.no_contact_after_hour
+            if current_hour < before or current_hour >= after:
+                denials.append(
+                    f"contact outside allowed hours {before:02d}:00–{after:02d}:00 UTC "
+                    f"(current UTC hour: {current_hour:02d})"
+                )
+                rule_ids.append("contact_time_window")
+
         # Invariant 3: never exceed the attempt ceiling.
         if case.attempts >= self.rules.max_recovery_attempts:
             denials.append(
@@ -120,6 +134,15 @@ class PolicyEngine:
         ):
             requires_approval = True
             rule_ids.append("high_value_manual_review_threshold")
+
+        # Provider-derived and regulatory constraints. Kept in a separate
+        # module because they follow from how Razorpay behaves rather than
+        # from our own risk appetite.
+        rzp_denials, rzp_rule_ids = razorpay_rules.evaluate(
+            case, plan, contacts_customer
+        )
+        denials.extend(rzp_denials)
+        rule_ids.extend(rzp_rule_ids)
 
         if denials:
             return Decision(

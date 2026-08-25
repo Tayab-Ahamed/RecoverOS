@@ -11,11 +11,18 @@ from app.domain.entities import PaymentEvidence, RecoveryCase, utcnow
 from app.domain.errors import InvariantViolation
 from app.domain.money import Money
 from app.domain.states import Actor, CaseState
+from app.integrations.razorpay_catalog import (
+    all_confirming_events,
+    all_failing_events,
+)
 from app.services.audit import AuditLog
 from app.services.state_machine import StateMachine
 
-CAPTURED_EVENTS = frozenset({"payment_link.paid", "payment.captured"})
-FAILED_EVENTS = frozenset({"payment.failed", "payment_link.expired"})
+# Derived from the Razorpay product catalogue rather than hand-listed, so
+# adding a product cannot silently leave its proof-of-payment event
+# unrecognised. See app/integrations/razorpay_catalog.py.
+CAPTURED_EVENTS = all_confirming_events()
+FAILED_EVENTS = all_failing_events()
 # Present for completeness and deliberately NOT treated as recovery.
 AUTHORIZED_ONLY_EVENTS = frozenset({"payment.authorized"})
 

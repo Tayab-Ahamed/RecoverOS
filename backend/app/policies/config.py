@@ -27,6 +27,11 @@ class PolicyRules:
     stop_after_success: bool = True
     stop_after_opt_out: bool = True
     require_approval_above_threshold: bool = True
+    # Time-of-day contact window (UTC hours, inclusive start, exclusive end).
+    # Contacts are blocked outside this window to avoid disturbing customers at
+    # night and to meet basic merchant compliance requirements.
+    no_contact_before_hour: int = 8   # don't contact before 8 AM UTC
+    no_contact_after_hour: int = 21   # don't contact at or after 9 PM UTC
 
     @property
     def min_recovery_value(self) -> Money:

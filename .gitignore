@@ -30,5 +30,13 @@ dist/
 .vscode/
 .DS_Store
 
+# Local databases & logs
+*.db
+*.sqlite3
+*.log
+
+# Archives
+*.zip
+
 # Generated evaluation artifacts are kept, but local scratch runs are not.
 evaluation/runs/scratch_*.json

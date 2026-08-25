@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import base64
 import json
+import time
 import urllib.error
 import urllib.request
 
@@ -36,7 +37,8 @@ class RazorpayProvider:
         self._auth = base64.b64encode(f"{key_id}:{key_secret}".encode()).decode()
         self.timeout = timeout
 
-    def _request(self, method: str, path: str, body: dict | None = None) -> dict:
+
+    def _request(self, method: str, path: str, body: dict | None = None, _retries: int = 2) -> dict:
         data = json.dumps(body).encode() if body is not None else None
         req = urllib.request.Request(
             f"{API_BASE}{path}",
@@ -51,10 +53,15 @@ class RazorpayProvider:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 return json.loads(resp.read().decode())
         except urllib.error.HTTPError as exc:
+            # Authoritative error — never retry.
             detail = exc.read().decode(errors="replace")[:500]
             raise ProviderError(f"Razorpay {method} {path} -> {exc.code}: {detail}") from exc
         except urllib.error.URLError as exc:
-            raise ProviderError(f"Razorpay unreachable: {exc.reason}") from exc
+            # Network-level error (timeout, DNS failure). Retry up to _retries times.
+            if _retries > 0:
+                time.sleep(1)
+                return self._request(method, path, body, _retries - 1)
+            raise ProviderError(f"Razorpay unreachable after retries: {exc.reason}") from exc
 
     def create_payment_link(self, req: PaymentLinkRequest) -> PaymentLinkResponse:
         payload = {

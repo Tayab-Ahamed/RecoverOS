@@ -46,7 +46,10 @@ outcomes.
 from __future__ import annotations
 
 import hashlib
+import json
+import os
 import random
+import sqlite3
 from dataclasses import dataclass, field
 
 from app.agents.features import CaseFeatures
@@ -318,6 +321,68 @@ class ContextualBandit:
             posterior.wins += 1
         else:
             posterior.beta += 1.0
+
+    # -- persistence --------------------------------------------------------
+
+    def save(self, db_path: str) -> None:
+        """Persist all posterior state to a SQLite file so learning survives restarts."""
+        os.makedirs(os.path.dirname(db_path) if os.path.dirname(db_path) else '.', exist_ok=True)
+        conn = sqlite3.connect(db_path)
+        try:
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS bandit_posteriors (
+                    segment TEXT NOT NULL,
+                    arm_id TEXT NOT NULL,
+                    alpha REAL NOT NULL,
+                    beta REAL NOT NULL,
+                    pulls INTEGER NOT NULL,
+                    wins INTEGER NOT NULL,
+                    PRIMARY KEY (segment, arm_id)
+                )
+            """)
+            conn.execute("DELETE FROM bandit_posteriors")
+            for (segment, arm_id), p in self.posteriors.items():
+                conn.execute(
+                    "INSERT INTO bandit_posteriors VALUES (?,?,?,?,?,?)",
+                    (segment, arm_id, p.alpha, p.beta, p.pulls, p.wins)
+                )
+            # Also save aggregate counters
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS bandit_meta (
+                    key TEXT PRIMARY KEY,
+                    value TEXT NOT NULL
+                )
+            """)
+            conn.execute("INSERT OR REPLACE INTO bandit_meta VALUES ('decisions', ?)", (str(self.decisions),))
+            conn.execute("INSERT OR REPLACE INTO bandit_meta VALUES ('explorations', ?)", (str(self.explorations),))
+            conn.commit()
+        finally:
+            conn.close()
+
+    @classmethod
+    def load(cls, db_path: str, seed: str = 'bandit', arms: tuple = DEFAULT_ARMS, prior_strength: float = 12.0) -> 'ContextualBandit':
+        """Load a bandit from persisted state. Returns a fresh bandit if no state exists."""
+        instance = cls(seed=seed, arms=arms, prior_strength=prior_strength)
+        if not os.path.exists(db_path):
+            return instance
+        conn = sqlite3.connect(db_path)
+        try:
+            # Check table exists
+            tables = conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='bandit_posteriors'"
+            ).fetchone()
+            if not tables:
+                return instance
+            for row in conn.execute("SELECT segment, arm_id, alpha, beta, pulls, wins FROM bandit_posteriors"):
+                segment, arm_id, alpha, beta, pulls, wins = row
+                p = Posterior(alpha=alpha, beta=beta, pulls=int(pulls), wins=int(wins))
+                instance.posteriors[(segment, arm_id)] = p
+            meta = dict(conn.execute("SELECT key, value FROM bandit_meta").fetchall())
+            instance.decisions = int(meta.get('decisions', 0))
+            instance.explorations = int(meta.get('explorations', 0))
+        finally:
+            conn.close()
+        return instance
 
     # -- introspection ------------------------------------------------------
 

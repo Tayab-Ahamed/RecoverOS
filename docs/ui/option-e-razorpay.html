@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset="utf-8"><title>RecoverOS</title><style>
 /* ============================================================================
    RecoverOS - visual system
 
@@ -293,13 +294,13 @@ button:disabled { opacity: .4; cursor: default; }
   background: none; overflow: visible;
 }
 .mission-intro::after, .intro::after, .proof-intro::after { content: none; }
-.mission-intro h2, .intro h2, .proof-intro h2, .proof-hero h2, .ledger-hero h2 {
+.mission-intro h2, .intro h2, .proof-intro h2 {
   margin: 10px 0 0; max-width: 30ch;
   font-size: clamp(28px, 3.7vw, 45px); line-height: 1.04;
   letter-spacing: -.028em;
 }
 .mission-intro h2 em, .launch-screen h2 em { font-style: italic; color: var(--oxblood); }
-.mission-intro-copy, .intro p, .proof-intro p, .proof-hero p, .ledger-hero p {
+.mission-intro-copy, .intro p, .proof-intro p {
   max-width: 44ch; color: var(--ink-2); font-size: 13.5px;
   padding-left: 20px; border-left: 1px solid var(--rule);
 }
@@ -504,140 +505,29 @@ button:disabled { opacity: .4; cursor: default; }
 /* ------------------------------ case river -------------------------------- */
 
 .river-stage { display: grid; gap: 0; }
-.river-labels {
-  display: grid;
-  grid-template-columns: 140px 1.2fr 1fr 1fr 110px;
-  gap: 12px;
-  padding: 8px 14px;
-  border-bottom: 1px solid var(--rule);
-  font: 500 9.5px var(--mono);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+.river-grid, .river-labels {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0;
 }
-
-.river-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-top: 8px;
+.river-labels span {
+  padding: 0 8px 8px; border-bottom: 1px solid var(--rule);
+  font: 500 9px var(--mono); letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3);
 }
-
+.river-node, .river-core { border-right: 1px solid var(--rule-soft); padding: 10px 8px; min-height: 90px; }
+.river-node:last-child { border-right: 0; }
+.river-spine, .river-connector, .river-current { display: none; }
 .river-case {
-  display: grid !important;
-  grid-template-columns: 140px 1.2fr 1fr 1fr 110px !important;
-  gap: 12px !important;
-  align-items: center !important;
-  width: 100% !important;
-  text-align: left !important;
-  margin: 0 !important;
-  padding: 9px 14px !important;
-  border: 1px solid var(--rule) !important;
-  border-left: 3px solid var(--indigo) !important;
-  border-radius: 6px !important;
-  background: var(--paper-2) !important;
-  color: var(--ink) !important;
-  font: 12px var(--sans) !important;
-  cursor: pointer !important;
-  transition: all .15s ease !important;
+  display: block; width: 100%; text-align: left; margin-bottom: 5px;
+  padding: 7px 9px; border: 1px solid var(--rule); border-left: 3px solid var(--indigo);
+  border-radius: 0; background: var(--paper);
+  font: 11px var(--mono);
 }
-
-.river-case:hover {
-  background: #f0f7ff !important;
-  border-color: var(--oxblood) !important;
-  color: var(--ink) !important;
-  box-shadow: 0 2px 8px rgba(51, 149, 255, 0.12) !important;
-}
-
-.river-case.selected {
-  background: #e0f2fe !important;
-  border-color: var(--oxblood) !important;
-  border-left: 4px solid var(--oxblood) !important;
-  box-shadow: 0 0 0 1px var(--oxblood) !important;
-  color: var(--ink) !important;
-}
-
-.river-case.reclaimed, .river-case.recovered { border-left-color: var(--forest) !important; }
-.river-case.handoff, .river-case.escalated { border-left-color: var(--gold) !important; }
-.river-case.silent, .river-case.ineligible { border-left-color: var(--ink-3) !important; }
-
-.river-case .col-signal {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.river-case .col-signal strong {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--ink) !important;
-}
-.river-case .col-case-id {
-  font: 10px var(--mono);
-  color: var(--ink-3) !important;
-}
-
-.river-case .col-diag {
-  font: 500 11.5px var(--mono);
-  color: var(--ink-2) !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.river-case .col-prop {
-  font: 500 11.5px var(--mono);
-  color: var(--ink-2) !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.river-case .col-policy {
-  font: 500 11px var(--mono);
-  color: var(--ink-3) !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.river-case .col-proof {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.stage-badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font: 600 9.5px var(--mono);
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.stage-badge.reclaimed, .stage-badge.recovered {
-  background: rgba(22, 163, 74, 0.12);
-  color: #16a34a;
-  border: 1px solid rgba(22, 163, 74, 0.25);
-}
-.stage-badge.handoff, .stage-badge.escalated {
-  background: rgba(217, 119, 6, 0.12);
-  color: #d97706;
-  border: 1px solid rgba(217, 119, 6, 0.25);
-}
-.stage-badge.silent, .stage-badge.ineligible {
-  background: rgba(107, 114, 128, 0.1);
-  color: #6b7280;
-  border: 1px solid rgba(107, 114, 128, 0.2);
-}
-.stage-badge.inflight {
-  background: rgba(51, 149, 255, 0.12);
-  color: #3395ff;
-  border: 1px solid rgba(51, 149, 255, 0.25);
-}
-
+.river-case:hover { background: var(--paper-2); color: var(--ink); }
+.river-case.selected { border-color: var(--ink); border-left-color: var(--oxblood); background: var(--paper-2); }
+.river-case.recovered { border-left-color: var(--forest); }
+.river-case.escalated, .river-case.stopped { border-left-color: var(--oxblood); }
 .river-footer {
-  display: flex; gap: 16px; padding-top: 11px; margin-top: 10px;
+  display: flex; gap: 16px; padding-top: 11px; margin-top: 6px;
   border-top: 1px solid var(--rule);
   font: 500 9.5px var(--mono); letter-spacing: .11em;
   text-transform: uppercase; color: var(--ink-3);
@@ -655,17 +545,9 @@ button:disabled { opacity: .4; cursor: default; }
 .console-state.mint { color: var(--forest); }
 .console-state.coral { color: var(--oxblood); }
 .console-reason {
-  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-  font-family: var(--serif); font-size: 16px; line-height: 1.3;
-  border-left: 3px solid var(--oxblood); padding-left: 14px; margin: 0;
+  font-family: var(--serif); font-size: 19px; line-height: 1.3;
+  border-left: 2px solid var(--oxblood); padding-left: 14px; margin: 0;
 }
-.console-reason span { font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
-.console-reason strong { font-weight: 600; color: var(--ink); }
-.console-reason small { font: 11px var(--mono); color: var(--ink-3); text-transform: uppercase; }
-
-.window-clock { display: flex; align-items: center; gap: 6px; }
-.window-clock small { margin-left: 4px; }
-.row-id { display: inline-block; margin-left: 6px; color: var(--ink-3); font-size: 11px; }
 .console-stat-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
   border: 1px solid var(--rule);
@@ -725,7 +607,7 @@ span.recovered, span.escalated, span.awaiting, span.inflight, span.done {
 .benchmark-card { border: 1px solid var(--ink); padding: 0; margin: 0 0 26px; }
 .benchmark-head {
   display: flex; justify-content: space-between; align-items: flex-end; gap: 20px;
-  padding: 16px 18px; border-bottom: 1px solid var(--rule);
+  padding: 16px 18px; border-bottom: 1px solid var(--ink);
 }
 .benchmark-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0;
@@ -742,15 +624,10 @@ span.recovered, span.escalated, span.awaiting, span.inflight, span.done {
 }
 .benchmark-empty { padding: 26px 18px; color: var(--ink-3); }
 
-.comparison-table { width: 100%; margin-top: 4px; padding: 12px 18px; }
-.comparison-row { display: grid; grid-template-columns: 190px 140px 100px 90px 90px; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--rule-soft); }
-.comparison-row:last-child { border-bottom: none; }
-.comparison-labels { font: 500 9.5px var(--mono); letter-spacing: .1em; color: var(--ink-3); border-bottom: 1px solid var(--rule); }
-.comparison-row strong { font-size: 13px; font-weight: 600; color: var(--ink); }
-.comparison-row span { font-family: var(--mono); font-size: 12px; }
-.comparison-row span.green { color: var(--forest); font-weight: 600; }
-.comparison-row span.red { color: var(--oxblood); font-weight: 600; }
-.comparison-row.muted strong { color: var(--ink-2); }
+.comparison-table { width: 100%; margin-top: 4px; }
+.comparison-row { display: grid; grid-template-columns: 130px 1fr 90px; gap: 12px; align-items: center; padding: 7px 0; }
+.comparison-row > span:first-child { font: 500 9.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.comparison-labels { display: flex; justify-content: space-between; font: 500 9px var(--mono); letter-spacing: .1em; color: var(--ink-3); }
 
 /* ============================== radar panel ============================== */
 /* Reworked from a glowing sweep into a small-multiple scatter plot. */
@@ -796,374 +673,29 @@ span.recovered, span.escalated, span.awaiting, span.inflight, span.done {
 .mission-next { padding: 20px; display: grid; align-content: start; gap: 8px; }
 .mission-next strong { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1; }
 
-/* ============================== drawer modal ============================== */
-
-.drawer-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(2, 4, 43, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 999;
-  display: flex;
-  justify-content: flex-end;
-  animation: drawerFadeIn .15s ease-out;
-}
-
-@keyframes drawerFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes drawerSlideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
+/* ============================== drawer =================================== */
 
 .drawer {
-  width: min(620px, 100vw) !important;
-  height: 100vh !important;
-  background: #ffffff !important;
-  box-shadow: -12px 0 40px rgba(2, 4, 43, 0.18) !important;
-  border-left: 1px solid var(--rule) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  z-index: 1000 !important;
-  animation: drawerSlideIn .22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: fixed; inset: 0 0 0 auto; width: min(560px, 100%);
+  border-left: 1px solid var(--ink); border-radius: 0;
+  background: var(--paper); box-shadow: -1px 0 0 var(--rule);
+  padding: 22px 26px; overflow-y: auto; z-index: 20;
 }
-
 .drawer-header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: flex-start !important;
-  gap: 16px !important;
-  padding: 20px 24px !important;
-  border-bottom: 1px solid var(--rule) !important;
-  background: #ffffff !important;
-  flex-shrink: 0 !important;
-  margin: 0 !important;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 16px; padding-bottom: 14px; margin-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
 }
-
-.drawer-header-title h2 {
-  font-size: 22px !important;
-  font-weight: 700 !important;
-  color: var(--ink) !important;
-  margin: 2px 0 4px !important;
-}
-
-.drawer-header-title h2 .dim-sub {
-  font-weight: 400;
-  color: var(--ink-3);
-  font-size: 16px;
-}
-
-.drawer-case-hash {
-  font-size: 11px;
-  color: var(--ink-3);
-}
-
-.drawer-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.drawer-close-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid var(--rule);
-  background: var(--paper-2);
-  color: var(--ink-2);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  transition: all .12s ease;
-  padding: 0 !important;
-}
-
-.drawer-close-btn:hover {
-  background: var(--paper-3) !important;
-  color: var(--ink) !important;
-  border-color: var(--ink-3) !important;
-}
-
-.drawer-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: var(--paper);
-}
-
-.drawer-card {
-  background: #ffffff;
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  padding: 16px 18px;
-  box-shadow: 0 1px 3px rgba(2, 4, 43, 0.04);
-}
-
-.drawer-card-head {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-bottom: 10px;
-}
-
-.drawer-card-head h3 {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink);
-  margin: 0;
-}
-
-.drawer-rationale {
-  font-size: 13px;
-  color: var(--ink);
-  line-height: 1.5;
-  margin: 0 0 12px;
-}
-
-.drawer-meta-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.meta-pill {
-  background: var(--paper-3);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 7px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.meta-pill-label {
-  font: 600 8.5px var(--mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.meta-pill-val {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.drawer-tags-group {
-  margin-top: 10px;
-}
-
-.tags-title {
-  font: 600 8.5px var(--mono);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 6px;
-}
-
-.meta-tags-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.meta-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: var(--paper-3);
-  border: 1px solid var(--rule);
-  font: 11px var(--mono);
-  color: var(--ink);
-}
-
-.meta-tag .tag-key {
-  color: var(--ink-3);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 9px;
-}
-
-.meta-tag .tag-val {
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.meta-tag.risk {
-  background: rgba(220, 38, 38, 0.08);
-  border-color: rgba(220, 38, 38, 0.2);
-  color: #dc2626;
-  font-weight: 500;
-}
-
-.meta-tag.alt {
-  background: rgba(51, 149, 255, 0.08);
-  border-color: rgba(51, 149, 255, 0.2);
-  color: #2b6fd6;
-  font-weight: 500;
-}
-
-.drawer-intervention-badge {
-  padding: 10px 14px;
-  background: rgba(51, 149, 255, 0.06);
-  border: 1px solid rgba(51, 149, 255, 0.2);
-  border-left: 3px solid var(--oxblood);
-  border-radius: 6px;
-  font-size: 13px;
-  margin-bottom: 12px;
-  color: var(--ink);
-}
-
-.drawer-intervention-badge strong {
-  font-weight: 600;
-  color: var(--oxblood);
-  text-transform: uppercase;
-  font-family: var(--mono);
-  font-size: 12px;
-}
-
-.drawer-proof-box.verified {
-  background: rgba(22, 163, 74, 0.06);
-  border: 1px solid rgba(22, 163, 74, 0.25);
-  border-left: 4px solid var(--forest);
-  border-radius: 8px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.drawer-proof-box.unverified {
-  background: var(--paper-3);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  padding: 14px 16px;
-}
-
-.proof-status-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.proof-icon {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #16a34a;
-  color: #ffffff;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.proof-icon.dim {
-  background: var(--rule);
-  color: var(--ink-3);
-}
-
-.proof-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(22, 163, 74, 0.15);
-}
-
-.proof-meta-grid span {
-  font: 600 8.5px var(--mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  display: block;
-}
-
-.proof-meta-grid strong {
-  font-size: 11.5px;
-  color: var(--ink);
-  word-break: break-all;
-}
-
-.drawer-attribution {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--rule-soft);
-  font-size: 11px;
-  color: var(--ink-3);
-}
-
-.drawer-loading, .drawer-error {
-  padding: 40px 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.drawer-spinner {
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--rule);
-  border-top-color: var(--oxblood);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-.decision-theatre {
-  display: grid; gap: 0; border: 1px solid var(--rule); margin: 14px 0;
-  border-radius: 6px; overflow: hidden; background: var(--paper-2);
-}
-.theatre-title {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 12px; background: var(--paper-3); border-bottom: 1px solid var(--rule);
-  font: 600 9.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3);
-}
-.theatre-title small { font-size: 9.5px; text-transform: lowercase; color: var(--ink-3); }
+.decision-theatre { display: grid; gap: 0; border: 1px solid var(--rule); margin: 14px 0; }
 .theatre-step {
-  padding: 8px 12px; border-bottom: 1px solid var(--rule-soft);
-  display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: center;
+  padding: 11px 14px; border-bottom: 1px solid var(--rule-soft);
+  display: grid; gap: 4px;
 }
 .theatre-step:last-child { border-bottom: 0; }
-.theatre-step i {
-  font-style: normal; font: 600 10px var(--mono); color: var(--ink-3);
-  width: 22px; height: 22px; border-radius: 50%; background: var(--paper-3);
-  display: grid; place-items: center;
-}
-.theatre-step .step-body {
-  display: flex; flex-direction: column; gap: 1px;
-}
-.theatre-step .step-body strong {
-  font-size: 12.5px; font-weight: 600; color: var(--ink);
-}
-.theatre-step .step-body span {
-  font: 11px var(--mono); color: var(--ink-2); text-transform: uppercase;
-}
-.theatre-step b {
-  font: 600 9.5px var(--mono); text-transform: uppercase; letter-spacing: .06em;
-  padding: 2px 7px; border-radius: 4px; background: var(--paper-3); color: var(--ink-3);
-}
-.theatre-step.done i { background: rgba(22, 163, 74, 0.15); color: var(--forest); }
-.theatre-step.done b { background: rgba(22, 163, 74, 0.12); color: var(--forest); }
-.theatre-step.active i { background: rgba(51, 149, 255, 0.15); color: var(--oxblood); }
-.theatre-step.active b { background: rgba(51, 149, 255, 0.12); color: var(--oxblood); }
+.theatre-title { font: 500 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.theatre-step.done .theatre-title { color: var(--forest); }
+.theatre-step.active { background: var(--paper-2); }
+.theatre-step.active .theatre-title { color: var(--oxblood); }
 .decision-meta { display: flex; flex-wrap: wrap; gap: 14px; font: 11px var(--mono); color: var(--ink-2); }
 
 /* ============================== responsive =============================== */
@@ -1186,242 +718,311 @@ span.recovered, span.escalated, span.awaiting, span.inflight, span.done {
   .river-grid, .river-labels { grid-template-columns: minmax(0, 1fr); }
   .command-nav { overflow-x: auto; }
 }
+</style><style>
+/* Option E - Razorpay Blade skin.
 
+   A skin layer, not a rewrite. styles.css supplies all structure through
+   var() tokens; this file only redefines those tokens plus the handful of
+   rules where Razorpay's product surface differs structurally from the
+   editorial base (navy sidebar, elevated cards, pill tags, radius).
 
-/* ============================================================================
-   NEW COMPONENT ADDITIONS (Skeletons, Error Boundary, Bar Charts, Timeline)
-   ============================================================================ */
+   Palette and type are taken from Razorpay's public brand and their Blade
+   design system:
+     #3395FF  Dodger Blue    primary action
+     #02042B  Black Rock     brand ink / dashboard sidebar
+     #f5f7fa  cool grey      app canvas
+     Inter                   body and headings
 
-/* ─── SKELETON LOADING ─── */
-@keyframes shimmer {
-  0% { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+   Inter is loaded from Google Fonts. If the network is unavailable it falls
+   back to the system sans stack, which renders heavier and slightly wider. */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Surfaces: white cards floating on a faint cool canvas. */
+  --paper: #f5f7fa;
+  --paper-2: #ffffff;
+  --paper-3: #eef2f7;
+
+  /* Ink: Razorpay's navy, not black. */
+  --ink: #02042b;
+  --ink-2: #4a5578;
+  --ink-3: #8792ad;
+
+  --rule: #dfe6f0;
+  --rule-soft: #edf1f7;
+
+  /* Accents. Blade uses one confident blue and keeps semantic colours quiet. */
+  --oxblood: #3395ff;
+  --indigo: #2b6fd6;
+  --forest: #16a34a;
+  --gold: #d97706;
+
+  --serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --rail: 64px;
 }
-.skeleton-card {
+
+body {
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings: Blade caps weight at 600. The editorial base goes to 800, which
+   reads as shouting on this surface. */
+h1, h2, h3, .deck-heading, .mission-intro-copy {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Navy dashboard sidebar with a blue active tile - the single most
+   recognisable element of the Razorpay dashboard. */
+.mission-rail {
+  background: var(--ink);
+  border-right: none;
+}
+.mission-logo {
+  background: var(--oxblood);
+  color: #fff;
   border-radius: 8px;
-  background: linear-gradient(90deg, var(--paper-3, rgba(255,255,255,.03)) 25%, var(--paper-2, rgba(255,255,255,.07)) 50%, var(--paper-3, rgba(255,255,255,.03)) 75%);
-  background-size: 800px 100%;
-  animation: shimmer 1.6s infinite;
+  font-weight: 600;
 }
-.skeleton-text {
-  height: 12px;
-  border-radius: 4px;
-  margin: 6px 0;
-  background: linear-gradient(90deg, var(--paper-3, rgba(255,255,255,.03)) 25%, var(--paper-2, rgba(255,255,255,.06)) 50%, var(--paper-3, rgba(255,255,255,.03)) 75%);
-  background-size: 800px 100%;
-  animation: shimmer 1.6s infinite;
-}
-.metrics-skeleton {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  margin: 0 0 30px;
-  border: 1px solid var(--rule, rgba(255,255,255,0.08));
+.rail-nav {
+  color: #6b7699;
   border-radius: 8px;
-  overflow: hidden;
-  background: var(--rule, rgba(255,255,255,0.08));
-}
-
-/* ─── ERROR BOUNDARY ─── */
-.error-boundary {
-  display: grid;
-  place-items: center;
-  min-height: 200px;
-  padding: 32px;
-  border: 1px solid rgba(239, 68, 68, .3);
-  border-radius: 8px;
-  background: rgba(239, 68, 68, .05);
-  text-align: center;
-}
-.eb-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
-  color: #ef4444;
-}
-.error-boundary h2 {
-  margin: 0 0 8px;
-  color: #ef4444;
-  font-size: 16px;
-}
-.error-boundary p {
-  max-width: 400px;
-  color: var(--ink-2, #6b7280);
-  font-size: 12px;
-}
-.error-boundary button {
-  margin-top: 16px;
-  border-color: rgba(239, 68, 68, .4);
-  color: #ef4444;
-}
-
-/* ─── METRIC ANIMATION ─── */
-.metric-animated {
-  display: block;
-  transition: color .3s ease;
-  font-variant-numeric: tabular-nums;
-}
-
-
-.proof-banner {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  padding: 10px 18px; border-bottom: 1px solid var(--rule);
-  background: #eff6ff; color: #1e4b8f; font-size: 12px;
-}
-.proof-banner strong {
-  font: 600 10px var(--mono); letter-spacing: .1em; text-transform: uppercase;
-  padding: 2px 8px; border-radius: 4px; background: rgba(51, 149, 255, 0.15); color: var(--oxblood);
-}
-.proof-banner span { flex: 1; color: var(--ink-2); font-size: 12px; }
-.proof-banner em { font-style: normal; font: 500 11px var(--mono); color: var(--ink-3); }
-
-/* ─── BENCHMARK BAR CHART ─── */
-.recovery-bar-chart {
-  margin: 18px 0 14px;
-  padding: 16px;
-  border: 1px solid var(--rule, rgba(255,255,255,.08));
-  border-radius: 8px;
-  background: var(--paper-2, rgba(5, 12, 22, .45));
-}
-.bar-chart-title {
-  margin-bottom: 14px;
-  color: var(--ink-3, #8792ad);
-  font: 10px var(--mono, 'DM Mono', monospace);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.bar-chart-row {
-  display: grid;
-  grid-template-columns: 140px 1fr 52px;
-  grid-template-rows: auto auto;
-  gap: 4px 10px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.bar-chart-row:last-child { margin-bottom: 0; }
-.bar-chart-label {
-  color: var(--ink-2, #4a5578);
-  font-size: 12px;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.bar-chart-track {
-  height: 8px;
-  border-radius: 99px;
-  background: var(--rule-soft, rgba(255,255,255,.06));
-  overflow: hidden;
+.rail-nav.active {
+  background: var(--oxblood);
+  color: #fff;
 }
-.bar-chart-fill {
-  height: 100%;
-  border-radius: 99px;
-  transition: width .7s cubic-bezier(.16,1,.3,1);
-}
-.bar-chart-value {
-  font: 12px var(--mono, 'DM Mono', monospace);
-  font-weight: 600;
-  text-align: right;
-  white-space: nowrap;
-}
-.bar-chart-meta {
-  grid-column: 2 / 4;
-  color: var(--ink-3, #8792ad);
-  font: 10px var(--mono, 'DM Mono', monospace);
-}
-.bc-safe { color: var(--forest, #16a34a); }
-.bc-risk { color: var(--oxblood, #dc2626); }
+.rail-spine, .rail-footer, .rail-live { color: #5a6486; }
 
-/* ─── BENCHMARK PARAM CONTROLS ─── */
-.benchmark-controls {
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.benchmark-param-row {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.benchmark-param-label {
-  color: var(--ink-3, #8792ad);
-  font: 10px var(--mono, 'DM Mono', monospace);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-.benchmark-param-input {
-  width: 72px;
-  padding: 6px 8px;
-  border: 1px solid var(--rule, rgba(255,255,255,.1));
-  border-radius: 6px;
-  background: var(--paper-2, #ffffff);
-  color: var(--ink, #02042b);
-  font: 12px var(--mono, 'DM Mono', monospace);
-  text-align: center;
-}
-.benchmark-param-input:focus {
-  outline: none;
-  border-color: var(--oxblood, #3395ff);
+/* Elevated cards: one soft shadow, never a stack of glows. */
+.agent-card,
+.benchmark-card,
+.agent-console,
+.radar-panel,
+.shadow-proof,
+.agent-telemetry,
+.revenue-pulse,
+.mission-cases,
+.agent-deck-bottom,
+.mission-rule,
+.mission-next,
+.ledger-table-wrap {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(2, 4, 43, 0.05);
 }
 
-/* ─── AUDIT TIMELINE IN DRAWER ─── */
-.audit-timeline {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  margin-top: 12px;
+/* Buttons: filled blue primary, quiet bordered secondary. */
+.primary-button, .primary-agent-action, .agent-run-button {
+  background: var(--oxblood);
+  color: #fff;
+  border: 1px solid var(--oxblood);
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
 }
-.audit-step {
-  display: flex;
-  gap: 12px;
-  position: relative;
-  padding-bottom: 18px;
+.primary-button:hover, .primary-agent-action:hover, .agent-run-button:hover {
+  background: #1f7fe6;
+  border-color: #1f7fe6;
 }
-.audit-step-line {
-  position: absolute;
-  left: 14px;
-  top: 28px;
-  bottom: 0;
-  width: 2px;
-  background: var(--rule, #eef2f7);
+.ghost-button {
+  background: var(--paper-2);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
 }
-.audit-actor-circle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font: 10px var(--mono, 'DM Mono', monospace);
-  font-weight: 700;
-  flex-shrink: 0;
-  z-index: 1;
+.ghost-button:hover { background: var(--paper-3); }
+
+/* Status chips as pills, which is how Blade renders every badge. */
+.live-pip, .agent-status, .console-state, .pulse-status, .rule-tags span {
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-weight: 500;
 }
-.audit-actor-circle.tone-mint { background: rgba(22, 163, 74, .12); color: #16a34a; border: 1px solid rgba(22, 163, 74, .25); }
-.audit-actor-circle.tone-blue { background: rgba(51, 149, 255, .12); color: #3395ff; border: 1px solid rgba(51, 149, 255, .25); }
-.audit-actor-circle.tone-amber { background: rgba(217, 119, 6, .12); color: #d97706; border: 1px solid rgba(217, 119, 6, .25); }
-.audit-actor-circle.tone-violet { background: rgba(147, 51, 234, .12); color: #9333ea; border: 1px solid rgba(147, 51, 234, .25); }
-.audit-actor-circle.tone-coral { background: rgba(220, 38, 38, .12); color: #dc2626; border: 1px solid rgba(220, 38, 38, .25); }
-.audit-step-body {
-  flex: 1;
-  min-width: 0;
+
+/* Lead metric filled in brand blue. */
+.pulse-stat.lead {
+  background: var(--oxblood);
+  color: #fff;
+  border-radius: 8px 0 0 8px;
 }
-.audit-step-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+.pulse-stat.lead .metric-label,
+.pulse-stat.lead small { color: rgba(255, 255, 255, 0.82); }
+
+/* Provenance banner uses Blade's blue-tinted information surface. */
+.provenance {
+  background: #eff6ff;
+  border: 1px solid #cfe4ff;
+  border-left: 3px solid var(--oxblood);
+  border-radius: 8px;
+  color: #1e4b8f;
 }
-.audit-action {
-  font-size: 11px;
+
+/* Active tab marked by a blue underline rather than a heavy rule. */
+.command-tab.active {
+  color: var(--ink);
+  border-bottom: 2px solid var(--oxblood);
   font-weight: 600;
 }
-.audit-time {
-  font-size: 10px;
-  color: var(--ink-3, #8792ad);
-}
-.audit-step-detail {
-  font-size: 11px;
-  color: var(--ink-2, #4a5578);
-  margin-top: 4px;
-}
+
+.agent-index { background: var(--oxblood); color: #fff; border-radius: 6px; }
+.progress-fill { background: var(--oxblood); }
+.river-case { border-radius: 6px; }
+
+</style>
+</head><body>
+<div class="mission-shell">
+<aside class="mission-rail">
+  <button class="mission-logo">R</button>
+  <div class="rail-spine"></div>
+  <button class="rail-nav active"><span>01</span></button>
+  <button class="rail-nav"><span>02</span></button>
+  <button class="rail-nav"><span>03</span></button>
+  <div class="rail-footer"><span class="rail-live"></span><small>LOCAL<br>MOCK</small></div>
+</aside>
+<main class="mission-app">
+  <header class="mission-topbar">
+    <div class="brand-lockup">
+      <div class="micro-label"><span class="live-pip"></span> RECOVEROS / MERCHANT COMMAND CENTER</div>
+      <h1>Recover<span>OS</span></h1>
+      <p>The recovery layer between a failed payment and a verified comeback.</p>
+    </div>
+    <div class="operator-lockup">
+      <div class="operator-line"><span>OPERATOR</span><strong>GUARDED MODE</strong></div>
+      <div class="operator-actions"><button class="ghost-button">Sync field</button><button class="primary-button">Start recovery run</button></div>
+    </div>
+  </header>
+  <div class="command-nav">
+    <div class="command-tabs">
+      <button class="command-tab active"><span>01</span>Mission control</button>
+      <button class="command-tab"><span>02</span>Proof lab</button>
+      <button class="command-tab"><span>03</span>Case ledger</button>
+    </div>
+    <div class="command-meta">POLICY v1 <span>&bull;</span> MOCK RAZORPAY <span>&bull;</span> SIGNED WEBHOOKS</div>
+  </div>
+  <div class="provenance synthetic">DATA PROVENANCE / SYNTHETIC BENCHMARK &mdash; SEED 42 &mdash; 2,000 EVENTS &mdash; NO LIVE MERCHANT DATA</div>
+  <section class="revenue-pulse">
+    <div class="pulse-stat lead"><span>RECOVERY PULSE</span><strong>&#8377;39,38,301</strong><small>verified capture-backed revenue</small></div>
+    <div class="pulse-stat"><span>FLOATING VALUE</span><strong>&#8377;57,25,412</strong><small>2,000 signals in this batch</small></div>
+    <div class="pulse-stat"><span>FIELD CONVERSION</span><strong>68.79%</strong><small>capture-backed recovery rate</small></div>
+    <div class="pulse-stat pulse-status"><span>CONTROL STATUS</span><strong><i></i> NOMINAL</strong><small>0 policy violations observed</small></div>
+  </section>
+  <div class="mission-intro">
+    <div>
+      <div class="micro-label">BATCH 07 / LIVE RECOVERY WINDOW</div>
+      <h2>Keep the good money <em>moving.</em></h2>
+    </div>
+    <div class="mission-intro-copy">A case is not a row. It is a journey with a cost, a consent boundary, and a proof state.</div>
+  </div>
+  <section class="agent-command-deck">
+    <div class="deck-heading">
+      <div>
+        <div class="micro-label">AI &amp; AGENTIC CONTROL PLANE / MODEL ACTIVE</div>
+        <h2>Four minds. One bounded loop.</h2>
+        <p>These are the agents actually moving the case&mdash;not a chat window pretending to be an operator.</p>
+      </div>
+      <div class="deck-actions"><button class="agent-run-button">Run shadow audit</button><button class="agent-run-button primary-agent-action">Run autonomous loop</button></div>
+    </div>
+    <div class="agent-fleet-grid">
+      <button class="agent-card blue"><div class="agent-card-top"><span class="agent-index">01</span><span class="agent-status"><i></i> watching</span></div><strong>REVENUE_SENTINEL</strong><p>Detects drift before it becomes a missed invoice.</p><div class="agent-card-foot"><span>signals in field</span><b>2000</b></div></button>
+      <button class="agent-card violet"><div class="agent-card-top"><span class="agent-index">02</span><span class="agent-status"><i></i> model active</span></div><strong>DIAGNOSIS_AGENT</strong><p>Turns payment failure into a calibrated hypothesis.</p><div class="agent-card-foot"><span>hypotheses sealed</span><b>1950</b></div></button>
+      <button class="agent-card amber"><div class="agent-card-top"><span class="agent-index">03</span><span class="agent-status"><i></i> model active</span></div><strong>STRATEGIST_AGENT</strong><p>Chooses the smallest useful recovery intervention.</p><div class="agent-card-foot"><span>bounded proposals</span><b>1950</b></div></button>
+      <button class="agent-card mint"><div class="agent-card-top"><span class="agent-index">04</span><span class="agent-status"><i></i> sealed</span></div><strong>OUTCOME_VERIFIER</strong><p>Refuses to call it recovered without provider proof.</p><div class="agent-card-foot"><span>captures verified</span><b>1376</b></div></button>
+    </div>
+    <div class="agent-telemetry">
+      <span><b>80</b> learned segments</span>
+      <span><b>3054</b> verified observations</span>
+      <span><b>22.6%</b> exploration</span>
+      <span><b>3054</b> memory records</span>
+      <span><b>1264</b> model narrations</span>
+      <span class="telemetry-alert"><b>81</b> guardrail blocks</span>
+    </div>
+    <div class="shadow-proof">
+      <div><span class="micro-label">MODEL SHADOW AUDIT / PAIRED RUN</span><strong>16.0% <small>model influence</small></strong></div>
+      <span><b>775</b> paired decisions</span>
+      <span><b>84.0%</b> agreement</span>
+      <span><b>100.0%</b> injected faults caught</span>
+      <span><b>3.7%</b> parse failure</span>
+    </div>
+    <div class="agent-deck-bottom">
+      <div class="agent-progress">
+        <div class="progress-head"><span>AGENTIC EXECUTION TRACE</span><strong>LAST VERIFIED RUN</strong></div>
+        <div class="agent-progress-line"><span class="progress-fill" style="width:68.8%"></span></div>
+        <div class="progress-steps"><span class="done">detect</span><span class="done">diagnose</span><span class="done">propose</span><span class="done">authorize</span><span class="done">verify</span></div>
+      </div>
+      <div class="agent-feed">
+        <div class="feed-head"><span>LIVE AGENT BROADCAST</span><small>derived from audit events</small></div>
+        <button><i class="mint"></i><span><b>OUTCOME_VERIFIER</b> sealed capture proof</span><em>&#8377;12,480</em></button>
+        <button><i class="blue"></i><span><b>REVENUE_SENTINEL</b> flagged insufficient funds drift</span><em>&#8377;8,150</em></button>
+        <button><i class="coral"></i><span><b>STRATEGIST_AGENT</b> selected human handoff at ceiling</span><em>&#8377;62,300</em></button>
+        <button><i class="mint"></i><span><b>OUTCOME_VERIFIER</b> sealed capture proof</span><em>&#8377;4,990</em></button>
+        <button><i class="blue"></i><span><b>DIAGNOSIS_AGENT</b> stopped on consent boundary</span><em>&#8377;1,20,000</em></button>
+      </div>
+    </div>
+  </section>
+  <section class="mission-layout">
+    <div class="mission-cases">
+      <div class="mission-heading"><div><div class="micro-label">CASE RIVER / STATE MACHINE</div><h3>Where every rupee currently sits</h3></div><span class="window-clock"><span class="clock-dot"></span> WINDOW 07</span></div>
+      <div class="river-stage">
+        <div class="river-labels"><span>Detected</span><span>Diagnosed</span><span>Authorized</span><span>Awaiting proof</span><span>Verified</span></div>
+        <div class="river-grid">
+          <div class="river-node"><button class="river-case">evt_8814 &#8377;8,150</button><button class="river-case">evt_8817 &#8377;2,300</button></div>
+          <div class="river-node"><button class="river-case">evt_8802 &#8377;14,900</button></div>
+          <div class="river-node"><button class="river-case selected">evt_8791 &#8377;62,300</button><button class="river-case">evt_8788 &#8377;5,400</button></div>
+          <div class="river-node"><button class="river-case">evt_8776 &#8377;9,880</button></div>
+          <div class="river-node"><button class="river-case recovered">evt_8760 &#8377;12,480</button><button class="river-case recovered">evt_8751 &#8377;4,990</button></div>
+        </div>
+        <div class="river-footer"><span>2000 cases</span><span>1376 verified</span><span>2528 contacts</span><span>0 violations</span></div>
+      </div>
+    </div>
+    <div class="agent-console">
+      <div class="console-top"><div><div class="micro-label">DECISION CONSOLE / EVT_8791</div><h3>Attempt ceiling reached</h3></div><span class="console-state coral">ESCALATED</span></div>
+      <p class="console-reason">Third attempt on a card decline with two prior contacts. Expected value no longer clears the contact cost, so the case goes to a human rather than being chased.</p>
+      <div class="console-stat-grid">
+        <div><span>REVENUE AT RISK</span><strong>&#8377;62,300</strong></div>
+        <div><span>RECOVERY P</span><strong>0.19</strong></div>
+        <div><span>CHOSEN ARM</span><strong>STOP</strong></div>
+        <div><span>DISCOUNT</span><strong>0%</strong></div>
+      </div>
+      <div><div class="micro-label voice-label">EVIDENCE CITED</div><ul class="evidence-list"><li>attempt 3 of 3 &mdash; policy ceiling</li><li>2 prior contacts in window</li><li>segment CARD_DECLINED|a2 &mdash; 41 observations</li></ul></div>
+      <div class="console-bottom"><button class="console-inspect">Inspect full audit trail</button></div>
+    </div>
+  </section>
+  <div class="benchmark-card">
+    <div class="benchmark-head"><div><div class="micro-label">PROOF LAB / SIX-ARM BENCHMARK</div><h3>Learning agent vs static rulebook</h3></div><span class="micro-label">SEED 42 &bull; 2,000 EVENTS</span></div>
+    <div class="benchmark-grid">
+      <div class="benchmark-stat"><span>OPTIMAL ACT &mdash; LEARNED</span><strong>81.0%</strong></div>
+      <div class="benchmark-stat"><span>OPTIMAL ACT &mdash; RULES</span><strong>65.8%</strong></div>
+      <div class="benchmark-stat"><span>REGRET &mdash; LEARNED</span><strong>&#8377;3,72,369</strong></div>
+      <div class="benchmark-stat"><span>REGRET &mdash; RULES</span><strong>&#8377;4,26,789</strong></div>
+      <div class="benchmark-stat"><span>CONTACTS SAVED</span><strong>227</strong></div>
+      <div class="benchmark-stat"><span>VIOLATIONS</span><strong>0</strong></div>
+    </div>
+    <div class="benchmark-footnote">The learning agent reaches 94.5% of attainable value while choosing the optimal action on 15.2 more points of cases and contacting 227 fewer customers. Revenue is a near-tie; decision quality is not.</div>
+  </div>
+  <section class="mission-bottom-grid">
+    <div class="mission-rule">
+      <span class="micro-label">SYSTEM PROMISE</span>
+      <h3>Never spend trust to chase a rupee.</h3>
+      <p>RecoverOS may leave money unrecovered. It will not contact an opted-out customer, exceed a retry ceiling, or claim recovery before a signed capture event.</p>
+      <div class="rule-tags"><span>consent-first</span><span>paise-safe</span><span>audit-complete</span></div>
+    </div>
+    <div class="mission-next">
+      <span class="micro-label">NEXT OBSERVATION</span>
+      <strong>&#8377;62,300</strong>
+      <small class="dim">evt_8791 awaiting human review</small>
+    </div>
+  </section>
+</main>
+</div>
+</body></html>

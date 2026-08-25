@@ -65,6 +65,9 @@ class Settings:
     payment_provider: str = field(
         default_factory=lambda: os.getenv("PAYMENT_PROVIDER", "mock")
     )
+    bandit_state_path: str = field(
+        default_factory=lambda: os.getenv("BANDIT_STATE_PATH", "bandit_state.db")
+    )
     # Guarded local-only affordance for replaying webhooks without a tunnel.
     enable_local_webhook_replay: bool = field(
         default_factory=lambda: _bool("ENABLE_LOCAL_WEBHOOK_REPLAY", False)

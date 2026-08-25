@@ -1,0 +1,60 @@
+/* ===========================================================================
+   OPTION B - "Trading terminal"
+   Phosphor on black, monospace throughout, 1px grid, zero radius, zero glow.
+   Reads as a Bloomberg/Reuters desk, not an AI dashboard: the darkness is flat
+   black rather than navy, the accent is amber rather than cyan, and hierarchy
+   comes from density and rule-work instead of gradients.
+   ======================================================================== */
+:root {
+  --paper:#08090a; --paper-2:#101214; --paper-3:#171a1d;
+  --ink:#e8e6e1; --ink-2:#a8a49c; --ink-3:#6d6862;
+  --rule:#2a2e33; --rule-soft:#1d2124;
+  --oxblood:#ff9d2e; --forest:#3ddc84; --gold:#ffd166; --indigo:#5aa9ff;
+  --serif: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+body { font-size:12.5px; letter-spacing:.01em; }
+h1,h2,h3 { font-family:var(--sans); letter-spacing:-.01em; }
+.mission-app { padding-left:clamp(14px,2vw,28px); padding-right:clamp(14px,2vw,28px); }
+.mission-topbar { border-bottom:1px solid var(--oxblood); padding:16px 0 10px; }
+.brand-lockup h1 { font-size:clamp(22px,2.4vw,30px); letter-spacing:.02em; text-transform:uppercase; }
+.brand-lockup h1 span { color:var(--oxblood); }
+.operator-line strong { background:var(--oxblood); color:#08090a; }
+.mission-rail { border-right:1px solid var(--rule); }
+.mission-logo { background:var(--oxblood); border-color:var(--oxblood); color:#08090a; }
+.rail-nav.active { background:var(--oxblood); border-color:var(--oxblood); color:#08090a; }
+/* Every panel edge is a hairline on black; nothing floats. */
+.revenue-pulse, .metrics, .agent-telemetry, .shadow-proof, .agent-fleet-grid,
+.mission-layout, .agent-deck-bottom, .mission-bottom-grid, .benchmark-card,
+.console-stat-grid, .intro-grid div { border-color:var(--rule); }
+.pulse-stat, .metric, .agent-card { background:var(--paper); border-right-color:var(--rule); }
+.pulse-stat.lead, .metric.accent { background:var(--paper-3); border-right-color:var(--rule); }
+.pulse-stat.lead strong { color:var(--oxblood); }
+.pulse-stat.lead span, .pulse-stat.lead small { color:var(--ink-3); }
+.pulse-stat strong, .metric-value { font-size:clamp(20px,2.2vw,27px); letter-spacing:0; }
+.agent-card:hover { background:var(--paper-2); }
+.agent-index { background:var(--oxblood); color:#08090a; }
+.agent-card strong { color:var(--oxblood); }
+.shadow-proof { background:var(--paper-2); border-color:var(--oxblood); }
+.provenance { background:var(--paper-2); border-color:var(--rule); border-left-color:var(--indigo); }
+.command-tab.active { border-bottom-color:var(--oxblood); }
+.command-tab.active span { color:var(--oxblood); }
+.mission-intro h2 { font-size:clamp(22px,2.8vw,34px); text-transform:uppercase; letter-spacing:0; }
+.mission-intro h2 em { color:var(--oxblood); font-style:normal; }
+.console-reason { border-left-color:var(--oxblood); font-size:14px; }
+.river-case { background:var(--paper-2); border-color:var(--rule); }
+.river-case:hover, .river-case.selected { background:var(--paper-3); }
+.progress-fill { background:var(--oxblood); }
+.agent-progress-line { background:var(--paper-3); border-color:var(--rule); }
+.primary-button, .primary-agent-action { background:var(--oxblood); border-color:var(--oxblood); color:#08090a; }
+button:hover:not(:disabled) { background:var(--oxblood); border-color:var(--oxblood); color:#08090a; }
+.text-button, .text-action, .console-inspect { color:var(--oxblood); }
+.mission-rule h3, .deck-heading h3 { color:var(--ink); }
+.rule-tags span { border-color:var(--rule); color:var(--ink-2); }
+.mission-next strong { color:var(--oxblood); }
+.benchmark-card { border-color:var(--oxblood); }
+.benchmark-head { border-bottom-color:var(--oxblood); }
+.radar-stage { background:var(--paper); border-color:var(--rule); }
+.radar-axis.axis-x, .radar-axis.axis-y { background:var(--rule); }
+tbody tr:hover { background:var(--paper-2); }
+thead th { border-bottom-color:var(--oxblood); }

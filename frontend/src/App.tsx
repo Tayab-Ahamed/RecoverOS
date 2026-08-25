@@ -5,9 +5,13 @@ import { AgentFleet } from "./components/AgentFleet"
 import { ApprovalQueue } from "./components/ApprovalQueue"
 import { BenchmarkCard } from "./components/BenchmarkCard"
 import { CaseDetail } from "./components/CaseDetail"
+import { ErrorBoundary } from "./components/ErrorBoundary"
+import { MetricsSkeleton } from "./components/LoadingSkeleton"
 import { MissionCanvas } from "./components/MissionCanvas"
 import { ProvenanceBanner } from "./components/ProvenanceBanner"
+import { RevenuePulse } from "./components/RevenuePulse"
 import { StateBadge } from "./components/StateBadge"
+import { useLiveStream } from "./hooks/useLiveStream"
 import type { AgentState, BenchmarkReport, Case, Metrics, ShadowReport } from "./types"
 
 type View = "mission" | "proof" | "ledger"
@@ -24,6 +28,11 @@ export function App() {
   const [busy, setBusy] = useState(false)
   const [benchmarkBusy, setBenchmarkBusy] = useState(false)
   const [shadowBusy, setShadowBusy] = useState(false)
+  // Configurable benchmark parameters
+  const [benchmarkEvents, setBenchmarkEvents] = useState(200)
+  const [benchmarkSeed, setBenchmarkSeed] = useState(42)
+  // SSE stream enabled only when there's live data to update
+  const [streamEnabled, setStreamEnabled] = useState(false)
 
   const refresh = useCallback(async () => {
     try {
@@ -37,9 +46,23 @@ export function App() {
 
   useEffect(() => { refresh() }, [refresh])
 
+  // SSE live feed: merge state updates into the cases list
+  useLiveStream((event) => {
+    if (event.type === "case_updated" && event.cases) {
+      setCases(prev => prev.map(c => {
+        const update = event.cases!.find(u => u.id === c.id)
+        if (!update) return c
+        return { ...c, state: update.state }
+      }))
+    } else if (event.type === "batch_complete") {
+      // Full refresh on batch completion
+      refresh()
+    }
+  }, streamEnabled)
+
   const runBenchmark = async () => {
     setBenchmarkBusy(true)
-    try { setBenchmark(await api.benchmark(200, 42)); setError(null) }
+    try { setBenchmark(await api.benchmark(benchmarkEvents, benchmarkSeed)); setError(null) }
     catch (e) { setError((e as Error).message) }
     finally { setBenchmarkBusy(false) }
   }
@@ -53,6 +76,7 @@ export function App() {
 
   const runDemo = async () => {
     setBusy(true)
+    setStreamEnabled(true)
     try {
       await api.reset(); await api.seed()
       for (let cycle = 0; cycle < 4; cycle += 1) {
@@ -64,11 +88,11 @@ export function App() {
       }
       await refresh(); await runBenchmark()
     } catch (e) { setError((e as Error).message) }
-    finally { setBusy(false) }
+    finally { setBusy(false); setStreamEnabled(false) }
   }
 
+  const [inspectCaseId, setInspectCaseId] = useState<string | null>(null)
   const selectedCase = useMemo(() => cases.find((item) => item.id === selected) ?? cases[0] ?? null, [cases, selected])
-  const drawerCase = selected ? cases.find((item) => item.id === selected) ?? null : null
   const nextSignal = cases.find((item) => item.state === "AWAITING_PAYMENT") ?? cases.find((item) => item.state === "AWAITING_APPROVAL") ?? cases.find((item) => item.state === "ESCALATED")
 
   const openCase = (id: string) => setSelected(id)
@@ -93,22 +117,53 @@ export function App() {
       {metrics && <ProvenanceBanner provenance={metrics.data_provenance} />}
       {error && <div className="command-error">{error}</div>}
       {!metrics && !error && <section className="launch-screen"><div className="launch-orbit" /><div className="micro-label">RECOVEROS / INITIALIZING MISSION CONTROL</div><h2>Revenue does not disappear.<br /><em>It drifts.</em></h2><p>RecoverOS tracks the drift, chooses the smallest useful intervention, and counts the comeback only when the payment provider proves it.</p><button className="primary-button" disabled={busy} onClick={runDemo}>{busy ? "Initializing…" : "Initialize the field →"}</button><div className="launch-doctrine"><span>AI proposes</span><i>→</i><span>Policy decides</span><i>→</i><span>Money proves</span></div></section>}
+      {!metrics && !error && <MetricsSkeleton />}
 
-      {metrics && <section className="revenue-pulse"><div className="pulse-stat lead"><span>RECOVERY PULSE</span><strong>{metrics.recovered_revenue.display}</strong><small>verified revenue returned to orbit</small></div><div className="pulse-stat"><span>FLOATING VALUE</span><strong>{metrics.revenue_at_risk.display}</strong><small>{metrics.cases} signals in this batch</small></div><div className="pulse-stat"><span>FIELD CONVERSION</span><strong>{(metrics.recovery_rate * 100).toFixed(1)}%</strong><small>capture-backed recovery rate</small></div><div className="pulse-stat pulse-status"><span>CONTROL STATUS</span><strong><i /> NOMINAL</strong><small>0 policy violations observed</small></div></section>}
+      <ErrorBoundary>
+        {metrics && <RevenuePulse metrics={metrics} />}
+      </ErrorBoundary>
 
       {metrics && view === "mission" && <>
         <div className="mission-intro"><div><div className="micro-label">BATCH 07 / LIVE RECOVERY WINDOW</div><h2>Keep the good money moving.</h2></div><div className="mission-intro-copy">A case is not a row. It is a journey with a cost, a consent boundary, and a proof state.</div></div>
-        <AgentFleet cases={cases} metrics={metrics} running={busy} onRun={runDemo} onFocus={openCase} agentState={agentState} shadowRunning={shadowBusy} onShadowEval={runShadowEval} shadowReport={shadowReport} />
-        <section className="mission-layout"><MissionCanvas cases={cases} selectedId={selectedCase?.id ?? null} onSelect={openCase} /><AgentConsole selected={selectedCase} onInspect={() => selectedCase && setSelected(selectedCase.id)} /></section>
+        <ErrorBoundary>
+          <AgentFleet cases={cases} metrics={metrics} running={busy} onRun={runDemo} onFocus={openCase} agentState={agentState} shadowRunning={shadowBusy} onShadowEval={runShadowEval} shadowReport={shadowReport} />
+        </ErrorBoundary>
+        <section className="mission-layout">
+          <ErrorBoundary><MissionCanvas cases={cases} selectedId={selectedCase?.id ?? null} onSelect={openCase} /></ErrorBoundary>
+          <ErrorBoundary><AgentConsole selected={selectedCase} onInspect={() => selectedCase && setInspectCaseId(selectedCase.id)} /></ErrorBoundary>
+        </section>
         <section className="mission-bottom-grid"><div className="mission-rule"><span className="micro-label">SYSTEM PROMISE</span><h3>Never spend trust to chase a rupee.</h3><p>RecoverOS may leave money unrecovered. It will not contact an opted-out customer, exceed a retry ceiling, or claim recovery before a signed capture event.</p><div className="rule-tags"><span>consent-first</span><span>paise-safe</span><span>audit-complete</span></div></div><div className="mission-next"><span className="micro-label">NEXT OBSERVATION</span><strong>{nextSignal ? nextSignal.revenue_at_risk.display : "FIELD CLEAR"}</strong><p>{nextSignal ? `${nextSignal.state.replaceAll("_", " ")} / ${nextSignal.event.reason.replaceAll("_", " ")}` : "All current signals have reached a terminal state."}</p><button className="text-action" onClick={() => nextSignal && setSelected(nextSignal.id)}>Focus signal ↗</button></div></section>
       </>}
 
-      {metrics && view === "proof" && <><section className="proof-hero"><div className="micro-label">PROOF LAB / CONTROLLED EXPERIMENT</div><h2>Can the agent recover more<br /><em>without becoming reckless?</em></h2><p>The same labelled cases. The same policy gate. The only variable is how the intervention is proposed.</p></section><BenchmarkCard report={benchmark} loading={benchmarkBusy} onRun={runBenchmark} /></>}
+      {metrics && view === "proof" && <>
+        <section className="proof-hero">
+          <div>
+            <div className="micro-label">PROOF LAB / CONTROLLED EXPERIMENT</div>
+            <h2>Can the agent recover more<br /><em>without becoming reckless?</em></h2>
+          </div>
+          <p>The same labelled cases. The same policy gate. The only variable is how the intervention is proposed.</p>
+        </section>
+        <ErrorBoundary>
+          <BenchmarkCard
+            report={benchmark}
+            loading={benchmarkBusy}
+            onRun={runBenchmark}
+            events={benchmarkEvents}
+            seed={benchmarkSeed}
+            onEventsChange={setBenchmarkEvents}
+            onSeedChange={setBenchmarkSeed}
+          />
+        </ErrorBoundary>
+      </>}
 
-      {metrics && view === "ledger" && <><section className="ledger-hero"><div><div className="micro-label">CASE LEDGER / AUDIT SURFACE</div><h2>Every decision leaves a trace.</h2></div><p>Searchable recovery history for operators, reviewers, and the person who will ask “why did we contact them?”</p></section><ApprovalQueue onChange={refresh} /><div className="ledger-table-wrap"><table className="cases mission-cases"><thead><tr><th>Signal</th><th>Recovered</th><th>State</th><th>Cause</th><th>Attempts</th><th>Contacts</th><th /></tr></thead><tbody>{cases.map((c) => <tr key={c.id} className={selectedCase?.id === c.id ? "row-selected" : ""} onClick={() => openCase(c.id)}><td><strong>{c.revenue_at_risk.display}</strong><small className="row-id">{c.id.slice(-8)}</small></td><td className={c.recovered_amount ? "green" : "dim"}>{c.recovered_amount?.display ?? "—"}</td><td><StateBadge state={c.state} /></td><td className="mono dim">{c.event.reason}</td><td>{c.attempts}</td><td>{c.contacts_made}</td><td><button onClick={(event) => { event.stopPropagation(); openCase(c.id) }}>Inspect</button></td></tr>)}</tbody></table></div></>}
+      {metrics && view === "ledger" && <>
+        <section className="ledger-hero"><div><div className="micro-label">CASE LEDGER / AUDIT SURFACE</div><h2>Every decision leaves a trace.</h2></div><p>Searchable recovery history for operators, reviewers, and the person who will ask "why did we contact them?"</p></section>
+        <ApprovalQueue onChange={refresh} />
+        <div className="ledger-table-wrap"><table className="cases mission-cases"><thead><tr><th>Signal</th><th>Recovered</th><th>State</th><th>Cause</th><th>Attempts</th><th>Contacts</th><th /></tr></thead><tbody>{cases.map((c) => <tr key={c.id} className={selectedCase?.id === c.id ? "row-selected" : ""} onClick={() => setInspectCaseId(c.id)}><td><strong>{c.revenue_at_risk.display}</strong> <small className="row-id">({c.id.slice(-8)})</small></td><td className={c.recovered_amount ? "green" : "dim"}>{c.recovered_amount?.display ?? "—"}</td><td><StateBadge state={c.state} /></td><td className="mono dim">{c.event.reason}</td><td>{c.attempts}</td><td>{c.contacts_made}</td><td><button onClick={(event) => { event.stopPropagation(); setInspectCaseId(c.id) }}>Inspect</button></td></tr>)}</tbody></table></div>
+      </>}
 
       {metrics && view !== "ledger" && <section className="ledger-preview"><div><div className="micro-label">AUDIT SURFACE</div><h3>Need the paper trail?</h3><p>Open the Case Ledger to inspect every transition, actor, policy decision, and provider event.</p></div><button className="text-action" onClick={() => setView("ledger")}>Open case ledger ↗</button></section>}
-      {drawerCase && <CaseDetail caseId={drawerCase.id} onClose={() => setSelected(null)} />}
+      {inspectCaseId && <ErrorBoundary><CaseDetail caseId={inspectCaseId} onClose={() => setInspectCaseId(null)} /></ErrorBoundary>}
     </main>
   </div>
 }

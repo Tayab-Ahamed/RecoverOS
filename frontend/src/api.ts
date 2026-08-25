@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_BASE ?? "http://localhost:8000"
+const BASE = import.meta.env.VITE_API_BASE ?? ""
 const V1 = `${BASE}/api/v1`
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {

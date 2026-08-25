@@ -1,0 +1,182 @@
+/* Option E - Razorpay Blade skin.
+
+   A skin layer, not a rewrite. styles.css supplies all structure through
+   var() tokens; this file only redefines those tokens plus the handful of
+   rules where Razorpay's product surface differs structurally from the
+   editorial base (navy sidebar, elevated cards, pill tags, radius).
+
+   Palette and type are taken from Razorpay's public brand and their Blade
+   design system:
+     #3395FF  Dodger Blue    primary action
+     #02042B  Black Rock     brand ink / dashboard sidebar
+     #f5f7fa  cool grey      app canvas
+     Inter                   body and headings
+
+   Inter is loaded from Google Fonts. If the network is unavailable it falls
+   back to the system sans stack, which renders heavier and slightly wider. */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Surfaces: white cards floating on a faint cool canvas. */
+  --paper: #f5f7fa;
+  --paper-2: #ffffff;
+  --paper-3: #eef2f7;
+
+  /* Ink: Razorpay's navy, not black. */
+  --ink: #02042b;
+  --ink-2: #4a5578;
+  --ink-3: #8792ad;
+
+  --rule: #dfe6f0;
+  --rule-soft: #edf1f7;
+
+  /* Accents. Blade uses one confident blue and keeps semantic colours quiet. */
+  --oxblood: #3395ff;
+  --indigo: #2b6fd6;
+  --forest: #16a34a;
+  --gold: #d97706;
+
+  --serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --rail: 64px;
+}
+
+body {
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings: Blade caps weight at 600. The editorial base goes to 800, which
+   reads as shouting on this surface. */
+h1, h2, h3, .deck-heading, .mission-intro-copy {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Navy dashboard sidebar with a blue active tile - the single most
+   recognisable element of the Razorpay dashboard. */
+.mission-rail {
+  background: var(--ink);
+  border-right: none;
+}
+.mission-logo {
+  background: var(--oxblood);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.rail-nav {
+  color: #6b7699;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.rail-nav.active {
+  background: var(--oxblood);
+  color: #fff;
+}
+.rail-spine, .rail-footer, .rail-live { color: #5a6486; }
+
+/* Elevated cards: one soft shadow, never a stack of glows. */
+.agent-card,
+.benchmark-card,
+.agent-console,
+.radar-panel,
+.shadow-proof,
+.agent-telemetry,
+.revenue-pulse,
+.mission-cases,
+.agent-deck-bottom,
+.mission-rule,
+.mission-next,
+.ledger-table-wrap {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(2, 4, 43, 0.05);
+}
+
+/* Buttons: filled blue primary, quiet bordered secondary. */
+.primary-button, .primary-agent-action, .agent-run-button {
+  background: var(--oxblood);
+  color: #fff;
+  border: 1px solid var(--oxblood);
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.primary-button:hover, .primary-agent-action:hover, .agent-run-button:hover {
+  background: #1f7fe6;
+  border-color: #1f7fe6;
+}
+.ghost-button {
+  background: var(--paper-2);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.ghost-button:hover { background: var(--paper-3); }
+
+/* Status chips as pills, which is how Blade renders every badge. */
+.live-pip, .agent-status, .console-state, .pulse-status, .rule-tags span {
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-weight: 500;
+}
+
+/* Lead metric filled in brand blue. */
+.pulse-stat.lead {
+  background: var(--oxblood);
+  color: #fff;
+  border-radius: 8px 0 0 8px;
+}
+.pulse-stat.lead .metric-label,
+.pulse-stat.lead small { color: rgba(255, 255, 255, 0.82); }
+
+/* Provenance banner uses Blade's blue-tinted information surface. */
+.provenance {
+  background: #eff6ff;
+  border: 1px solid #cfe4ff;
+  border-left: 3px solid var(--oxblood);
+  border-radius: 8px;
+  color: #1e4b8f;
+}
+
+/* Active tab marked by a blue underline rather than a heavy rule. */
+.command-tab.active {
+  color: var(--ink);
+  border-bottom: 2px solid var(--oxblood);
+  font-weight: 600;
+}
+
+.agent-index { background: var(--oxblood); color: #fff; border-radius: 6px; }
+.progress-fill { background: var(--oxblood); }
+
+/* Generic button hover fallback - ensure no dark black flash */
+button:hover:not(:disabled):not(.primary-button):not(.primary-agent-action):not(.agent-run-button):not(.rail-nav) {
+  background: var(--paper-3);
+  color: var(--ink);
+}
+
+.river-case {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  color: var(--ink);
+}
+.river-case:hover {
+  background: #f0f7ff !important;
+  border-color: var(--oxblood) !important;
+  color: var(--ink) !important;
+}
+.river-case.selected {
+  background: #e0f2fe !important;
+  border-color: var(--oxblood) !important;
+  border-left-color: var(--oxblood) !important;
+  color: var(--ink) !important;
+}

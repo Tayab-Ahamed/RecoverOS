@@ -132,10 +132,24 @@ class LearningStrategistAgent:
         critic: CriticAgent | None = None,
         allow_llm_override: bool = True,
         use_critic: bool = True,
+        persistence_path: str | None = None,
     ) -> None:
         self.llm = llm
         self.max_discount = max_discount
-        self.bandit = bandit or ContextualBandit(seed=seed)
+        self.persistence_path = persistence_path
+        if bandit is not None:
+            self.bandit = bandit
+        elif persistence_path is not None:
+            import os as _os
+            if _os.path.exists(persistence_path):
+                self.bandit = ContextualBandit.load(persistence_path, seed=seed)
+                self._loaded_from_disk = True
+            else:
+                self.bandit = ContextualBandit(seed=seed)
+                self._loaded_from_disk = False
+        else:
+            self.bandit = ContextualBandit(seed=seed)
+            self._loaded_from_disk = False
         self.propensity = propensity or PropensityModel()
         self.memory = memory or OutcomeMemory()
         self.critic = critic or (CriticAgent(llm=llm, memory=self.memory) if use_critic else None)
@@ -392,6 +406,8 @@ class LearningStrategistAgent:
             predicted_probability=calibrated,
         )
         self.stats.outcomes_learned += 1
+        if self.persistence_path is not None:
+            self.bandit.save(self.persistence_path)
 
     def pending_case_ids(self) -> list[str]:
         return list(self._pending)
@@ -409,6 +425,8 @@ class LearningStrategistAgent:
             "llm_provider": getattr(self.llm, "name", "none"),
             "decides_with": "contextual bandit over verified outcomes",
             "llm_role": "narration and downward-only dissent; never the decider",
+            "persistence_path": self.persistence_path,
+            "loaded_from_disk": self._loaded_from_disk,
             "stats": self.stats.to_dict(),
             "bandit": self.bandit.snapshot(),
             "propensity": self.propensity.snapshot(),

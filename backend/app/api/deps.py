@@ -87,6 +87,7 @@ class Container:
                 llm=self.llm,
                 seed="api-learning",
                 use_critic=True,
+                persistence_path=self.settings.bandit_state_path,
             )
         else:
             self.strategist = StrategistAgent(self.llm)
