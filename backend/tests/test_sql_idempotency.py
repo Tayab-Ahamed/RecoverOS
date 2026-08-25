@@ -2,13 +2,17 @@ from __future__ import annotations
 
 import unittest
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from tests.optional_deps import HAS_SQLALCHEMY, REQUIRES_SQLALCHEMY
 
-from app.integrations.idempotency import SqlIdempotencyStore
-from app.models.sql import Base
+if HAS_SQLALCHEMY:  # pragma: no branch - import guard
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import Session
+
+    from app.integrations.idempotency import SqlIdempotencyStore
+    from app.models.sql import Base
 
 
+@unittest.skipUnless(HAS_SQLALCHEMY, REQUIRES_SQLALCHEMY)
 class SqlIdempotencyTests(unittest.TestCase):
     def test_claim_survives_a_new_store_instance(self) -> None:
         engine = create_engine("sqlite+pysqlite:///:memory:")

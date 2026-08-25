@@ -2,16 +2,20 @@ from __future__ import annotations
 
 import unittest
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-
 from app.domain.entities import DataProvenance, Diagnosis, FailureReason
 from app.domain.states import Actor
-from app.models.sql import Base
-from app.repositories.sql import SqlCaseRepository, SqlCustomerRepository
 from tests.factories import case, customer, event, evidence
+from tests.optional_deps import HAS_SQLALCHEMY, REQUIRES_SQLALCHEMY
+
+if HAS_SQLALCHEMY:  # pragma: no branch - import guard
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import Session
+
+    from app.models.sql import Base
+    from app.repositories.sql import SqlCaseRepository, SqlCustomerRepository
 
 
+@unittest.skipUnless(HAS_SQLALCHEMY, REQUIRES_SQLALCHEMY)
 class SqlRepositoryTests(unittest.TestCase):
     def setUp(self) -> None:
         self.engine = create_engine("sqlite+pysqlite:///:memory:")

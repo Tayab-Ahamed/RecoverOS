@@ -49,6 +49,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
+from datetime import datetime, UTC
 
 from app.agents.critic_agent import CriticAgent
 from app.agents.learning_strategist import LearningStrategistAgent
@@ -342,6 +343,12 @@ def _audit_invariants(
     return violations
 
 
+# Fixed reference time for all evaluation runs, matching the dataset generator's
+# default `now`. Mid-day UTC sits inside the default contact window, so the
+# time-of-day rule does not suppress the batch.
+EVAL_CLOCK_NOW = datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC)
+
+
 def _build_strategist(strategy: str, seed: str, world: GroundTruthWorld):
     """Construct the decision layer for one arm.
 
@@ -418,7 +425,15 @@ def run_strategy(
     sm = StateMachine(audit)
     provider = MockRazorpayProvider(seed=seed)
     executor = RecoveryExecutor(provider, sm, audit)
-    policy = PolicyEngine(PolicyVersion(id=f"{strategy}_v1", rules=rules))
+    policy = PolicyEngine(
+        PolicyVersion(id=f"{strategy}_v1", rules=rules),
+        # Pin the clock. The contact-time-window rule reads the current hour, so
+        # a wall-clock engine would make the published benchmark depend on when
+        # it was run: executed at 03:00 UTC every contact is denied and the
+        # numbers quietly change. This matches the generator's fixed reference
+        # time, so a run is a function of code and seed alone.
+        clock=lambda: EVAL_CLOCK_NOW,
+    )
     verifier = OutcomeVerifier(sm, audit)
     idempotency = InMemoryIdempotencyStore()
 

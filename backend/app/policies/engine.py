@@ -9,6 +9,7 @@ Decision objects as an argument.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, UTC
 
@@ -45,8 +46,24 @@ class Decision:
 
 
 class PolicyEngine:
-    def __init__(self, version: PolicyVersion | None = None) -> None:
+    """Authorizes or refuses a proposed intervention.
+
+    The clock is injectable. The contact-time-window rule is the only rule that
+    depends on the current time, and a rule that reads the wall clock makes the
+    verdict depend on when the suite happens to run: a benchmark executed at
+    03:00 UTC would deny every contact and silently report different numbers
+    than the same benchmark executed at noon. Evaluation runs therefore pass an
+    explicit ``now``, so the published figures are a property of the code and
+    the seed rather than of the hour of the day.
+    """
+
+    def __init__(
+        self,
+        version: PolicyVersion | None = None,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
         self.version = version or DEFAULT_POLICY
+        self._clock = clock or (lambda: datetime.now(UTC))
 
     @property
     def rules(self):
@@ -57,6 +74,7 @@ class PolicyEngine:
         case: RecoveryCase,
         plan: InterventionPlan,
         customer: Customer,
+        now: datetime | None = None,
     ) -> Decision:
         denials: list[str] = []
         rule_ids: list[str] = []
@@ -86,7 +104,7 @@ class PolicyEngine:
 
         # Time-of-day contact window: no outbound contact outside allowed hours.
         if contacts_customer:
-            current_hour = datetime.now(UTC).hour
+            current_hour = (now or self._clock()).hour
             before = self.rules.no_contact_before_hour
             after = self.rules.no_contact_after_hour
             if current_hour < before or current_hour >= after:

@@ -31,6 +31,10 @@ jobs:
         run: cd backend && python -m scripts.verify_sql
       - name: Benchmark with invariant audit
         run: cd backend && python -m scripts.run_benchmark --events 10000 --seed 42
+      - name: Committed artifacts match current code
+        # Guards against a stale artifact making a published number
+        # unreproducible. Every figure quoted in README.md comes from these.
+        run: cd backend && python -m scripts.check_artifacts
       - name: Narrated demo
         run: cd backend && python -m scripts.demo
 

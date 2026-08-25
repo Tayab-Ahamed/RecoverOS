@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 210" width="960" height="210" role="img" aria-label="RecoverOS pipeline: detect, diagnose, decide, govern, act, verify">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="100%" stop-color="#111c33"/>
+    </linearGradient>
+    <linearGradient id="wire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1f6feb"/>
+      <stop offset="50%" stop-color="#3fb950"/>
+      <stop offset="100%" stop-color="#1f6feb"/>
+    </linearGradient>
+    <style>
+      .stage { fill: #0f1a2e; stroke: #26334d; stroke-width: 1.5; }
+      .ai    { stroke: #1f6feb; }
+      .det   { stroke: #3fb950; }
+      .lbl   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #e6edf3; }
+      .sub   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 10px; fill: #8b949e; }
+      .tag   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .08em; }
+      .title { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 700; fill: #c9d1d9; letter-spacing: .16em; }
+      .flow  { stroke: url(#wire); stroke-width: 2.5; fill: none; stroke-dasharray: 10 8; animation: dash 1.4s linear infinite; }
+      .pulse { animation: pulse 2.6s ease-in-out infinite; }
+      .p2 { animation-delay: .3s; } .p3 { animation-delay: .6s; }
+      .p4 { animation-delay: .9s; } .p5 { animation-delay: 1.2s; } .p6 { animation-delay: 1.5s; }
+      @keyframes dash  { to { stroke-dashoffset: -36; } }
+      @keyframes pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) {
+        .flow { animation: none; } .pulse { animation: none; opacity: 1; }
+      }
+    </style>
+  </defs>
+
+  <rect width="960" height="210" rx="10" fill="url(#bg)"/>
+  <text class="title" x="28" y="32">AI PROPOSES &#183; POLICY AUTHORIZES &#183; PROVIDER EXECUTES &#183; WEBHOOKS VERIFY</text>
+
+  <path class="flow" d="M 28 118 H 932"/>
+
+  <g class="pulse">
+    <rect class="stage det" x="28" y="86" width="136" height="64" rx="8"/>
+    <text class="lbl" x="44" y="112">DETECT</text>
+    <text class="sub" x="44" y="130">deterministic rules</text>
+    <text class="tag" x="44" y="78" fill="#3fb950">CODE</text>
+  </g>
+  <g class="pulse p2">
+    <rect class="stage ai" x="180" y="86" width="136" height="64" rx="8"/>
+    <text class="lbl" x="196" y="112">DIAGNOSE</text>
+    <text class="sub" x="196" y="130">evidence hypothesis</text>
+    <text class="tag" x="196" y="78" fill="#1f6feb">AI</text>
+  </g>
+  <g class="pulse p3">
+    <rect class="stage ai" x="332" y="86" width="136" height="64" rx="8"/>
+    <text class="lbl" x="348" y="112">DECIDE</text>
+    <text class="sub" x="348" y="130">bandit + narration</text>
+    <text class="tag" x="348" y="78" fill="#1f6feb">AI</text>
+  </g>
+  <g class="pulse p4">
+    <rect class="stage det" x="484" y="86" width="136" height="64" rx="8"/>
+    <text class="lbl" x="500" y="112">GOVERN</text>
+    <text class="sub" x="500" y="130">allow / deny / escalate</text>
+    <text class="tag" x="500" y="78" fill="#3fb950">CODE</text>
+  </g>
+  <g class="pulse p5">
+    <rect class="stage det" x="636" y="86" width="136" height="64" rx="8"/>
+    <text class="lbl" x="652" y="112">ACT</text>
+    <text class="sub" x="652" y="130">Razorpay adapter</text>
+    <text class="tag" x="652" y="78" fill="#3fb950">CODE</text>
+  </g>
+  <g class="pulse p6">
+    <rect class="stage det" x="788" y="86" width="144" height="64" rx="8"/>
+    <text class="lbl" x="804" y="112">VERIFY</text>
+    <text class="sub" x="804" y="130">signed capture only</text>
+    <text class="tag" x="804" y="78" fill="#3fb950">CODE</text>
+  </g>
+
+  <text class="sub" x="28" y="182">Reasoning layers cannot import a provider. Only the executor calls Razorpay. Only the verifier writes RECOVERED.</text>
+</svg>

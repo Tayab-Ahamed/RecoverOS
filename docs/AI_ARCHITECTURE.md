@@ -118,6 +118,19 @@ The main API uses the learning strategist by default in local mode. The original
 
 ## Runtime limitations and next hardening step
 
-Learning state is currently **process-local**. The bandit posteriors, propensity weights, outcome memory, and pending attribution map are not yet persisted to SQL, so a process restart or multi-worker deployment resets the learner. This is an explicit limitation, not a claim of durable production learning.
+Bandit posteriors **are** persisted. `LearningStrategistAgent` loads saved
+posteriors at construction and writes them back after each verified outcome,
+using the SQLite file at `BANDIT_STATE_PATH` (default `bandit_state.db`).
+Round-trip continuity is covered by `tests/test_bandit_persistence.py`, which
+asserts that pull and win counts accumulate across a save/load cycle rather
+than resetting.
+
+What is **not** yet persisted is the rest of the learner's state: propensity
+calibration weights, verified-outcome memory, and the pending attribution map.
+Those remain process-local, so a restart preserves the learned arm rankings but
+loses in-flight attribution, and a multi-worker deployment would have workers
+with divergent propensity state. Moving the remaining three onto the same
+persistence path is the next hardening step. This is an explicit scope
+statement, not a claim of fully durable production learning.
 
 In the live API, verified payment captures and terminal payment failures are attributed after the verifier accepts them. STOP and ESCALATION decisions that terminate without a provider event are safely excluded from webhook training today; the benchmark harness flushes those terminal decisions, while a future production hardening step should add the same explicit terminal-outcome callback to the orchestrator. No terminal case is ever marked recovered without signed provider evidence.

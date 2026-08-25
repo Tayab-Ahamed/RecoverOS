@@ -104,6 +104,6 @@
     }
   },
   "caveat": "Scores come from the heuristic judge, not a model judge. The scripted client is a fault injector, not a language model: catch rate is measured against known injected faults.",
-  "wall_clock_seconds": 0.154,
+  "wall_clock_seconds": 0.17,
   "data_label": "SYNTHETIC SHADOW EVALUATION"
 }

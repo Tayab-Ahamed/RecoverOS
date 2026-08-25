@@ -3,16 +3,20 @@ from __future__ import annotations
 import os
 import unittest
 
-from fastapi.testclient import TestClient
-
 os.environ.setdefault("APP_ENV", "local")
 os.environ.setdefault("PAYMENT_PROVIDER", "mock")
 os.environ.setdefault("LLM_PROVIDER", "mock")
 os.environ.setdefault("ENABLE_LOCAL_WEBHOOK_REPLAY", "true")
 
-from app.main import app  # noqa: E402
+from tests.optional_deps import HAS_FASTAPI, REQUIRES_FASTAPI  # noqa: E402
+
+if HAS_FASTAPI:  # pragma: no branch - import guard
+    from fastapi.testclient import TestClient  # noqa: E402
+
+    from app.main import app  # noqa: E402
 
 
+@unittest.skipUnless(HAS_FASTAPI, REQUIRES_FASTAPI)
 class AgentApiTests(unittest.TestCase):
     def setUp(self) -> None:
         self.client = TestClient(app)
