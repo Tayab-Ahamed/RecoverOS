@@ -16,16 +16,14 @@ def main() -> None:
         os.environ["ENABLE_LOCAL_WEBHOOK_REPLAY"] = "true"
 
         from alembic.config import Config
+        from fastapi.testclient import TestClient
 
         from alembic import command
+        from app.api.deps import reset_container, restart_container
+        from app.main import app
 
         config = Config(str(Path(__file__).parents[1] / "alembic.ini"))
         command.upgrade(config, "head")
-
-        from fastapi.testclient import TestClient
-
-        from app.api.deps import reset_container, restart_container
-        from app.main import app
 
         client = TestClient(app)
         assert client.post("/api/v1/demo/seed").status_code == 200
