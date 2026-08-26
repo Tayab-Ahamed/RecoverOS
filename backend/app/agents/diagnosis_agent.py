@@ -91,7 +91,7 @@ class DiagnosisAgent:
                 if isinstance(out.get("rationale"), str) and out["rationale"].strip():
                     rationale = out["rationale"].strip()[:240]
                     used_llm = True
-                if isinstance(out.get("confidence"), (float, int)):
+                if isinstance(out.get("confidence"), float | int):
                     confidence = max(0.0, min(1.0, float(out["confidence"])))
                 if isinstance(out.get("risk_factors"), list):
                     risk_factors = [str(item)[:100] for item in out["risk_factors"][:4]]

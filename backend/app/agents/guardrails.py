@@ -97,7 +97,7 @@ def check_text(text: str) -> list[Rejection]:
 
 
 def _coerce_float(value: object, name: str) -> tuple[float | None, Rejection | None]:
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
+    if isinstance(value, bool) or not isinstance(value, int | float):
         return None, Rejection("non_numeric", f"{name} is not a number: {value!r}")
     number = float(value)
     if number != number or number in (float("inf"), float("-inf")):
