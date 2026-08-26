@@ -10,6 +10,7 @@ ordering of authorization relative to action is readable in one place.
 from __future__ import annotations
 
 from collections.abc import Callable
+from datetime import datetime
 
 from app.agents.diagnosis_agent import DiagnosisAgent
 from app.agents.strategist_agent import StrategistAgent
@@ -18,11 +19,13 @@ from app.domain.entities import (
     Customer,
     DataProvenance,
     InterventionType,
+    Money,
+    PromiseToPay,
     RecoveryCase,
     new_id,
 )
 from app.domain.errors import PolicyViolation
-from app.domain.states import Actor, CaseState
+from app.domain.states import Actor, CaseState, PromiseStatus
 from app.policies.engine import Decision, PolicyEngine
 from app.services.audit import AuditLog
 from app.services.executor import RecoveryExecutor
@@ -99,6 +102,23 @@ class RecoveryOrchestrator:
                 detail="opted out or zero recovery probability",
             )
             return case
+
+        # State transition: if an outstanding promise has elapsed without capture, mark BROKEN.
+        if case.promise_to_pay is not None and case.promise_to_pay.status is PromiseStatus.PENDING:
+            current_time = self.policy._clock()
+            if current_time >= case.promise_to_pay.promise_due_date:
+                case.promise_to_pay.status = PromiseStatus.BROKEN
+                case.broken_promises_count += 1
+                self.audit.record(
+                    case_id=case.id,
+                    actor=Actor.SYSTEM,
+                    action="PTP_BROKEN",
+                    detail=(
+                        f"promise {case.promise_to_pay.id} expired at "
+                        f"{case.promise_to_pay.promise_due_date.strftime('%Y-%m-%d %H:%M:%S UTC')} "
+                        f"without verified capture"
+                    ),
+                )
 
         self.sm.transition(case, CaseState.ELIGIBLE, Actor.SYSTEM)
         return self._plan_and_act(case, customer)
@@ -247,3 +267,60 @@ class RecoveryOrchestrator:
             detail=f"attempt {case.attempts} failed; retry permitted",
         )
         return self._plan_and_act(case, customer)
+
+    def record_promise_to_pay(
+        self,
+        case: RecoveryCase,
+        amount: Money,
+        promise_due_date: datetime,
+        customer: Customer | None = None,
+        notes: str = "",
+        actor: Actor = Actor.HUMAN,
+    ) -> PromiseToPay:
+        """Register an inbound customer promise to pay.
+
+        Enforces timezone awareness, horizon cap, and consecutive broken limits.
+        Emits PTP_RECORDED audit record upon registration.
+        """
+        if promise_due_date.tzinfo is None:
+            raise ValueError("promise_due_date must be timezone-aware (e.g. UTC or with tzinfo)")
+
+        now = self.policy._clock()
+        if promise_due_date <= now:
+            raise ValueError("promise_due_date must be in the future")
+
+        horizon_days = (promise_due_date - now).total_seconds() / 86400.0
+        if horizon_days > self.policy.rules.max_promise_horizon_days:
+            raise ValueError(
+                f"promise horizon {horizon_days:.1f} days exceeds policy cap of "
+                f"{self.policy.rules.max_promise_horizon_days} days"
+            )
+
+        if case.broken_promises_count >= self.policy.rules.max_broken_promises_per_case:
+            raise ValueError(
+                f"case has {case.broken_promises_count} broken promises; policy limit is "
+                f"{self.policy.rules.max_broken_promises_per_case}. Further grace refused."
+            )
+
+        ptp = PromiseToPay(
+            id=new_id("ptp"),
+            case_id=case.id,
+            customer_id=case.customer_id,
+            amount=amount,
+            promised_at=now,
+            promise_due_date=promise_due_date,
+            status=PromiseStatus.PENDING,
+            notes=notes,
+        )
+        case.promise_to_pay = ptp
+
+        self.audit.record(
+            case_id=case.id,
+            actor=actor,
+            action="PTP_RECORDED",
+            detail=(
+                f"promise {ptp.id} recorded for Rs {amount.rupees_str} due "
+                f"{promise_due_date.strftime('%Y-%m-%d %H:%M:%S %Z')} (horizon {horizon_days:.1f}d)"
+            ),
+        )
+        return ptp

@@ -102,6 +102,19 @@ class PolicyEngine:
             denials.append("customer has opted out of contact")
             rule_ids.append("stop_after_opt_out")
 
+        # Promise-to-Pay (PTP) grace period: pure query. If a valid unexpired promise
+        # exists, outbound contact is denied while the promise remains active.
+        if (
+            self.rules.honor_promise_to_pay
+            and case.promise_to_pay is not None
+            and contacts_customer
+        ):
+            current_time = now or self._clock()
+            if case.promise_to_pay.is_active_at(current_time):
+                due_str = case.promise_to_pay.promise_due_date.strftime("%Y-%m-%d %H:%M:%S UTC")
+                denials.append(f"active promise-to-pay grace period unexpired until {due_str}")
+                rule_ids.append("ptp_active_grace_period")
+
         # Time-of-day contact window: no outbound contact outside allowed hours.
         if contacts_customer:
             current_hour = (now or self._clock()).hour

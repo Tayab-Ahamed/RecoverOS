@@ -37,11 +37,13 @@ from app.services.state_machine import StateMachine  # noqa: E402
 from app.services.verifier import OutcomeVerifier  # noqa: E402
 from app.webhooks.handler import WebhookHandler  # noqa: E402
 
+from datetime import UTC, datetime, timedelta
+
 SECRET = "demo_secret"
 RULE = "=" * 74
 
 
-def build(approver=None):
+def build(approver=None, clock=None):
     audit = AuditLog()
     sm = StateMachine(audit)
     provider = MockRazorpayProvider(seed="demo")
@@ -50,7 +52,7 @@ def build(approver=None):
     cases: dict[str, RecoveryCase] = {}
     handler = WebhookHandler(SECRET, verifier, InMemoryIdempotencyStore(), cases.get)
     orch = RecoveryOrchestrator(
-        policy=PolicyEngine(),
+        policy=PolicyEngine(clock=clock or (lambda: datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC))),
         executor=executor,
         state_machine=sm,
         audit=audit,
@@ -196,12 +198,46 @@ def scenario_d():
     print(f"provider calls made: {provider.create_calls}")
 
 
+def scenario_e():
+    base_time = datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC)
+    audit, provider, cases, handler, orch = build(clock=lambda: base_time)
+    case = make_case(cases, 6499, FailureReason.INSUFFICIENT_FUNDS)
+    customer = Customer(
+        id="cust_demo",
+        name="Vikram Sethi",
+        email="vikram@example.invalid",
+        contact="+919000000005",
+        lifetime_value=Money.from_rupees(45000),
+    )
+    # Customer commits to pay by Friday (2 days ahead)
+    friday_due = base_time + timedelta(days=2)
+    orch.record_promise_to_pay(
+        case=case,
+        amount=case.revenue_at_risk,
+        promise_due_date=friday_due,
+        customer=customer,
+        notes="Customer committed: will settle Friday after salary credit",
+    )
+    # Orchestrator attempts advance -> Policy engine denies contact with ptp_active_grace_period
+    orch.advance(case, customer)
+    show(
+        audit,
+        case,
+        "SCENARIO E  Promise-to-Pay grace period (deterministic pause)",
+        "Customer promised to pay Friday. Outbound contact was denied by policy engine "
+        "under ptp_active_grace_period. Zero provider calls were made while the commitment was active.",
+    )
+    print(f"provider calls made during grace: {provider.create_calls}")
+    print(f"promise status: {case.promise_to_pay.status}")
+
+
 def main() -> int:
     print("\nRecoverOS demo   SYNTHETIC DATA, MOCK PROVIDER, NO NETWORK CALLS")
     scenario_a()
     scenario_b()
     scenario_c()
     scenario_d()
+    scenario_e()
     print(f"\n{RULE}\nAI proposes. Deterministic software authorizes. "
           f"The provider executes. Webhooks verify.\n{RULE}\n")
     return 0

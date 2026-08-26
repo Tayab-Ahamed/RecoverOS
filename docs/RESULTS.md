@@ -198,3 +198,12 @@ defence-in-depth constraint stops holding. It runs in CI.
 Optimal-action rate and regret are defined per decision against the hidden world
 model and cannot be improved by contacting more people, only by choosing better.
 That is why they lead.
+
+---
+
+## Note on Promise-to-Pay (PTP) constraint evaluation
+
+Promise-to-Pay is an **inbound deterministic denial constraint**: when a customer commits to pay by date $T$, the `ptp_active_grace_period` rule pauses outbound dunning until $T$. It is not an agent action in the contextual bandit, and the synthetic benchmark generator intentionally emits no PTP events to keep the primary benchmark numbers bit-identical and reproducible.
+
+Consequently, the counterfactual policy sweep does not price PTP: evaluating an `ignore_promise_to_pay` variant on a synthetic dataset without inbound customer commitments would yield ₹0.00 delta, which would misleadingly imply the safety rule has zero value rather than reflecting that it was not exercised. PTP is instead verified deterministically via unit test suites (`tests/test_promise_to_pay.py`) and live demo walkthroughs (`Scenario E` in `docs/DEMO.md`).
+

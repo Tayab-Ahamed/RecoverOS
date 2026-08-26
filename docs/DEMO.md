@@ -47,6 +47,15 @@ self-approving.
 
 **Point:** autonomy is bounded by value.
 
+### E. Promise-to-Pay (deterministic grace period)
+
+Rs 6,499 failed payment where the customer promises to pay Friday. Outbound contact
+is paused under `ptp_active_grace_period` while the commitment is unexpired. Zero
+provider calls are made during the grace period, and the pause is explicitly audited.
+
+**Point:** waiting is an active governance choice. PTP gives the policy engine a
+deterministic reason to say no that humans in collections recognize immediately.
+
 ## The batch result
 
 Run the benchmark live. It reports the governed run beside an ungoverned run

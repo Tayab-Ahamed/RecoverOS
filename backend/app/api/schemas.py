@@ -60,6 +60,8 @@ def case_out(case: RecoveryCase) -> dict:
             if case.plan
             else None
         ),
+        "promise_to_pay": promise_out(case.promise_to_pay),
+        "broken_promises_count": case.broken_promises_count,
         "evidence": (
             {
                 "payment_id": case.evidence.external_payment_id,
@@ -72,6 +74,23 @@ def case_out(case: RecoveryCase) -> dict:
             if case.evidence
             else None
         ),
+    }
+
+
+def promise_out(ptp) -> dict | None:
+    if ptp is None:
+        return None
+    return {
+        "id": ptp.id,
+        "case_id": ptp.case_id,
+        "customer_id": ptp.customer_id,
+        "amount": money_out(ptp.amount),
+        "promised_at": ptp.promised_at.isoformat(),
+        "promise_due_date": ptp.promise_due_date.isoformat(),
+        "status": str(ptp.status),
+        "fulfilled_at": ptp.fulfilled_at.isoformat() if ptp.fulfilled_at else None,
+        "fulfilled_evidence_id": ptp.fulfilled_evidence_id,
+        "notes": ptp.notes,
     }
 
 

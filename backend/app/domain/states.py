@@ -43,6 +43,13 @@ class Actor(StrEnum):
     HUMAN = "HUMAN"
 
 
+class PromiseStatus(StrEnum):
+    PENDING = "PENDING"
+    FULFILLED = "FULFILLED"
+    BROKEN = "BROKEN"
+    CANCELLED = "CANCELLED"
+
+
 TERMINAL_STATES: frozenset[CaseState] = frozenset(
     {
         CaseState.RECOVERED,

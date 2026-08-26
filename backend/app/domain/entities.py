@@ -12,7 +12,7 @@ from datetime import UTC, datetime
 from enum import StrEnum
 
 from app.domain.money import Money
-from app.domain.states import Actor, CaseState
+from app.domain.states import Actor, CaseState, PromiseStatus
 
 
 def new_id(prefix: str) -> str:
@@ -172,6 +172,39 @@ class AuditRecord:
 
 
 @dataclass
+class PromiseToPay:
+    """A customer commitment to pay by a specific date.
+
+    A valid, unexpired promise suppresses outbound dunning via the
+    `ptp_active_grace_period` policy rule. Naive datetimes are strictly
+    rejected to prevent timezone-drift bugs.
+    """
+
+    id: str
+    case_id: str
+    customer_id: str
+    amount: Money
+    promised_at: datetime
+    promise_due_date: datetime
+    status: PromiseStatus = PromiseStatus.PENDING
+    fulfilled_at: datetime | None = None
+    fulfilled_evidence_id: str | None = None
+    notes: str = ""
+
+    def __post_init__(self) -> None:
+        if self.promise_due_date.tzinfo is None:
+            raise ValueError("promise_due_date must be timezone-aware")
+        if self.promised_at.tzinfo is None:
+            raise ValueError("promised_at must be timezone-aware")
+
+    def is_active_at(self, current_time: datetime) -> bool:
+        """Pure query: True if promise is PENDING and current_time < promise_due_date."""
+        if current_time.tzinfo is None:
+            current_time = current_time.replace(tzinfo=UTC)
+        return self.status is PromiseStatus.PENDING and current_time < self.promise_due_date
+
+
+@dataclass
 class RecoveryCase:
     """Aggregate root. All mutation goes through the state machine service."""
 
@@ -188,6 +221,8 @@ class RecoveryCase:
     external_link_id: str | None = None
     dataset_run_id: str | None = None
     provenance: DataProvenance = DataProvenance.SYNTHETIC
+    promise_to_pay: PromiseToPay | None = None
+    broken_promises_count: int = 0
     created_at: datetime = field(default_factory=utcnow)
     updated_at: datetime = field(default_factory=utcnow)
 

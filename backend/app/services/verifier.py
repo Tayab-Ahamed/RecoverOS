@@ -10,7 +10,7 @@ from __future__ import annotations
 from app.domain.entities import PaymentEvidence, RecoveryCase, utcnow
 from app.domain.errors import InvariantViolation
 from app.domain.money import Money
-from app.domain.states import Actor, CaseState
+from app.domain.states import Actor, CaseState, PromiseStatus
 from app.integrations.razorpay_catalog import (
     all_confirming_events,
     all_failing_events,
@@ -78,6 +78,34 @@ class OutcomeVerifier:
                 detail=f"verified capture of {case.evidence.amount} via {event_type}",
                 external_event_id=external_event_id,
             )
+
+            # Strict Promise-to-Pay fulfillment matching: exact case reference AND exact amount.
+            if case.promise_to_pay is not None and case.promise_to_pay.status is PromiseStatus.PENDING:
+                if case.evidence.amount == case.promise_to_pay.amount:
+                    case.promise_to_pay.status = PromiseStatus.FULFILLED
+                    case.promise_to_pay.fulfilled_at = case.evidence.verified_at
+                    case.promise_to_pay.fulfilled_evidence_id = case.evidence.external_payment_id
+                    self.audit.record(
+                        case_id=case.id,
+                        actor=self.actor,
+                        action="PTP_FULFILLED",
+                        detail=(
+                            f"promise {case.promise_to_pay.id} fulfilled by verified capture of "
+                            f"{case.evidence.amount} (payment={payment_id})"
+                        ),
+                        external_event_id=external_event_id,
+                    )
+                else:
+                    self.audit.record(
+                        case_id=case.id,
+                        actor=self.actor,
+                        action="PTP_PARTIAL_PAYMENT",
+                        detail=(
+                            f"captured {case.evidence.amount} does not match promised "
+                            f"{case.promise_to_pay.amount}; promise {case.promise_to_pay.id} remains PENDING"
+                        ),
+                        external_event_id=external_event_id,
+                    )
             return case
 
         if event_type in FAILED_EVENTS:

@@ -9,9 +9,11 @@ from __future__ import annotations
 import csv
 import io
 import math
+from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import StreamingResponse
+from pydantic import BaseModel, Field
 
 from app.api.deps import get_container
 from app.api.schemas import audit_out, case_out
@@ -114,3 +116,63 @@ def audit_csv(case_id: str):
         media_type="text/csv",
         headers={"Content-Disposition": f"attachment; filename=audit_{case_id}.csv"},
     )
+
+
+class PromiseToPayRequest(BaseModel):
+    amount_rupees: str | int = Field(..., description="Rupee string e.g. '2499.00' or integer rupees")
+    promise_due_date: str = Field(..., description="ISO 8601 string with timezone offset")
+    notes: str = ""
+
+
+@router.post("/{case_id}/ptp")
+def record_ptp(case_id: str, body: PromiseToPayRequest) -> dict:
+    container = get_container()
+    case = container.cases.get(case_id)
+    if case is None:
+        raise HTTPException(404, "case not found")
+
+    try:
+        due_dt = datetime.fromisoformat(body.promise_due_date)
+    except ValueError as exc:
+        raise HTTPException(400, f"invalid ISO 8601 date string: {body.promise_due_date}") from exc
+
+    if due_dt.tzinfo is None:
+        raise HTTPException(400, "promise_due_date must be timezone-aware (e.g. +05:30 or Z)")
+
+    from app.api.schemas import promise_out
+    from app.domain.money import Money
+
+    try:
+        amount = Money.from_rupees(str(body.amount_rupees))
+    except Exception as exc:
+        raise HTTPException(400, f"invalid money amount: {exc}") from exc
+
+    customer = container.customers.get(case.customer_id)
+
+    try:
+        ptp = container.orchestrator.record_promise_to_pay(
+            case=case,
+            amount=amount,
+            promise_due_date=due_dt,
+            customer=customer,
+            notes=body.notes,
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+    container.cases.add(case)
+    container.persist()
+    return {"status": "recorded", "promise": promise_out(ptp)}
+
+
+@router.get("/{case_id}/ptp")
+def get_ptp(case_id: str) -> dict:
+    container = get_container()
+    case = container.cases.get(case_id)
+    if case is None:
+        raise HTTPException(404, "case not found")
+    if case.promise_to_pay is None:
+        raise HTTPException(404, "no promise to pay on this case")
+    from app.api.schemas import promise_out
+
+    return {"promise": promise_out(case.promise_to_pay)}

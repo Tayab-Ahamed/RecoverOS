@@ -27,11 +27,14 @@ class PolicyRules:
     stop_after_success: bool = True
     stop_after_opt_out: bool = True
     require_approval_above_threshold: bool = True
-    # Time-of-day contact window (UTC hours, inclusive start, exclusive end).
-    # Contacts are blocked outside this window to avoid disturbing customers at
-    # night and to meet basic merchant compliance requirements.
     no_contact_before_hour: int = 8   # don't contact before 8 AM UTC
     no_contact_after_hour: int = 21   # don't contact at or after 9 PM UTC
+    # Promise-to-Pay (PTP) controls:
+    # A valid unexpired promise suppresses contact. Capped at 30 days to prevent
+    # indefinite dunning evasion; rolled promises past max_broken are refused.
+    honor_promise_to_pay: bool = True
+    max_promise_horizon_days: int = 30
+    max_broken_promises_per_case: int = 2
 
     @property
     def min_recovery_value(self) -> Money:
