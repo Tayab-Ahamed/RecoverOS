@@ -9,7 +9,7 @@ from tests import factories as f
 
 class TestPolicyEngine(unittest.TestCase):
     def setUp(self):
-        self.engine = PolicyEngine()
+        self.engine = PolicyEngine(clock=f.fixed_clock)
 
     def test_clean_case_is_allowed(self):
         d = self.engine.authorize(f.case(), f.plan(), f.customer())
@@ -69,7 +69,9 @@ class TestPolicyEngine(unittest.TestCase):
         self.assertTrue(d.allowed)
 
     def test_decision_carries_policy_version_and_id(self):
-        engine = PolicyEngine(PolicyVersion(id="v12", rules=PolicyRules()))
+        engine = PolicyEngine(
+            PolicyVersion(id="v12", rules=PolicyRules()), clock=f.fixed_clock
+        )
         d = engine.authorize(f.case(), f.plan(), f.customer())
         self.assertEqual(d.policy_version_id, "v12")
         self.assertTrue(d.id.startswith("dec_"))

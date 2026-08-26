@@ -31,6 +31,14 @@ jobs:
         run: cd backend && python -m scripts.verify_sql
       - name: Benchmark with invariant audit
         run: cd backend && python -m scripts.run_benchmark --events 10000 --seed 42
+      - name: Counterfactual policy sweep
+        # Prices each governed constraint, and self-checks the measurement:
+        # fails if the governed baseline violates its own policy, if no
+        # deliberately loosened variant trips the invariant auditor (which would
+        # mean the auditor is asleep and every "zero violations" claim is
+        # unfalsifiable), or if a defence-in-depth constraint stops holding when
+        # its policy rule alone is disabled.
+        run: cd backend && python -m scripts.run_counterfactual --events 2000 --seed 42
       - name: Committed artifacts match current code
         # Guards against a stale artifact making a published number
         # unreproducible. Every figure quoted in README.md comes from these.

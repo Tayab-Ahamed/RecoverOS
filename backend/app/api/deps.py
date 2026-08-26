@@ -7,6 +7,9 @@ with no database and no credentials.
 
 from __future__ import annotations
 
+from collections.abc import Callable
+from datetime import UTC, datetime
+
 from app.agents.diagnosis_agent import DiagnosisAgent
 from app.agents.llm import AnthropicClient, DeterministicLLMClient
 from app.agents.learning_strategist import LearningStrategistAgent
@@ -49,8 +52,21 @@ def _build_llm(settings: Settings):
     return DeterministicLLMClient()
 
 
+def _default_clock(settings: Settings) -> Callable[[], datetime]:
+    # In mock / demo / local mode, match the demo dataset's noon reference time so
+    # that local demonstrations and API contract tests do not depend on the wall
+    # clock hour the reviewer happens to run them. Production uses live UTC now.
+    if settings.is_production or settings.app_env == "production":
+        return lambda: datetime.now(UTC)
+    return lambda: datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC)
+
+
 class Container:
-    def __init__(self, settings: Settings | None = None) -> None:
+    def __init__(
+        self,
+        settings: Settings | None = None,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
         self.settings = settings or get_settings()
         if self.settings.is_production:
             raise ConfigError(
@@ -61,7 +77,7 @@ class Container:
         self.state_machine = StateMachine(self.audit)
         self.provider = _build_provider(self.settings)
         self.llm = _build_llm(self.settings)
-        self.policy = PolicyEngine()
+        self.policy = PolicyEngine(clock=clock or _default_clock(self.settings))
         self.executor = RecoveryExecutor(self.provider, self.state_machine, self.audit)
         self.verifier = OutcomeVerifier(self.state_machine, self.audit)
         self._db_session = None

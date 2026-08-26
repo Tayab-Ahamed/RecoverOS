@@ -30,6 +30,25 @@ NOW = datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC)
 SECRET = "test_secret"
 
 
+def fixed_clock() -> datetime:
+    """The pinned reference time every test authorizes against.
+
+    The policy engine's ``contact_time_window`` rule reads the current hour,
+    so an engine left on the wall clock makes a test verdict a function of
+    when the suite happened to run. Outside 08:00-21:00 UTC every
+    contact-bearing action is denied and seventeen unrelated tests fail --
+    including the whole orchestrator happy path -- which reads as a broken
+    build rather than as a policy doing its job. 08:00 UTC is 13:30 IST, so
+    that window covers most of an Indian working morning.
+
+    ``NOW`` sits mid-day inside the window and matches both the dataset
+    generator and ``harness.EVAL_CLOCK_NOW``, so tests, benchmark and demo
+    all authorize against the same instant. Tests that specifically exercise
+    the time rule inject their own hour instead.
+    """
+    return NOW
+
+
 def customer(**kw) -> Customer:
     defaults = dict(
         id="cust_1",
@@ -93,7 +112,7 @@ class System:
         self.sm = StateMachine(self.audit)
         self.provider = MockRazorpayProvider(seed=seed)
         self.executor = RecoveryExecutor(self.provider, self.sm, self.audit)
-        self.policy = policy or PolicyEngine()
+        self.policy = policy or PolicyEngine(clock=fixed_clock)
         self.verifier = OutcomeVerifier(self.sm, self.audit)
         self.idempotency = InMemoryIdempotencyStore()
         self.cases: dict[str, RecoveryCase] = {}

@@ -411,15 +411,47 @@ def run_strategy(
     seed: str = "bench",
     auto_approve: bool = True,
     world_seed: str = "world_v1",
+    rules_override: PolicyRules | None = None,
 ) -> tuple[RunMetrics, list[RecoveryCase], AuditLog]:
     """Run one strategy end to end over a dataset.
 
     Outcomes are drawn from the hidden ground-truth world, not from the agent's
     own predictions. The world seed is fixed across arms so that comparisons are
     paired.
+
+    ``rules_override`` replaces the ruleset the arm would normally authorize
+    against, holding the decision layer, dataset, world and seed fixed. That is
+    what makes the counterfactual sandbox in ``app.evaluation.counterfactual``
+    an experiment rather than a rewrite: the only thing that changes between
+    runs is the policy, so a difference in outcome is attributable to the rule
+    and not to the planner. The invariant audit still uses ``GOVERNED_RULES``,
+    so a loosened variant is scored against the governed yardstick and its
+    violations are counted honestly rather than being defined away.
     """
+    from copy import deepcopy
+
     world = GroundTruthWorld(seed=world_seed)
     strategist, rules, llm = _build_strategist(strategy, seed, world)
+    if rules_override is not None:
+        rules = rules_override
+
+    # Take a private copy of the customer book before touching it.
+    #
+    # `Customer.contacts_this_window` is a mutable counter, and the contact
+    # ceiling is enforced by reading it. Running an arm therefore writes to the
+    # caller's Customer objects. Because `compare()` hands the *same* Dataset to
+    # every arm in sequence, every arm after the first used to start with a
+    # customer book already carrying the previous arm's contact counts, and was
+    # silently refused contacts it should have been allowed. The first arm in
+    # `STRATEGIES` got a clean slate and the rest did not, so the comparison
+    # measured position in the tuple as well as strategy, and re-running an arm
+    # in the same process produced different numbers than running it alone.
+    #
+    # Copying here keeps `run_strategy` a pure function of (dataset, strategy,
+    # seed): arms cannot contaminate each other, and the caller's dataset is
+    # left untouched so it can be reused or re-run safely. Guarded by
+    # tests/test_harness_isolation.py.
+    customers = deepcopy(dataset.customers)
 
     audit = AuditLog()
     sm = StateMachine(audit)
@@ -462,11 +494,11 @@ def run_strategy(
 
     learns = hasattr(strategist, "observe_outcome")
 
-    signals = detect(dataset.events, dataset.customers, dataset.generated_at)
+    signals = detect(dataset.events, customers, dataset.generated_at)
     all_cases: list[RecoveryCase] = []
 
     for signal in signals:
-        customer = dataset.customers[signal.event.customer_id]
+        customer = customers[signal.event.customer_id]
         case = orchestrator.open_case(
             signal, DataProvenance.SYNTHETIC, dataset.run_id
         )
@@ -588,7 +620,7 @@ def run_strategy(
 
     metrics.provider_calls = provider.create_calls
     metrics.audit_records = len(audit)
-    metrics.violations = _audit_invariants(all_cases, dataset.customers, audit)
+    metrics.violations = _audit_invariants(all_cases, customers, audit)
 
     if hasattr(strategist, "snapshot"):
         metrics.agent_snapshot = strategist.snapshot()

@@ -122,86 +122,93 @@
     "eligible_cases": 1950,
     "revenue_at_risk_paise": 587441000,
     "eligible_revenue_paise": 572549500,
-    "recovered_revenue_paise": 397999960,
+    "recovered_revenue_paise": 400863880,
     "revenue_at_risk_rupees": "5874410.00",
-    "recovered_revenue_rupees": "3979999.60",
-    "recovered_cases": 1451,
-    "recovery_rate": 0.6951,
+    "recovered_revenue_rupees": "4008638.80",
+    "recovered_cases": 1456,
+    "recovery_rate": 0.7001,
     "denied_cases": 26,
-    "escalated_cases": 473,
+    "escalated_cases": 468,
     "awaiting_approval": 0,
     "ineligible_cases": 50,
-    "contacts_made": 2755,
-    "provider_calls": 2755,
-    "webhooks_processed": 2755,
+    "contacts_made": 2744,
+    "provider_calls": 2744,
+    "webhooks_processed": 2744,
     "webhooks_rejected": 0,
-    "duplicate_webhooks_ignored": 2755,
-    "audit_records": 34125,
+    "duplicate_webhooks_ignored": 2744,
+    "audit_records": 33991,
     "strategy_mix": {
-      "PAYMENT_LINK": 1229,
-      "REMINDER": 721
+      "PAYMENT_LINK": 1348,
+      "REMINDER": 602
     },
-    "adaptive_explanations": 721,
-    "recovery_per_contact_paise": 144464.6,
+    "adaptive_explanations": 602,
+    "recovery_per_contact_paise": 146087.42,
     "policy_violations": 0,
     "policy_violation_rate": 0.0,
-    "decisions_scored": 2755,
-    "optimal_action_rate": 0.6584,
-    "mean_regret_paise": 15491.42,
-    "total_regret_rupees": 426788.73,
+    "decisions_scored": 2744,
+    "optimal_action_rate": 0.7004,
+    "mean_regret_paise": 11870.93,
+    "total_regret_rupees": 325738.42,
     "calibration": {
       "label": "recoveros",
-      "samples": 2755,
-      "brier": 0.232375,
-      "log_loss": 0.657261,
-      "ece": 0.0703,
-      "auc": 0.66889,
-      "sharpness": 0.009247,
-      "base_rate": 0.526679,
-      "mean_prediction": 0.461013,
-      "optimism_bias": -0.065665,
+      "samples": 2744,
+      "brier": 0.239785,
+      "log_loss": 0.673843,
+      "ece": 0.04293,
+      "auc": 0.623163,
+      "sharpness": 0.020125,
+      "base_rate": 0.530612,
+      "mean_prediction": 0.537175,
+      "optimism_bias": 0.006562,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 74,
+          "count": 32,
           "mean_prediction": 0.28,
-          "observed_rate": 0.3108,
-          "gap": 0.030811
+          "observed_rate": 0.375,
+          "gap": 0.095
         },
         {
           "bin": "0.3-0.4",
-          "count": 945,
-          "mean_prediction": 0.3602,
-          "observed_rate": 0.3534,
-          "gap": 0.006756
+          "count": 562,
+          "mean_prediction": 0.3615,
+          "observed_rate": 0.379,
+          "gap": 0.017544
         },
         {
           "bin": "0.4-0.5",
-          "count": 433,
-          "mean_prediction": 0.4604,
-          "observed_rate": 0.6628,
-          "gap": 0.202434
+          "count": 522,
+          "mean_prediction": 0.4579,
+          "observed_rate": 0.4789,
+          "gap": 0.021048
         },
         {
           "bin": "0.5-0.6",
-          "count": 1097,
-          "mean_prediction": 0.5299,
-          "observed_rate": 0.5743,
-          "gap": 0.044356
+          "count": 806,
+          "mean_prediction": 0.5422,
+          "observed_rate": 0.5608,
+          "gap": 0.018608
         },
         {
           "bin": "0.6-0.7",
-          "count": 198,
-          "mean_prediction": 0.619,
-          "observed_rate": 0.8535,
-          "gap": 0.234525
+          "count": 373,
+          "mean_prediction": 0.6434,
+          "observed_rate": 0.6729,
+          "gap": 0.029523
         },
         {
           "bin": "0.7-0.8",
-          "count": 8,
-          "mean_prediction": 0.717,
-          "observed_rate": 1.0,
-          "gap": 0.283
+          "count": 297,
+          "mean_prediction": 0.7279,
+          "observed_rate": 0.5556,
+          "gap": 0.172337
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 152,
+          "mean_prediction": 0.8534,
+          "observed_rate": 0.7434,
+          "gap": 0.11
         }
       ]
     },
@@ -216,80 +223,94 @@
     "eligible_cases": 1950,
     "revenue_at_risk_paise": 587441000,
     "eligible_revenue_paise": 572549500,
-    "recovered_revenue_paise": 393830185,
+    "recovered_revenue_paise": 388355730,
     "revenue_at_risk_rupees": "5874410.00",
-    "recovered_revenue_rupees": "3938301.85",
-    "recovered_cases": 1424,
-    "recovery_rate": 0.6879,
-    "denied_cases": 328,
-    "escalated_cases": 198,
+    "recovered_revenue_rupees": "3883557.30",
+    "recovered_cases": 1448,
+    "recovery_rate": 0.6783,
+    "denied_cases": 312,
+    "escalated_cases": 190,
     "awaiting_approval": 0,
     "ineligible_cases": 50,
-    "contacts_made": 2528,
-    "provider_calls": 2528,
-    "webhooks_processed": 2528,
+    "contacts_made": 2605,
+    "provider_calls": 2605,
+    "webhooks_processed": 2605,
     "webhooks_rejected": 0,
-    "duplicate_webhooks_ignored": 2528,
-    "audit_records": 32284,
+    "duplicate_webhooks_ignored": 2605,
+    "audit_records": 32815,
     "strategy_mix": {
-      "PAYMENT_LINK": 1032,
-      "REMINDER": 809,
-      "STOP": 109
+      "PAYMENT_LINK": 1005,
+      "REMINDER": 886,
+      "STOP": 59
     },
-    "adaptive_explanations": 918,
-    "recovery_per_contact_paise": 155787.26,
+    "adaptive_explanations": 945,
+    "recovery_per_contact_paise": 149080.89,
     "policy_violations": 0,
     "policy_violation_rate": 0.0,
-    "decisions_scored": 2528,
-    "optimal_action_rate": 0.8105,
-    "mean_regret_paise": 14729.79,
-    "total_regret_rupees": 372369.07,
+    "decisions_scored": 2605,
+    "optimal_action_rate": 0.7866,
+    "mean_regret_paise": 16355.59,
+    "total_regret_rupees": 426063.16,
     "calibration": {
       "label": "learning",
-      "samples": 2528,
-      "brier": 0.234753,
-      "log_loss": 0.662103,
-      "ece": 0.10173,
-      "auc": 0.677905,
-      "sharpness": 0.009117,
-      "base_rate": 0.563291,
-      "mean_prediction": 0.461561,
-      "optimism_bias": -0.10173,
+      "samples": 2605,
+      "brier": 0.241848,
+      "log_loss": 0.67964,
+      "ece": 0.066752,
+      "auc": 0.614141,
+      "sharpness": 0.020388,
+      "base_rate": 0.555854,
+      "mean_prediction": 0.542624,
+      "optimism_bias": -0.01323,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 66,
+          "count": 30,
           "mean_prediction": 0.28,
-          "observed_rate": 0.2879,
-          "gap": 0.007879
+          "observed_rate": 0.4,
+          "gap": 0.12
         },
         {
           "bin": "0.3-0.4",
-          "count": 859,
-          "mean_prediction": 0.36,
-          "observed_rate": 0.3865,
-          "gap": 0.026545
+          "count": 487,
+          "mean_prediction": 0.3608,
+          "observed_rate": 0.4086,
+          "gap": 0.047797
         },
         {
           "bin": "0.4-0.5",
-          "count": 413,
-          "mean_prediction": 0.4613,
-          "observed_rate": 0.6489,
-          "gap": 0.18762
+          "count": 530,
+          "mean_prediction": 0.4582,
+          "observed_rate": 0.4642,
+          "gap": 0.00593
         },
         {
           "bin": "0.5-0.6",
-          "count": 1007,
-          "mean_prediction": 0.5321,
-          "observed_rate": 0.6465,
-          "gap": 0.114403
+          "count": 738,
+          "mean_prediction": 0.5439,
+          "observed_rate": 0.6274,
+          "gap": 0.083461
         },
         {
           "bin": "0.6-0.7",
-          "count": 183,
-          "mean_prediction": 0.6166,
-          "observed_rate": 0.8415,
-          "gap": 0.224918
+          "count": 380,
+          "mean_prediction": 0.6433,
+          "observed_rate": 0.6763,
+          "gap": 0.033058
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 278,
+          "mean_prediction": 0.7286,
+          "observed_rate": 0.5935,
+          "gap": 0.135079
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 162,
+          "mean_prediction": 0.8528,
+          "observed_rate": 0.6543,
+          "gap": 0.198519
         }
       ]
     },
@@ -302,18 +323,18 @@
       "persistence_path": null,
       "loaded_from_disk": false,
       "stats": {
-        "plans": 3054,
+        "plans": 3107,
         "consent_stops": 0,
-        "bandit_selections": 3054,
-        "explorations": 691,
+        "bandit_selections": 3107,
+        "explorations": 770,
         "llm_narrations": 0,
         "llm_failures": 0,
         "llm_guardrail_blocks": 0,
         "llm_overrides_accepted": 0,
         "llm_overrides_blocked": 0,
-        "critic_softened": 13,
-        "critic_rejected": 326,
-        "outcomes_learned": 3054,
+        "critic_softened": 17,
+        "critic_rejected": 308,
+        "outcomes_learned": 3107,
         "guardrail_codes": {}
       },
       "bandit": {
@@ -326,40 +347,40 @@
           "SUBSCRIPTION_RECOVERY"
         ],
         "segments_learned": 24,
-        "cells": 80,
-        "decisions": 3054,
-        "explorations": 691,
-        "exploration_rate": 0.2263,
-        "total_observations": 3054,
+        "cells": 82,
+        "decisions": 3107,
+        "explorations": 770,
+        "exploration_rate": 0.2478,
+        "total_observations": 3107,
         "learned_policy": {
           "ABANDONED_CHECKOUT|a0": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 22.864,
-                "beta": 43.136,
-                "pulls": 52,
-                "wins": 18,
-                "posterior_mean": 0.3464,
-                "observed_rate": 0.3462,
-                "credible_width": 0.232528
+                "alpha": 23.52,
+                "beta": 45.48,
+                "pulls": 55,
+                "wins": 17,
+                "posterior_mean": 0.3409,
+                "observed_rate": 0.3091,
+                "credible_width": 0.226616
               },
               "REMINDER": {
-                "alpha": 65.864,
-                "beta": 107.136,
-                "pulls": 159,
+                "alpha": 67.52,
+                "beta": 106.48,
+                "pulls": 160,
                 "wins": 61,
-                "posterior_mean": 0.3807,
-                "observed_rate": 0.3836,
-                "credible_width": 0.147242
+                "posterior_mean": 0.388,
+                "observed_rate": 0.3812,
+                "credible_width": 0.147347
               },
               "STOP": {
                 "alpha": 1.0,
-                "beta": 27.0,
-                "pulls": 26,
+                "beta": 23.0,
+                "pulls": 22,
                 "wins": 0,
-                "posterior_mean": 0.0357,
+                "posterior_mean": 0.0417,
                 "observed_rate": 0.0,
-                "credible_width": 0.137843
+                "credible_width": 0.159861
               }
             },
             "preferred": "REMINDER",
@@ -368,565 +389,97 @@
           "ABANDONED_CHECKOUT|a1": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 20.864,
-                "beta": 60.136,
-                "pulls": 67,
-                "wins": 16,
-                "posterior_mean": 0.2576,
-                "observed_rate": 0.2388,
-                "credible_width": 0.193168
+                "alpha": 24.52,
+                "beta": 58.48,
+                "pulls": 69,
+                "wins": 18,
+                "posterior_mean": 0.2954,
+                "observed_rate": 0.2609,
+                "credible_width": 0.199116
               },
               "PAYMENT_LINK+5": {
-                "alpha": 6.864,
-                "beta": 22.136,
-                "pulls": 15,
+                "alpha": 8.52,
+                "beta": 21.48,
+                "pulls": 16,
                 "wins": 2,
-                "posterior_mean": 0.2367,
-                "observed_rate": 0.1333,
-                "credible_width": 0.310413
+                "posterior_mean": 0.284,
+                "observed_rate": 0.125,
+                "credible_width": 0.323963
               },
               "REMINDER": {
-                "alpha": 13.864,
-                "beta": 50.136,
+                "alpha": 15.52,
+                "beta": 48.48,
                 "pulls": 50,
                 "wins": 9,
-                "posterior_mean": 0.2166,
+                "posterior_mean": 0.2425,
                 "observed_rate": 0.18,
-                "credible_width": 0.204382
+                "credible_width": 0.212643
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 132
+            "observations": 135
           },
           "ABANDONED_CHECKOUT|a2": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 4.864,
-                "beta": 22.136,
+                "alpha": 6.52,
+                "beta": 20.48,
                 "pulls": 13,
                 "wins": 0,
-                "posterior_mean": 0.1801,
+                "posterior_mean": 0.2415,
                 "observed_rate": 0.0,
-                "credible_width": 0.290512
+                "credible_width": 0.323524
               },
               "PAYMENT_LINK+5": {
-                "alpha": 4.864,
-                "beta": 23.136,
-                "pulls": 14,
+                "alpha": 6.52,
+                "beta": 19.48,
+                "pulls": 12,
                 "wins": 0,
-                "posterior_mean": 0.1737,
+                "posterior_mean": 0.2508,
                 "observed_rate": 0.0,
-                "credible_width": 0.281413
+                "credible_width": 0.333675
               },
               "REMINDER": {
-                "alpha": 4.864,
-                "beta": 20.136,
-                "pulls": 11,
+                "alpha": 6.52,
+                "beta": 15.48,
+                "pulls": 8,
                 "wins": 0,
-                "posterior_mean": 0.1946,
+                "posterior_mean": 0.2964,
                 "observed_rate": 0.0,
-                "credible_width": 0.310539
+                "credible_width": 0.380875
               },
               "STOP": {
                 "alpha": 1.0,
-                "beta": 68.0,
-                "pulls": 67,
+                "beta": 74.0,
+                "pulls": 73,
                 "wins": 0,
-                "posterior_mean": 0.0145,
+                "posterior_mean": 0.0133,
                 "observed_rate": 0.0,
-                "credible_width": 0.057137
+                "credible_width": 0.052627
               }
             },
             "preferred": "REMINDER",
-            "observations": 105
+            "observations": 106
           },
           "AUTHENTICATION_FAILED|a0": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 185.712,
-                "beta": 58.288,
-                "pulls": 230,
-                "wins": 179,
-                "posterior_mean": 0.7611,
-                "observed_rate": 0.7783,
-                "credible_width": 0.108967
+                "alpha": 186.16,
+                "beta": 54.84,
+                "pulls": 227,
+                "wins": 177,
+                "posterior_mean": 0.7724,
+                "observed_rate": 0.7797,
+                "credible_width": 0.107802
               },
               "REMINDER": {
-                "alpha": 6.712,
-                "beta": 12.288,
-                "pulls": 5,
-                "wins": 0,
-                "posterior_mean": 0.3533,
-                "observed_rate": 0.0,
-                "credible_width": 0.427522
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 15.0,
-                "pulls": 14,
-                "wins": 0,
-                "posterior_mean": 0.0625,
-                "observed_rate": 0.0,
-                "credible_width": 0.234834
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 249
-          },
-          "AUTHENTICATION_FAILED|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 36.712,
-                "beta": 22.288,
-                "pulls": 45,
-                "wins": 30,
-                "posterior_mean": 0.6222,
-                "observed_rate": 0.6667,
-                "credible_width": 0.250364
-              },
-              "REMINDER": {
-                "alpha": 7.712,
-                "beta": 13.288,
-                "pulls": 7,
-                "wins": 1,
-                "posterior_mean": 0.3672,
-                "observed_rate": 0.1429,
-                "credible_width": 0.411095
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 52
-          },
-          "AUTHENTICATION_FAILED|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 6.712,
-                "beta": 12.288,
-                "pulls": 5,
-                "wins": 0,
-                "posterior_mean": 0.3533,
-                "observed_rate": 0.0,
-                "credible_width": 0.427522
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 12.0,
-                "pulls": 11,
-                "wins": 0,
-                "posterior_mean": 0.0769,
-                "observed_rate": 0.0,
-                "credible_width": 0.284868
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 16
-          },
-          "CARD_DECLINED|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 121.62,
-                "beta": 146.38,
-                "pulls": 254,
-                "wins": 116,
-                "posterior_mean": 0.4538,
-                "observed_rate": 0.4567,
-                "credible_width": 0.121421
-              },
-              "REMINDER": {
-                "alpha": 31.62,
-                "beta": 58.38,
-                "pulls": 76,
-                "wins": 26,
-                "posterior_mean": 0.3513,
-                "observed_rate": 0.3421,
-                "credible_width": 0.200175
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 21.0,
-                "pulls": 20,
-                "wins": 0,
-                "posterior_mean": 0.0455,
-                "observed_rate": 0.0,
-                "credible_width": 0.173733
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 350
-          },
-          "CARD_DECLINED|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 76.62,
-                "beta": 81.38,
-                "pulls": 144,
-                "wins": 71,
-                "posterior_mean": 0.4849,
-                "observed_rate": 0.4931,
-                "credible_width": 0.158538
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 19.62,
-                "beta": 25.38,
-                "pulls": 31,
-                "wins": 14,
-                "posterior_mean": 0.436,
-                "observed_rate": 0.4516,
-                "credible_width": 0.292458
-              },
-              "REMINDER": {
-                "alpha": 6.62,
-                "beta": 20.38,
-                "pulls": 13,
-                "wins": 1,
-                "posterior_mean": 0.2452,
-                "observed_rate": 0.0769,
-                "credible_width": 0.325198
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 188
-          },
-          "CARD_DECLINED|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 5.62,
-                "beta": 25.38,
-                "pulls": 17,
-                "wins": 0,
-                "posterior_mean": 0.1813,
-                "observed_rate": 0.0,
-                "credible_width": 0.272419
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 5.62,
-                "beta": 18.38,
-                "pulls": 10,
-                "wins": 0,
-                "posterior_mean": 0.2342,
-                "observed_rate": 0.0,
-                "credible_width": 0.338781
-              },
-              "REMINDER": {
-                "alpha": 5.62,
-                "beta": 26.38,
-                "pulls": 18,
-                "wins": 0,
-                "posterior_mean": 0.1756,
-                "observed_rate": 0.0,
-                "credible_width": 0.264947
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 58.0,
-                "pulls": 57,
-                "wins": 0,
-                "posterior_mean": 0.0169,
-                "observed_rate": 0.0,
-                "credible_width": 0.066657
-              }
-            },
-            "preferred": "PAYMENT_LINK+5",
-            "observations": 102
-          },
-          "CARD_EXPIRED|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 217.056,
-                "beta": 51.944,
-                "pulls": 255,
-                "wins": 209,
-                "posterior_mean": 0.8069,
-                "observed_rate": 0.8196,
-                "credible_width": 0.09609
-              },
-              "REMINDER": {
-                "alpha": 20.056,
-                "beta": 16.944,
-                "pulls": 23,
-                "wins": 12,
-                "posterior_mean": 0.5421,
-                "observed_rate": 0.5217,
-                "credible_width": 0.323293
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 8.0,
-                "pulls": 7,
-                "wins": 0,
-                "posterior_mean": 0.1111,
-                "observed_rate": 0.0,
-                "credible_width": 0.397523
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 285
-          },
-          "CARD_EXPIRED|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 32.056,
-                "beta": 17.944,
-                "pulls": 36,
-                "wins": 24,
-                "posterior_mean": 0.6411,
-                "observed_rate": 0.6667,
-                "credible_width": 0.26867
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 13.056,
-                "beta": 10.944,
-                "pulls": 10,
-                "wins": 5,
-                "posterior_mean": 0.544,
-                "observed_rate": 0.5,
-                "credible_width": 0.398448
-              },
-              "REMINDER": {
-                "alpha": 11.056,
-                "beta": 11.944,
-                "pulls": 9,
-                "wins": 3,
-                "posterior_mean": 0.4807,
-                "observed_rate": 0.3333,
-                "credible_width": 0.407944
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 55
-          },
-          "CARD_EXPIRED|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 8.056,
-                "beta": 11.944,
-                "pulls": 6,
-                "wins": 0,
-                "posterior_mean": 0.4028,
-                "observed_rate": 0.0,
-                "credible_width": 0.42811
-              },
-              "REMINDER": {
-                "alpha": 8.056,
-                "beta": 10.944,
-                "pulls": 5,
-                "wins": 0,
-                "posterior_mean": 0.424,
-                "observed_rate": 0.0,
-                "credible_width": 0.442017
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 9.0,
-                "pulls": 8,
-                "wins": 0,
-                "posterior_mean": 0.1,
-                "observed_rate": 0.0,
-                "credible_width": 0.361814
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 19
-          },
-          "INSUFFICIENT_FUNDS|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 18.048,
-                "beta": 24.952,
-                "pulls": 29,
-                "wins": 11,
-                "posterior_mean": 0.4197,
-                "observed_rate": 0.3793,
-                "credible_width": 0.2976
-              },
-              "REMINDER": {
-                "alpha": 317.048,
-                "beta": 164.952,
-                "pulls": 468,
-                "wins": 310,
-                "posterior_mean": 0.6578,
-                "observed_rate": 0.6624,
-                "credible_width": 0.086354
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 29.0,
-                "pulls": 28,
-                "wins": 0,
-                "posterior_mean": 0.0333,
-                "observed_rate": 0.0,
-                "credible_width": 0.128961
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 525
-          },
-          "INSUFFICIENT_FUNDS|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 24.048,
-                "beta": 36.952,
-                "pulls": 47,
-                "wins": 17,
-                "posterior_mean": 0.3942,
-                "observed_rate": 0.3617,
-                "credible_width": 0.248252
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 18.048,
-                "beta": 24.952,
-                "pulls": 29,
-                "wins": 11,
-                "posterior_mean": 0.4197,
-                "observed_rate": 0.3793,
-                "credible_width": 0.2976
-              },
-              "REMINDER": {
-                "alpha": 53.048,
-                "beta": 60.952,
-                "pulls": 100,
-                "wins": 46,
-                "posterior_mean": 0.4653,
-                "observed_rate": 0.46,
-                "credible_width": 0.186052
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 176
-          },
-          "INSUFFICIENT_FUNDS|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 7.048,
-                "beta": 26.952,
-                "pulls": 20,
-                "wins": 0,
-                "posterior_mean": 0.2073,
-                "observed_rate": 0.0,
-                "credible_width": 0.274079
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 7.048,
-                "beta": 25.952,
-                "pulls": 19,
-                "wins": 0,
-                "posterior_mean": 0.2136,
-                "observed_rate": 0.0,
-                "credible_width": 0.281141
-              },
-              "REMINDER": {
-                "alpha": 7.048,
-                "beta": 26.952,
-                "pulls": 20,
-                "wins": 0,
-                "posterior_mean": 0.2073,
-                "observed_rate": 0.0,
-                "credible_width": 0.274079
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 44.0,
-                "pulls": 43,
-                "wins": 0,
-                "posterior_mean": 0.0222,
-                "observed_rate": 0.0,
-                "credible_width": 0.086935
-              }
-            },
-            "preferred": "PAYMENT_LINK+5",
-            "observations": 102
-          },
-          "INVOICE_UNPAID|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 19.124,
-                "beta": 20.876,
-                "pulls": 26,
-                "wins": 13,
-                "posterior_mean": 0.4781,
-                "observed_rate": 0.5,
-                "credible_width": 0.312048
-              },
-              "REMINDER": {
-                "alpha": 46.124,
-                "beta": 30.876,
-                "pulls": 63,
-                "wins": 40,
-                "posterior_mean": 0.599,
-                "observed_rate": 0.6349,
-                "credible_width": 0.221971
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 89
-          },
-          "INVOICE_UNPAID|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 8.124,
-                "beta": 15.876,
-                "pulls": 10,
-                "wins": 2,
-                "posterior_mean": 0.3385,
-                "observed_rate": 0.2,
-                "credible_width": 0.37856
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 6.124,
-                "beta": 13.876,
-                "pulls": 6,
-                "wins": 0,
-                "posterior_mean": 0.3062,
-                "observed_rate": 0.0,
-                "credible_width": 0.402319
-              },
-              "REMINDER": {
-                "alpha": 10.124,
-                "beta": 23.876,
-                "pulls": 20,
-                "wins": 4,
-                "posterior_mean": 0.2978,
-                "observed_rate": 0.2,
-                "credible_width": 0.309175
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 36
-          },
-          "INVOICE_UNPAID|a2": {
-            "arms": {
-              "REMINDER": {
-                "alpha": 6.124,
-                "beta": 13.876,
-                "pulls": 6,
-                "wins": 0,
-                "posterior_mean": 0.3062,
-                "observed_rate": 0.0,
-                "credible_width": 0.402319
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 17.0,
+                "alpha": 15.16,
+                "beta": 14.84,
                 "pulls": 16,
-                "wins": 0,
-                "posterior_mean": 0.0556,
-                "observed_rate": 0.0,
-                "credible_width": 0.210201
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 22
-          },
-          "TECHNICAL_ERROR|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 150.392,
-                "beta": 21.608,
-                "pulls": 158,
-                "wins": 142,
-                "posterior_mean": 0.8744,
-                "observed_rate": 0.8987,
-                "credible_width": 0.100792
+                "wins": 6,
+                "posterior_mean": 0.5053,
+                "observed_rate": 0.375,
+                "credible_width": 0.35919
               },
               "STOP": {
                 "alpha": 1.0,
@@ -939,103 +492,595 @@
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 164
+            "observations": 249
+          },
+          "AUTHENTICATION_FAILED|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 41.16,
+                "beta": 18.84,
+                "pulls": 46,
+                "wins": 32,
+                "posterior_mean": 0.686,
+                "observed_rate": 0.6957,
+                "credible_width": 0.237696
+              },
+              "REMINDER": {
+                "alpha": 10.16,
+                "beta": 13.84,
+                "pulls": 10,
+                "wins": 1,
+                "posterior_mean": 0.4233,
+                "observed_rate": 0.1,
+                "credible_width": 0.39527
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 56
+          },
+          "AUTHENTICATION_FAILED|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 9.16,
+                "beta": 9.84,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.4821,
+                "observed_rate": 0.0,
+                "credible_width": 0.446927
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 14.0,
+                "pulls": 13,
+                "wins": 0,
+                "posterior_mean": 0.0667,
+                "observed_rate": 0.0,
+                "credible_width": 0.249444
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 18
+          },
+          "CARD_DECLINED|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 116.6,
+                "beta": 138.4,
+                "pulls": 241,
+                "wins": 109,
+                "posterior_mean": 0.4573,
+                "observed_rate": 0.4523,
+                "credible_width": 0.124542
+              },
+              "REMINDER": {
+                "alpha": 43.6,
+                "beta": 71.4,
+                "pulls": 101,
+                "wins": 36,
+                "posterior_mean": 0.3791,
+                "observed_rate": 0.3564,
+                "credible_width": 0.180188
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 9.0,
+                "pulls": 8,
+                "wins": 0,
+                "posterior_mean": 0.1,
+                "observed_rate": 0.0,
+                "credible_width": 0.361814
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 350
+          },
+          "CARD_DECLINED|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 71.6,
+                "beta": 75.4,
+                "pulls": 133,
+                "wins": 64,
+                "posterior_mean": 0.4871,
+                "observed_rate": 0.4812,
+                "credible_width": 0.164344
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 23.6,
+                "beta": 26.4,
+                "pulls": 36,
+                "wins": 16,
+                "posterior_mean": 0.472,
+                "observed_rate": 0.4444,
+                "credible_width": 0.279617
+              },
+              "REMINDER": {
+                "alpha": 12.6,
+                "beta": 27.4,
+                "pulls": 26,
+                "wins": 5,
+                "posterior_mean": 0.315,
+                "observed_rate": 0.1923,
+                "credible_width": 0.290181
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 195
+          },
+          "CARD_DECLINED|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 7.6,
+                "beta": 23.4,
+                "pulls": 17,
+                "wins": 0,
+                "posterior_mean": 0.2452,
+                "observed_rate": 0.0,
+                "credible_width": 0.304185
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 7.6,
+                "beta": 15.4,
+                "pulls": 9,
+                "wins": 0,
+                "posterior_mean": 0.3304,
+                "observed_rate": 0.0,
+                "credible_width": 0.384055
+              },
+              "REMINDER": {
+                "alpha": 7.6,
+                "beta": 22.4,
+                "pulls": 16,
+                "wins": 0,
+                "posterior_mean": 0.2533,
+                "observed_rate": 0.0,
+                "credible_width": 0.312456
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 69.0,
+                "pulls": 68,
+                "wins": 0,
+                "posterior_mean": 0.0143,
+                "observed_rate": 0.0,
+                "credible_width": 0.056332
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 110
+          },
+          "CARD_EXPIRED|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 209.08,
+                "beta": 47.92,
+                "pulls": 243,
+                "wins": 198,
+                "posterior_mean": 0.8135,
+                "observed_rate": 0.8148,
+                "credible_width": 0.096991
+              },
+              "REMINDER": {
+                "alpha": 30.08,
+                "beta": 21.92,
+                "pulls": 38,
+                "wins": 19,
+                "posterior_mean": 0.5785,
+                "observed_rate": 0.5,
+                "credible_width": 0.271318
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 281
+          },
+          "CARD_EXPIRED|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 34.08,
+                "beta": 14.92,
+                "pulls": 35,
+                "wins": 23,
+                "posterior_mean": 0.6955,
+                "observed_rate": 0.6571,
+                "credible_width": 0.260323
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 23.08,
+                "beta": 7.92,
+                "pulls": 17,
+                "wins": 12,
+                "posterior_mean": 0.7445,
+                "observed_rate": 0.7059,
+                "credible_width": 0.308392
+              },
+              "REMINDER": {
+                "alpha": 13.08,
+                "beta": 10.92,
+                "pulls": 10,
+                "wins": 2,
+                "posterior_mean": 0.545,
+                "observed_rate": 0.2,
+                "credible_width": 0.398377
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 62
+          },
+          "CARD_EXPIRED|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 11.08,
+                "beta": 8.92,
+                "pulls": 6,
+                "wins": 0,
+                "posterior_mean": 0.554,
+                "observed_rate": 0.0,
+                "credible_width": 0.433883
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 11.08,
+                "beta": 7.92,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.5832,
+                "observed_rate": 0.0,
+                "credible_width": 0.440985
+              },
+              "REMINDER": {
+                "alpha": 11.08,
+                "beta": 8.92,
+                "pulls": 6,
+                "wins": 0,
+                "posterior_mean": 0.554,
+                "observed_rate": 0.0,
+                "credible_width": 0.433883
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 9.0,
+                "pulls": 8,
+                "wins": 0,
+                "posterior_mean": 0.1,
+                "observed_rate": 0.0,
+                "credible_width": 0.361814
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 25
+          },
+          "INSUFFICIENT_FUNDS|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 19.64,
+                "beta": 24.36,
+                "pulls": 30,
+                "wins": 10,
+                "posterior_mean": 0.4464,
+                "observed_rate": 0.3333,
+                "credible_width": 0.296422
+              },
+              "REMINDER": {
+                "alpha": 332.64,
+                "beta": 163.36,
+                "pulls": 482,
+                "wins": 323,
+                "posterior_mean": 0.6706,
+                "observed_rate": 0.6701,
+                "credible_width": 0.084326
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 14.0,
+                "pulls": 13,
+                "wins": 0,
+                "posterior_mean": 0.0667,
+                "observed_rate": 0.0,
+                "credible_width": 0.249444
+              }
+            },
+            "preferred": "REMINDER",
+            "observations": 525
+          },
+          "INSUFFICIENT_FUNDS|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 34.64,
+                "beta": 39.36,
+                "pulls": 60,
+                "wins": 25,
+                "posterior_mean": 0.4681,
+                "observed_rate": 0.4167,
+                "credible_width": 0.23047
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 23.64,
+                "beta": 24.36,
+                "pulls": 34,
+                "wins": 14,
+                "posterior_mean": 0.4925,
+                "observed_rate": 0.4118,
+                "credible_width": 0.285682
+              },
+              "REMINDER": {
+                "alpha": 45.64,
+                "beta": 51.36,
+                "pulls": 83,
+                "wins": 36,
+                "posterior_mean": 0.4705,
+                "observed_rate": 0.4337,
+                "credible_width": 0.201679
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 177
+          },
+          "INSUFFICIENT_FUNDS|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 9.64,
+                "beta": 23.36,
+                "pulls": 19,
+                "wins": 0,
+                "posterior_mean": 0.2921,
+                "observed_rate": 0.0,
+                "credible_width": 0.311948
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 9.64,
+                "beta": 21.36,
+                "pulls": 17,
+                "wins": 0,
+                "posterior_mean": 0.311,
+                "observed_rate": 0.0,
+                "credible_width": 0.327312
+              },
+              "REMINDER": {
+                "alpha": 9.64,
+                "beta": 23.36,
+                "pulls": 19,
+                "wins": 0,
+                "posterior_mean": 0.2921,
+                "observed_rate": 0.0,
+                "credible_width": 0.311948
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 48.0,
+                "pulls": 47,
+                "wins": 0,
+                "posterior_mean": 0.0204,
+                "observed_rate": 0.0,
+                "credible_width": 0.079983
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 102
+          },
+          "INVOICE_UNPAID|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 21.32,
+                "beta": 22.68,
+                "pulls": 30,
+                "wins": 13,
+                "posterior_mean": 0.4845,
+                "observed_rate": 0.4333,
+                "credible_width": 0.298
+              },
+              "REMINDER": {
+                "alpha": 47.32,
+                "beta": 28.68,
+                "pulls": 62,
+                "wins": 39,
+                "posterior_mean": 0.6226,
+                "observed_rate": 0.629,
+                "credible_width": 0.22096
+              }
+            },
+            "preferred": "REMINDER",
+            "observations": 92
+          },
+          "INVOICE_UNPAID|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 10.32,
+                "beta": 14.68,
+                "pulls": 11,
+                "wins": 2,
+                "posterior_mean": 0.4128,
+                "observed_rate": 0.1818,
+                "credible_width": 0.386221
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 8.32,
+                "beta": 11.68,
+                "pulls": 6,
+                "wins": 0,
+                "posterior_mean": 0.416,
+                "observed_rate": 0.0,
+                "credible_width": 0.430233
+              },
+              "REMINDER": {
+                "alpha": 12.32,
+                "beta": 24.68,
+                "pulls": 23,
+                "wins": 4,
+                "posterior_mean": 0.333,
+                "observed_rate": 0.1739,
+                "credible_width": 0.305805
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 40
+          },
+          "INVOICE_UNPAID|a2": {
+            "arms": {
+              "PAYMENT_LINK+5": {
+                "alpha": 8.32,
+                "beta": 10.68,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.4379,
+                "observed_rate": 0.0,
+                "credible_width": 0.44375
+              },
+              "REMINDER": {
+                "alpha": 8.32,
+                "beta": 12.68,
+                "pulls": 7,
+                "wins": 0,
+                "posterior_mean": 0.3962,
+                "observed_rate": 0.0,
+                "credible_width": 0.41711
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 19.0,
+                "pulls": 18,
+                "wins": 0,
+                "posterior_mean": 0.05,
+                "observed_rate": 0.0,
+                "credible_width": 0.190238
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 30
+          },
+          "TECHNICAL_ERROR|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 145.56,
+                "beta": 17.44,
+                "pulls": 149,
+                "wins": 134,
+                "posterior_mean": 0.893,
+                "observed_rate": 0.8993,
+                "credible_width": 0.096548
+              },
+              "REMINDER": {
+                "alpha": 22.56,
+                "beta": 7.44,
+                "pulls": 16,
+                "wins": 11,
+                "posterior_mean": 0.752,
+                "observed_rate": 0.6875,
+                "credible_width": 0.310252
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 165
           },
           "TECHNICAL_ERROR|a1": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 11.392,
-                "beta": 9.608,
-                "pulls": 7,
+                "alpha": 14.56,
+                "beta": 7.44,
+                "pulls": 8,
                 "wins": 3,
-                "posterior_mean": 0.5425,
-                "observed_rate": 0.4286,
-                "credible_width": 0.42486
+                "posterior_mean": 0.6618,
+                "observed_rate": 0.375,
+                "credible_width": 0.394585
               },
               "REMINDER": {
-                "alpha": 12.392,
-                "beta": 10.608,
+                "alpha": 14.56,
+                "beta": 8.44,
                 "pulls": 9,
-                "wins": 4,
-                "posterior_mean": 0.5388,
-                "observed_rate": 0.4444,
-                "credible_width": 0.407018
+                "wins": 3,
+                "posterior_mean": 0.633,
+                "observed_rate": 0.3333,
+                "credible_width": 0.393531
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 16
+            "observations": 17
+          },
+          "TECHNICAL_ERROR|a2": {
+            "arms": {
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 6.0,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.1429,
+                "observed_rate": 0.0,
+                "credible_width": 0.494872
+              }
+            },
+            "preferred": "STOP",
+            "observations": 5
           },
           "UNKNOWN|a0": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 14.36,
-                "beta": 27.64,
-                "pulls": 28,
+                "alpha": 15.8,
+                "beta": 28.2,
+                "pulls": 30,
                 "wins": 10,
-                "posterior_mean": 0.3419,
-                "observed_rate": 0.3571,
-                "credible_width": 0.289349
+                "posterior_mean": 0.3591,
+                "observed_rate": 0.3333,
+                "credible_width": 0.286058
               },
               "REMINDER": {
-                "alpha": 6.36,
-                "beta": 18.64,
+                "alpha": 7.8,
+                "beta": 17.2,
                 "pulls": 11,
                 "wins": 2,
-                "posterior_mean": 0.2544,
+                "posterior_mean": 0.312,
                 "observed_rate": 0.1818,
-                "credible_width": 0.341653
+                "credible_width": 0.36345
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 39
+            "observations": 41
           },
           "UNKNOWN|a1": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 7.36,
-                "beta": 16.64,
-                "pulls": 10,
-                "wins": 3,
-                "posterior_mean": 0.3067,
-                "observed_rate": 0.3,
-                "credible_width": 0.368888
+                "alpha": 11.8,
+                "beta": 14.2,
+                "pulls": 12,
+                "wins": 6,
+                "posterior_mean": 0.4538,
+                "observed_rate": 0.5,
+                "credible_width": 0.383257
               },
               "REMINDER": {
-                "alpha": 8.36,
-                "beta": 18.64,
+                "alpha": 7.8,
+                "beta": 19.2,
                 "pulls": 13,
-                "wins": 4,
-                "posterior_mean": 0.3096,
-                "observed_rate": 0.3077,
-                "credible_width": 0.349497
+                "wins": 2,
+                "posterior_mean": 0.2889,
+                "observed_rate": 0.1538,
+                "credible_width": 0.342622
               }
             },
-            "preferred": "REMINDER",
-            "observations": 23
+            "preferred": "PAYMENT_LINK",
+            "observations": 25
           },
           "UNKNOWN|a2": {
             "arms": {
               "REMINDER": {
-                "alpha": 4.36,
-                "beta": 14.64,
+                "alpha": 5.8,
+                "beta": 13.2,
                 "pulls": 5,
                 "wins": 0,
-                "posterior_mean": 0.2295,
+                "posterior_mean": 0.3053,
                 "observed_rate": 0.0,
-                "credible_width": 0.376102
+                "credible_width": 0.411901
               },
               "STOP": {
                 "alpha": 1.0,
-                "beta": 13.0,
-                "pulls": 12,
+                "beta": 14.0,
+                "pulls": 13,
                 "wins": 0,
-                "posterior_mean": 0.0714,
+                "posterior_mean": 0.0667,
                 "observed_rate": 0.0,
-                "credible_width": 0.265986
+                "credible_width": 0.249444
               }
             },
             "preferred": "REMINDER",
-            "observations": 17
+            "observations": 18
           }
         }
       },
@@ -1044,64 +1089,64 @@
         "parameterisation": "rules_prior_in_logit_space_plus_learned_correction",
         "learning_rate": 0.08,
         "l2": 1e-05,
-        "observations": 3054,
-        "positive_rate": 0.4663,
+        "observations": 3107,
+        "positive_rate": 0.466,
         "features_learned": 27,
         "top_weights": [
           {
-            "feature": "attempt=1",
-            "weight": 1.3441
-          },
-          {
-            "feature": "window_contacts",
-            "weight": -1.334
+            "feature": "contacts",
+            "weight": -1.3778
           },
           {
             "feature": "attempt=2",
-            "weight": -1.2156
+            "weight": -1.329
           },
           {
-            "feature": "contacts",
-            "weight": -1.0849
+            "feature": "attempt=1",
+            "weight": 1.2772
+          },
+          {
+            "feature": "window_contacts",
+            "weight": -0.6656
           },
           {
             "feature": "reason=AUTHENTICATION_FAILED",
-            "weight": 0.6268
+            "weight": 0.6394
           },
           {
-            "feature": "reason=UNKNOWN",
-            "weight": -0.5822
+            "feature": "bias",
+            "weight": -0.6195
           },
           {
-            "feature": "reason=TECHNICAL_ERROR",
-            "weight": 0.5591
-          },
-          {
-            "feature": "reason=CARD_DECLINED",
-            "weight": -0.4801
+            "feature": "fatigued",
+            "weight": -0.6089
           },
           {
             "feature": "attempt=0",
-            "weight": -0.4648
+            "weight": -0.5685
+          },
+          {
+            "feature": "reason=UNKNOWN",
+            "weight": -0.5296
+          },
+          {
+            "feature": "reason=CARD_DECLINED",
+            "weight": -0.4406
+          },
+          {
+            "feature": "reason=TECHNICAL_ERROR",
+            "weight": 0.4113
           },
           {
             "feature": "reason=INSUFFICIENT_FUNDS",
-            "weight": -0.4592
-          },
-          {
-            "feature": "ltv=high",
-            "weight": -0.4176
-          },
-          {
-            "feature": "ltv=vip",
-            "weight": 0.3693
+            "weight": -0.4056
           }
         ]
       },
       "memory": {
         "retrieval": "jaccard_over_sparse_feature_keys",
-        "records": 3054,
-        "total_writes": 3054,
+        "records": 3107,
+        "total_writes": 3107,
         "capacity": 20000,
         "segments_tracked": 24,
         "top_segments": {
@@ -1110,10 +1155,10 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 289,
-                "wins": 207,
-                "success_rate": 0.7163,
-                "value_rate": 0.7026
+                "attempts": 304,
+                "wins": 219,
+                "success_rate": 0.7204,
+                "value_rate": 0.704
               },
               {
                 "arm": "PAYMENT_LINK",
@@ -1124,7 +1169,7 @@
               },
               {
                 "arm": "STOP",
-                "attempts": 28,
+                "attempts": 13,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -1136,21 +1181,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 59,
-                "wins": 20,
-                "success_rate": 0.339,
-                "value_rate": 0.3148
+                "attempts": 84,
+                "wins": 30,
+                "success_rate": 0.3571,
+                "value_rate": 0.3282
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 241,
-                "wins": 113,
-                "success_rate": 0.4689,
-                "value_rate": 0.446
+                "attempts": 228,
+                "wins": 106,
+                "success_rate": 0.4649,
+                "value_rate": 0.4181
               },
               {
                 "arm": "STOP",
-                "attempts": 20,
+                "attempts": 8,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -1162,21 +1207,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 23,
-                "wins": 12,
-                "success_rate": 0.5217,
-                "value_rate": 0.5061
+                "attempts": 38,
+                "wins": 19,
+                "success_rate": 0.5,
+                "value_rate": 0.4981
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 255,
-                "wins": 209,
-                "success_rate": 0.8196,
-                "value_rate": 0.7443
+                "attempts": 243,
+                "wins": 198,
+                "success_rate": 0.8148,
+                "value_rate": 0.7129
               },
               {
                 "arm": "STOP",
-                "attempts": 7,
+                "attempts": 4,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -1188,21 +1233,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 5,
-                "wins": 0,
-                "success_rate": 0.0,
-                "value_rate": 0.0
+                "attempts": 16,
+                "wins": 6,
+                "success_rate": 0.375,
+                "value_rate": 0.322
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 230,
-                "wins": 179,
-                "success_rate": 0.7783,
-                "value_rate": 0.7388
+                "attempts": 227,
+                "wins": 177,
+                "success_rate": 0.7797,
+                "value_rate": 0.7327
               },
               {
                 "arm": "STOP",
-                "attempts": 14,
+                "attempts": 6,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -1214,21 +1259,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 159,
+                "attempts": 160,
                 "wins": 61,
-                "success_rate": 0.3836,
-                "value_rate": 0.3805
+                "success_rate": 0.3812,
+                "value_rate": 0.3883
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 52,
-                "wins": 18,
-                "success_rate": 0.3462,
-                "value_rate": 0.1867
+                "attempts": 55,
+                "wins": 17,
+                "success_rate": 0.3091,
+                "value_rate": 0.17
               },
               {
                 "arm": "STOP",
-                "attempts": 26,
+                "attempts": 22,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -1236,54 +1281,61 @@
             ]
           },
           "CARD_DECLINED|a1": {
-            "observations": 188,
+            "observations": 197,
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 13,
-                "wins": 1,
-                "success_rate": 0.0769,
-                "value_rate": 0.0443
+                "attempts": 26,
+                "wins": 5,
+                "success_rate": 0.1923,
+                "value_rate": 0.0775
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 144,
-                "wins": 71,
-                "success_rate": 0.4931,
-                "value_rate": 0.4314
+                "attempts": 133,
+                "wins": 64,
+                "success_rate": 0.4812,
+                "value_rate": 0.4235
               },
               {
                 "arm": "PAYMENT_LINK+5",
-                "attempts": 31,
-                "wins": 14,
-                "success_rate": 0.4516,
-                "value_rate": 0.4132
+                "attempts": 36,
+                "wins": 16,
+                "success_rate": 0.4444,
+                "value_rate": 0.4151
+              },
+              {
+                "arm": "STOP",
+                "attempts": 2,
+                "wins": 0,
+                "success_rate": 0.0,
+                "value_rate": 0.0
               }
             ]
           },
           "INSUFFICIENT_FUNDS|a1": {
-            "observations": 176,
+            "observations": 177,
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 100,
-                "wins": 46,
-                "success_rate": 0.46,
-                "value_rate": 0.3929
+                "attempts": 83,
+                "wins": 36,
+                "success_rate": 0.4337,
+                "value_rate": 0.369
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 47,
-                "wins": 17,
-                "success_rate": 0.3617,
-                "value_rate": 0.295
+                "attempts": 60,
+                "wins": 25,
+                "success_rate": 0.4167,
+                "value_rate": 0.3299
               },
               {
                 "arm": "PAYMENT_LINK+5",
-                "attempts": 29,
-                "wins": 11,
-                "success_rate": 0.3793,
-                "value_rate": 0.3807
+                "attempts": 34,
+                "wins": 14,
+                "success_rate": 0.4118,
+                "value_rate": 0.3986
               }
             ]
           },
@@ -1292,21 +1344,21 @@
             "arms": [
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 158,
-                "wins": 142,
-                "success_rate": 0.8987,
-                "value_rate": 0.8243
+                "attempts": 149,
+                "wins": 134,
+                "success_rate": 0.8993,
+                "value_rate": 0.8157
               },
               {
                 "arm": "REMINDER",
-                "attempts": 4,
-                "wins": 1,
-                "success_rate": 0.25,
-                "value_rate": 0.1981
+                "attempts": 16,
+                "wins": 11,
+                "success_rate": 0.6875,
+                "value_rate": 0.5278
               },
               {
                 "arm": "STOP",
-                "attempts": 6,
+                "attempts": 3,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -1328,20 +1380,20 @@
           "PAYMENT_LINK"
         ],
         "stats": {
-          "reviews": 3054,
-          "accepted": 2715,
-          "softened": 13,
-          "rejected": 326,
-          "intervention_rate": 0.111,
+          "reviews": 3107,
+          "accepted": 2782,
+          "softened": 17,
+          "rejected": 308,
+          "intervention_rate": 0.1046,
           "llm_reviews": 0,
           "llm_failures": 0,
           "guardrail_blocks": 0,
           "upgrade_attempts_blocked": 0,
           "reasons": {
-            "accepted": 2715,
+            "accepted": 2782,
             "contradicted_by_verified_history": 11,
-            "expected_value_below_contact_cost": 326,
-            "unnecessary_discount": 2
+            "expected_value_below_contact_cost": 308,
+            "unnecessary_discount": 6
           }
         }
       }
@@ -1356,80 +1408,94 @@
     "eligible_cases": 1950,
     "revenue_at_risk_paise": 587441000,
     "eligible_revenue_paise": 572549500,
-    "recovered_revenue_paise": 393745180,
+    "recovered_revenue_paise": 388355730,
     "revenue_at_risk_rupees": "5874410.00",
-    "recovered_revenue_rupees": "3937451.80",
-    "recovered_cases": 1422,
-    "recovery_rate": 0.6877,
-    "denied_cases": 330,
-    "escalated_cases": 198,
+    "recovered_revenue_rupees": "3883557.30",
+    "recovered_cases": 1448,
+    "recovery_rate": 0.6783,
+    "denied_cases": 312,
+    "escalated_cases": 190,
     "awaiting_approval": 0,
     "ineligible_cases": 50,
-    "contacts_made": 2526,
-    "provider_calls": 2526,
-    "webhooks_processed": 2526,
+    "contacts_made": 2605,
+    "provider_calls": 2605,
+    "webhooks_processed": 2605,
     "webhooks_rejected": 0,
-    "duplicate_webhooks_ignored": 2526,
-    "audit_records": 32280,
+    "duplicate_webhooks_ignored": 2605,
+    "audit_records": 32815,
     "strategy_mix": {
-      "PAYMENT_LINK": 1033,
-      "REMINDER": 806,
-      "STOP": 111
+      "PAYMENT_LINK": 1005,
+      "REMINDER": 886,
+      "STOP": 59
     },
-    "adaptive_explanations": 917,
-    "recovery_per_contact_paise": 155876.95,
+    "adaptive_explanations": 945,
+    "recovery_per_contact_paise": 149080.89,
     "policy_violations": 0,
     "policy_violation_rate": 0.0,
-    "decisions_scored": 2526,
-    "optimal_action_rate": 0.81,
-    "mean_regret_paise": 14742.48,
-    "total_regret_rupees": 372395.05,
+    "decisions_scored": 2605,
+    "optimal_action_rate": 0.7866,
+    "mean_regret_paise": 16355.59,
+    "total_regret_rupees": 426063.16,
     "calibration": {
       "label": "learning_llm",
-      "samples": 2526,
-      "brier": 0.235065,
-      "log_loss": 0.662735,
-      "ece": 0.101774,
-      "auc": 0.676456,
-      "sharpness": 0.009059,
-      "base_rate": 0.562945,
-      "mean_prediction": 0.461171,
-      "optimism_bias": -0.101774,
+      "samples": 2605,
+      "brier": 0.241848,
+      "log_loss": 0.67964,
+      "ece": 0.066752,
+      "auc": 0.614141,
+      "sharpness": 0.020388,
+      "base_rate": 0.555854,
+      "mean_prediction": 0.542624,
+      "optimism_bias": -0.01323,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 66,
+          "count": 30,
           "mean_prediction": 0.28,
-          "observed_rate": 0.2879,
-          "gap": 0.007879
+          "observed_rate": 0.4,
+          "gap": 0.12
         },
         {
           "bin": "0.3-0.4",
-          "count": 859,
-          "mean_prediction": 0.36,
-          "observed_rate": 0.3865,
-          "gap": 0.026505
+          "count": 487,
+          "mean_prediction": 0.3608,
+          "observed_rate": 0.4086,
+          "gap": 0.047797
         },
         {
           "bin": "0.4-0.5",
-          "count": 416,
-          "mean_prediction": 0.4613,
-          "observed_rate": 0.6514,
-          "gap": 0.190166
+          "count": 530,
+          "mean_prediction": 0.4582,
+          "observed_rate": 0.4642,
+          "gap": 0.00593
         },
         {
           "bin": "0.5-0.6",
-          "count": 1004,
-          "mean_prediction": 0.5317,
-          "observed_rate": 0.6454,
-          "gap": 0.113725
+          "count": 738,
+          "mean_prediction": 0.5439,
+          "observed_rate": 0.6274,
+          "gap": 0.083461
         },
         {
           "bin": "0.6-0.7",
-          "count": 181,
-          "mean_prediction": 0.616,
-          "observed_rate": 0.8398,
-          "gap": 0.223779
+          "count": 380,
+          "mean_prediction": 0.6433,
+          "observed_rate": 0.6763,
+          "gap": 0.033058
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 278,
+          "mean_prediction": 0.7286,
+          "observed_rate": 0.5935,
+          "gap": 0.135079
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 162,
+          "mean_prediction": 0.8528,
+          "observed_rate": 0.6543,
+          "gap": 0.198519
         }
       ]
     },
@@ -1442,21 +1508,21 @@
       "persistence_path": null,
       "loaded_from_disk": false,
       "stats": {
-        "plans": 3054,
+        "plans": 3107,
         "consent_stops": 0,
-        "bandit_selections": 3054,
-        "explorations": 689,
-        "llm_narrations": 3054,
-        "llm_failures": 114,
-        "llm_guardrail_blocks": 189,
+        "bandit_selections": 3107,
+        "explorations": 770,
+        "llm_narrations": 3107,
+        "llm_failures": 118,
+        "llm_guardrail_blocks": 176,
         "llm_overrides_accepted": 0,
         "llm_overrides_blocked": 0,
-        "critic_softened": 14,
-        "critic_rejected": 328,
-        "outcomes_learned": 3054,
+        "critic_softened": 17,
+        "critic_rejected": 308,
+        "outcomes_learned": 3107,
         "guardrail_codes": {
-          "claims_capture": 93,
-          "injection_echo": 96
+          "claims_capture": 88,
+          "injection_echo": 88
         }
       },
       "bandit": {
@@ -1469,40 +1535,40 @@
           "SUBSCRIPTION_RECOVERY"
         ],
         "segments_learned": 24,
-        "cells": 80,
-        "decisions": 3054,
-        "explorations": 689,
-        "exploration_rate": 0.2256,
-        "total_observations": 3054,
+        "cells": 82,
+        "decisions": 3107,
+        "explorations": 770,
+        "exploration_rate": 0.2478,
+        "total_observations": 3107,
         "learned_policy": {
           "ABANDONED_CHECKOUT|a0": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 22.864,
-                "beta": 44.136,
-                "pulls": 53,
-                "wins": 18,
-                "posterior_mean": 0.3413,
-                "observed_rate": 0.3396,
-                "credible_width": 0.229987
+                "alpha": 23.52,
+                "beta": 45.48,
+                "pulls": 55,
+                "wins": 17,
+                "posterior_mean": 0.3409,
+                "observed_rate": 0.3091,
+                "credible_width": 0.226616
               },
               "REMINDER": {
-                "alpha": 63.864,
-                "beta": 106.136,
-                "pulls": 156,
-                "wins": 59,
-                "posterior_mean": 0.3757,
-                "observed_rate": 0.3782,
-                "credible_width": 0.14814
+                "alpha": 67.52,
+                "beta": 106.48,
+                "pulls": 160,
+                "wins": 61,
+                "posterior_mean": 0.388,
+                "observed_rate": 0.3812,
+                "credible_width": 0.147347
               },
               "STOP": {
                 "alpha": 1.0,
-                "beta": 29.0,
-                "pulls": 28,
+                "beta": 23.0,
+                "pulls": 22,
                 "wins": 0,
-                "posterior_mean": 0.0333,
+                "posterior_mean": 0.0417,
                 "observed_rate": 0.0,
-                "credible_width": 0.128961
+                "credible_width": 0.159861
               }
             },
             "preferred": "REMINDER",
@@ -1511,565 +1577,97 @@
           "ABANDONED_CHECKOUT|a1": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 20.864,
-                "beta": 60.136,
-                "pulls": 67,
-                "wins": 16,
-                "posterior_mean": 0.2576,
-                "observed_rate": 0.2388,
-                "credible_width": 0.193168
+                "alpha": 24.52,
+                "beta": 58.48,
+                "pulls": 69,
+                "wins": 18,
+                "posterior_mean": 0.2954,
+                "observed_rate": 0.2609,
+                "credible_width": 0.199116
               },
               "PAYMENT_LINK+5": {
-                "alpha": 6.864,
-                "beta": 22.136,
-                "pulls": 15,
+                "alpha": 8.52,
+                "beta": 21.48,
+                "pulls": 16,
                 "wins": 2,
-                "posterior_mean": 0.2367,
-                "observed_rate": 0.1333,
-                "credible_width": 0.310413
+                "posterior_mean": 0.284,
+                "observed_rate": 0.125,
+                "credible_width": 0.323963
               },
               "REMINDER": {
-                "alpha": 13.864,
-                "beta": 50.136,
+                "alpha": 15.52,
+                "beta": 48.48,
                 "pulls": 50,
                 "wins": 9,
-                "posterior_mean": 0.2166,
+                "posterior_mean": 0.2425,
                 "observed_rate": 0.18,
-                "credible_width": 0.204382
+                "credible_width": 0.212643
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 132
+            "observations": 135
           },
           "ABANDONED_CHECKOUT|a2": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 4.864,
-                "beta": 22.136,
+                "alpha": 6.52,
+                "beta": 20.48,
                 "pulls": 13,
                 "wins": 0,
-                "posterior_mean": 0.1801,
+                "posterior_mean": 0.2415,
                 "observed_rate": 0.0,
-                "credible_width": 0.290512
+                "credible_width": 0.323524
               },
               "PAYMENT_LINK+5": {
-                "alpha": 4.864,
-                "beta": 23.136,
-                "pulls": 14,
+                "alpha": 6.52,
+                "beta": 19.48,
+                "pulls": 12,
                 "wins": 0,
-                "posterior_mean": 0.1737,
+                "posterior_mean": 0.2508,
                 "observed_rate": 0.0,
-                "credible_width": 0.281413
+                "credible_width": 0.333675
               },
               "REMINDER": {
-                "alpha": 4.864,
-                "beta": 20.136,
-                "pulls": 11,
+                "alpha": 6.52,
+                "beta": 15.48,
+                "pulls": 8,
                 "wins": 0,
-                "posterior_mean": 0.1946,
+                "posterior_mean": 0.2964,
                 "observed_rate": 0.0,
-                "credible_width": 0.310539
+                "credible_width": 0.380875
               },
               "STOP": {
                 "alpha": 1.0,
-                "beta": 68.0,
-                "pulls": 67,
+                "beta": 74.0,
+                "pulls": 73,
                 "wins": 0,
-                "posterior_mean": 0.0145,
+                "posterior_mean": 0.0133,
                 "observed_rate": 0.0,
-                "credible_width": 0.057137
+                "credible_width": 0.052627
               }
             },
             "preferred": "REMINDER",
-            "observations": 105
+            "observations": 106
           },
           "AUTHENTICATION_FAILED|a0": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 185.712,
-                "beta": 58.288,
-                "pulls": 230,
-                "wins": 179,
-                "posterior_mean": 0.7611,
-                "observed_rate": 0.7783,
-                "credible_width": 0.108967
+                "alpha": 186.16,
+                "beta": 54.84,
+                "pulls": 227,
+                "wins": 177,
+                "posterior_mean": 0.7724,
+                "observed_rate": 0.7797,
+                "credible_width": 0.107802
               },
               "REMINDER": {
-                "alpha": 6.712,
-                "beta": 12.288,
-                "pulls": 5,
-                "wins": 0,
-                "posterior_mean": 0.3533,
-                "observed_rate": 0.0,
-                "credible_width": 0.427522
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 15.0,
-                "pulls": 14,
-                "wins": 0,
-                "posterior_mean": 0.0625,
-                "observed_rate": 0.0,
-                "credible_width": 0.234834
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 249
-          },
-          "AUTHENTICATION_FAILED|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 36.712,
-                "beta": 22.288,
-                "pulls": 45,
-                "wins": 30,
-                "posterior_mean": 0.6222,
-                "observed_rate": 0.6667,
-                "credible_width": 0.250364
-              },
-              "REMINDER": {
-                "alpha": 7.712,
-                "beta": 13.288,
-                "pulls": 7,
-                "wins": 1,
-                "posterior_mean": 0.3672,
-                "observed_rate": 0.1429,
-                "credible_width": 0.411095
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 52
-          },
-          "AUTHENTICATION_FAILED|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 6.712,
-                "beta": 12.288,
-                "pulls": 5,
-                "wins": 0,
-                "posterior_mean": 0.3533,
-                "observed_rate": 0.0,
-                "credible_width": 0.427522
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 12.0,
-                "pulls": 11,
-                "wins": 0,
-                "posterior_mean": 0.0769,
-                "observed_rate": 0.0,
-                "credible_width": 0.284868
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 16
-          },
-          "CARD_DECLINED|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 121.62,
-                "beta": 146.38,
-                "pulls": 254,
-                "wins": 116,
-                "posterior_mean": 0.4538,
-                "observed_rate": 0.4567,
-                "credible_width": 0.121421
-              },
-              "REMINDER": {
-                "alpha": 31.62,
-                "beta": 58.38,
-                "pulls": 76,
-                "wins": 26,
-                "posterior_mean": 0.3513,
-                "observed_rate": 0.3421,
-                "credible_width": 0.200175
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 21.0,
-                "pulls": 20,
-                "wins": 0,
-                "posterior_mean": 0.0455,
-                "observed_rate": 0.0,
-                "credible_width": 0.173733
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 350
-          },
-          "CARD_DECLINED|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 76.62,
-                "beta": 81.38,
-                "pulls": 144,
-                "wins": 71,
-                "posterior_mean": 0.4849,
-                "observed_rate": 0.4931,
-                "credible_width": 0.158538
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 19.62,
-                "beta": 25.38,
-                "pulls": 31,
-                "wins": 14,
-                "posterior_mean": 0.436,
-                "observed_rate": 0.4516,
-                "credible_width": 0.292458
-              },
-              "REMINDER": {
-                "alpha": 6.62,
-                "beta": 20.38,
-                "pulls": 13,
-                "wins": 1,
-                "posterior_mean": 0.2452,
-                "observed_rate": 0.0769,
-                "credible_width": 0.325198
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 188
-          },
-          "CARD_DECLINED|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 5.62,
-                "beta": 25.38,
-                "pulls": 17,
-                "wins": 0,
-                "posterior_mean": 0.1813,
-                "observed_rate": 0.0,
-                "credible_width": 0.272419
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 5.62,
-                "beta": 18.38,
-                "pulls": 10,
-                "wins": 0,
-                "posterior_mean": 0.2342,
-                "observed_rate": 0.0,
-                "credible_width": 0.338781
-              },
-              "REMINDER": {
-                "alpha": 5.62,
-                "beta": 26.38,
-                "pulls": 18,
-                "wins": 0,
-                "posterior_mean": 0.1756,
-                "observed_rate": 0.0,
-                "credible_width": 0.264947
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 58.0,
-                "pulls": 57,
-                "wins": 0,
-                "posterior_mean": 0.0169,
-                "observed_rate": 0.0,
-                "credible_width": 0.066657
-              }
-            },
-            "preferred": "PAYMENT_LINK+5",
-            "observations": 102
-          },
-          "CARD_EXPIRED|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 217.056,
-                "beta": 51.944,
-                "pulls": 255,
-                "wins": 209,
-                "posterior_mean": 0.8069,
-                "observed_rate": 0.8196,
-                "credible_width": 0.09609
-              },
-              "REMINDER": {
-                "alpha": 20.056,
-                "beta": 16.944,
-                "pulls": 23,
-                "wins": 12,
-                "posterior_mean": 0.5421,
-                "observed_rate": 0.5217,
-                "credible_width": 0.323293
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 8.0,
-                "pulls": 7,
-                "wins": 0,
-                "posterior_mean": 0.1111,
-                "observed_rate": 0.0,
-                "credible_width": 0.397523
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 285
-          },
-          "CARD_EXPIRED|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 34.056,
-                "beta": 18.944,
-                "pulls": 39,
-                "wins": 26,
-                "posterior_mean": 0.6426,
-                "observed_rate": 0.6667,
-                "credible_width": 0.260867
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 11.056,
-                "beta": 9.944,
-                "pulls": 7,
-                "wins": 3,
-                "posterior_mean": 0.5265,
-                "observed_rate": 0.4286,
-                "credible_width": 0.425803
-              },
-              "REMINDER": {
-                "alpha": 11.056,
-                "beta": 11.944,
-                "pulls": 9,
-                "wins": 3,
-                "posterior_mean": 0.4807,
-                "observed_rate": 0.3333,
-                "credible_width": 0.407944
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 55
-          },
-          "CARD_EXPIRED|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 8.056,
-                "beta": 11.944,
-                "pulls": 6,
-                "wins": 0,
-                "posterior_mean": 0.4028,
-                "observed_rate": 0.0,
-                "credible_width": 0.42811
-              },
-              "REMINDER": {
-                "alpha": 8.056,
-                "beta": 10.944,
-                "pulls": 5,
-                "wins": 0,
-                "posterior_mean": 0.424,
-                "observed_rate": 0.0,
-                "credible_width": 0.442017
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 9.0,
-                "pulls": 8,
-                "wins": 0,
-                "posterior_mean": 0.1,
-                "observed_rate": 0.0,
-                "credible_width": 0.361814
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 19
-          },
-          "INSUFFICIENT_FUNDS|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 18.048,
-                "beta": 24.952,
-                "pulls": 29,
-                "wins": 11,
-                "posterior_mean": 0.4197,
-                "observed_rate": 0.3793,
-                "credible_width": 0.2976
-              },
-              "REMINDER": {
-                "alpha": 317.048,
-                "beta": 164.952,
-                "pulls": 468,
-                "wins": 310,
-                "posterior_mean": 0.6578,
-                "observed_rate": 0.6624,
-                "credible_width": 0.086354
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 29.0,
-                "pulls": 28,
-                "wins": 0,
-                "posterior_mean": 0.0333,
-                "observed_rate": 0.0,
-                "credible_width": 0.128961
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 525
-          },
-          "INSUFFICIENT_FUNDS|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 24.048,
-                "beta": 36.952,
-                "pulls": 47,
-                "wins": 17,
-                "posterior_mean": 0.3942,
-                "observed_rate": 0.3617,
-                "credible_width": 0.248252
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 18.048,
-                "beta": 24.952,
-                "pulls": 29,
-                "wins": 11,
-                "posterior_mean": 0.4197,
-                "observed_rate": 0.3793,
-                "credible_width": 0.2976
-              },
-              "REMINDER": {
-                "alpha": 53.048,
-                "beta": 60.952,
-                "pulls": 100,
-                "wins": 46,
-                "posterior_mean": 0.4653,
-                "observed_rate": 0.46,
-                "credible_width": 0.186052
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 176
-          },
-          "INSUFFICIENT_FUNDS|a2": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 7.048,
-                "beta": 26.952,
-                "pulls": 20,
-                "wins": 0,
-                "posterior_mean": 0.2073,
-                "observed_rate": 0.0,
-                "credible_width": 0.274079
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 7.048,
-                "beta": 25.952,
-                "pulls": 19,
-                "wins": 0,
-                "posterior_mean": 0.2136,
-                "observed_rate": 0.0,
-                "credible_width": 0.281141
-              },
-              "REMINDER": {
-                "alpha": 7.048,
-                "beta": 26.952,
-                "pulls": 20,
-                "wins": 0,
-                "posterior_mean": 0.2073,
-                "observed_rate": 0.0,
-                "credible_width": 0.274079
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 44.0,
-                "pulls": 43,
-                "wins": 0,
-                "posterior_mean": 0.0222,
-                "observed_rate": 0.0,
-                "credible_width": 0.086935
-              }
-            },
-            "preferred": "PAYMENT_LINK+5",
-            "observations": 102
-          },
-          "INVOICE_UNPAID|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 19.124,
-                "beta": 20.876,
-                "pulls": 26,
-                "wins": 13,
-                "posterior_mean": 0.4781,
-                "observed_rate": 0.5,
-                "credible_width": 0.312048
-              },
-              "REMINDER": {
-                "alpha": 46.124,
-                "beta": 30.876,
-                "pulls": 63,
-                "wins": 40,
-                "posterior_mean": 0.599,
-                "observed_rate": 0.6349,
-                "credible_width": 0.221971
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 89
-          },
-          "INVOICE_UNPAID|a1": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 8.124,
-                "beta": 15.876,
-                "pulls": 10,
-                "wins": 2,
-                "posterior_mean": 0.3385,
-                "observed_rate": 0.2,
-                "credible_width": 0.37856
-              },
-              "PAYMENT_LINK+5": {
-                "alpha": 6.124,
-                "beta": 13.876,
-                "pulls": 6,
-                "wins": 0,
-                "posterior_mean": 0.3062,
-                "observed_rate": 0.0,
-                "credible_width": 0.402319
-              },
-              "REMINDER": {
-                "alpha": 10.124,
-                "beta": 23.876,
-                "pulls": 20,
-                "wins": 4,
-                "posterior_mean": 0.2978,
-                "observed_rate": 0.2,
-                "credible_width": 0.309175
-              }
-            },
-            "preferred": "PAYMENT_LINK",
-            "observations": 36
-          },
-          "INVOICE_UNPAID|a2": {
-            "arms": {
-              "REMINDER": {
-                "alpha": 6.124,
-                "beta": 13.876,
-                "pulls": 6,
-                "wins": 0,
-                "posterior_mean": 0.3062,
-                "observed_rate": 0.0,
-                "credible_width": 0.402319
-              },
-              "STOP": {
-                "alpha": 1.0,
-                "beta": 17.0,
+                "alpha": 15.16,
+                "beta": 14.84,
                 "pulls": 16,
-                "wins": 0,
-                "posterior_mean": 0.0556,
-                "observed_rate": 0.0,
-                "credible_width": 0.210201
-              }
-            },
-            "preferred": "REMINDER",
-            "observations": 22
-          },
-          "TECHNICAL_ERROR|a0": {
-            "arms": {
-              "PAYMENT_LINK": {
-                "alpha": 150.392,
-                "beta": 21.608,
-                "pulls": 158,
-                "wins": 142,
-                "posterior_mean": 0.8744,
-                "observed_rate": 0.8987,
-                "credible_width": 0.100792
+                "wins": 6,
+                "posterior_mean": 0.5053,
+                "observed_rate": 0.375,
+                "credible_width": 0.35919
               },
               "STOP": {
                 "alpha": 1.0,
@@ -2082,103 +1680,595 @@
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 164
+            "observations": 249
+          },
+          "AUTHENTICATION_FAILED|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 41.16,
+                "beta": 18.84,
+                "pulls": 46,
+                "wins": 32,
+                "posterior_mean": 0.686,
+                "observed_rate": 0.6957,
+                "credible_width": 0.237696
+              },
+              "REMINDER": {
+                "alpha": 10.16,
+                "beta": 13.84,
+                "pulls": 10,
+                "wins": 1,
+                "posterior_mean": 0.4233,
+                "observed_rate": 0.1,
+                "credible_width": 0.39527
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 56
+          },
+          "AUTHENTICATION_FAILED|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 9.16,
+                "beta": 9.84,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.4821,
+                "observed_rate": 0.0,
+                "credible_width": 0.446927
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 14.0,
+                "pulls": 13,
+                "wins": 0,
+                "posterior_mean": 0.0667,
+                "observed_rate": 0.0,
+                "credible_width": 0.249444
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 18
+          },
+          "CARD_DECLINED|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 116.6,
+                "beta": 138.4,
+                "pulls": 241,
+                "wins": 109,
+                "posterior_mean": 0.4573,
+                "observed_rate": 0.4523,
+                "credible_width": 0.124542
+              },
+              "REMINDER": {
+                "alpha": 43.6,
+                "beta": 71.4,
+                "pulls": 101,
+                "wins": 36,
+                "posterior_mean": 0.3791,
+                "observed_rate": 0.3564,
+                "credible_width": 0.180188
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 9.0,
+                "pulls": 8,
+                "wins": 0,
+                "posterior_mean": 0.1,
+                "observed_rate": 0.0,
+                "credible_width": 0.361814
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 350
+          },
+          "CARD_DECLINED|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 71.6,
+                "beta": 75.4,
+                "pulls": 133,
+                "wins": 64,
+                "posterior_mean": 0.4871,
+                "observed_rate": 0.4812,
+                "credible_width": 0.164344
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 23.6,
+                "beta": 26.4,
+                "pulls": 36,
+                "wins": 16,
+                "posterior_mean": 0.472,
+                "observed_rate": 0.4444,
+                "credible_width": 0.279617
+              },
+              "REMINDER": {
+                "alpha": 12.6,
+                "beta": 27.4,
+                "pulls": 26,
+                "wins": 5,
+                "posterior_mean": 0.315,
+                "observed_rate": 0.1923,
+                "credible_width": 0.290181
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 195
+          },
+          "CARD_DECLINED|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 7.6,
+                "beta": 23.4,
+                "pulls": 17,
+                "wins": 0,
+                "posterior_mean": 0.2452,
+                "observed_rate": 0.0,
+                "credible_width": 0.304185
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 7.6,
+                "beta": 15.4,
+                "pulls": 9,
+                "wins": 0,
+                "posterior_mean": 0.3304,
+                "observed_rate": 0.0,
+                "credible_width": 0.384055
+              },
+              "REMINDER": {
+                "alpha": 7.6,
+                "beta": 22.4,
+                "pulls": 16,
+                "wins": 0,
+                "posterior_mean": 0.2533,
+                "observed_rate": 0.0,
+                "credible_width": 0.312456
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 69.0,
+                "pulls": 68,
+                "wins": 0,
+                "posterior_mean": 0.0143,
+                "observed_rate": 0.0,
+                "credible_width": 0.056332
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 110
+          },
+          "CARD_EXPIRED|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 209.08,
+                "beta": 47.92,
+                "pulls": 243,
+                "wins": 198,
+                "posterior_mean": 0.8135,
+                "observed_rate": 0.8148,
+                "credible_width": 0.096991
+              },
+              "REMINDER": {
+                "alpha": 30.08,
+                "beta": 21.92,
+                "pulls": 38,
+                "wins": 19,
+                "posterior_mean": 0.5785,
+                "observed_rate": 0.5,
+                "credible_width": 0.271318
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 281
+          },
+          "CARD_EXPIRED|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 34.08,
+                "beta": 14.92,
+                "pulls": 35,
+                "wins": 23,
+                "posterior_mean": 0.6955,
+                "observed_rate": 0.6571,
+                "credible_width": 0.260323
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 23.08,
+                "beta": 7.92,
+                "pulls": 17,
+                "wins": 12,
+                "posterior_mean": 0.7445,
+                "observed_rate": 0.7059,
+                "credible_width": 0.308392
+              },
+              "REMINDER": {
+                "alpha": 13.08,
+                "beta": 10.92,
+                "pulls": 10,
+                "wins": 2,
+                "posterior_mean": 0.545,
+                "observed_rate": 0.2,
+                "credible_width": 0.398377
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 62
+          },
+          "CARD_EXPIRED|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 11.08,
+                "beta": 8.92,
+                "pulls": 6,
+                "wins": 0,
+                "posterior_mean": 0.554,
+                "observed_rate": 0.0,
+                "credible_width": 0.433883
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 11.08,
+                "beta": 7.92,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.5832,
+                "observed_rate": 0.0,
+                "credible_width": 0.440985
+              },
+              "REMINDER": {
+                "alpha": 11.08,
+                "beta": 8.92,
+                "pulls": 6,
+                "wins": 0,
+                "posterior_mean": 0.554,
+                "observed_rate": 0.0,
+                "credible_width": 0.433883
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 9.0,
+                "pulls": 8,
+                "wins": 0,
+                "posterior_mean": 0.1,
+                "observed_rate": 0.0,
+                "credible_width": 0.361814
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 25
+          },
+          "INSUFFICIENT_FUNDS|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 19.64,
+                "beta": 24.36,
+                "pulls": 30,
+                "wins": 10,
+                "posterior_mean": 0.4464,
+                "observed_rate": 0.3333,
+                "credible_width": 0.296422
+              },
+              "REMINDER": {
+                "alpha": 332.64,
+                "beta": 163.36,
+                "pulls": 482,
+                "wins": 323,
+                "posterior_mean": 0.6706,
+                "observed_rate": 0.6701,
+                "credible_width": 0.084326
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 14.0,
+                "pulls": 13,
+                "wins": 0,
+                "posterior_mean": 0.0667,
+                "observed_rate": 0.0,
+                "credible_width": 0.249444
+              }
+            },
+            "preferred": "REMINDER",
+            "observations": 525
+          },
+          "INSUFFICIENT_FUNDS|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 34.64,
+                "beta": 39.36,
+                "pulls": 60,
+                "wins": 25,
+                "posterior_mean": 0.4681,
+                "observed_rate": 0.4167,
+                "credible_width": 0.23047
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 23.64,
+                "beta": 24.36,
+                "pulls": 34,
+                "wins": 14,
+                "posterior_mean": 0.4925,
+                "observed_rate": 0.4118,
+                "credible_width": 0.285682
+              },
+              "REMINDER": {
+                "alpha": 45.64,
+                "beta": 51.36,
+                "pulls": 83,
+                "wins": 36,
+                "posterior_mean": 0.4705,
+                "observed_rate": 0.4337,
+                "credible_width": 0.201679
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 177
+          },
+          "INSUFFICIENT_FUNDS|a2": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 9.64,
+                "beta": 23.36,
+                "pulls": 19,
+                "wins": 0,
+                "posterior_mean": 0.2921,
+                "observed_rate": 0.0,
+                "credible_width": 0.311948
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 9.64,
+                "beta": 21.36,
+                "pulls": 17,
+                "wins": 0,
+                "posterior_mean": 0.311,
+                "observed_rate": 0.0,
+                "credible_width": 0.327312
+              },
+              "REMINDER": {
+                "alpha": 9.64,
+                "beta": 23.36,
+                "pulls": 19,
+                "wins": 0,
+                "posterior_mean": 0.2921,
+                "observed_rate": 0.0,
+                "credible_width": 0.311948
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 48.0,
+                "pulls": 47,
+                "wins": 0,
+                "posterior_mean": 0.0204,
+                "observed_rate": 0.0,
+                "credible_width": 0.079983
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 102
+          },
+          "INVOICE_UNPAID|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 21.32,
+                "beta": 22.68,
+                "pulls": 30,
+                "wins": 13,
+                "posterior_mean": 0.4845,
+                "observed_rate": 0.4333,
+                "credible_width": 0.298
+              },
+              "REMINDER": {
+                "alpha": 47.32,
+                "beta": 28.68,
+                "pulls": 62,
+                "wins": 39,
+                "posterior_mean": 0.6226,
+                "observed_rate": 0.629,
+                "credible_width": 0.22096
+              }
+            },
+            "preferred": "REMINDER",
+            "observations": 92
+          },
+          "INVOICE_UNPAID|a1": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 10.32,
+                "beta": 14.68,
+                "pulls": 11,
+                "wins": 2,
+                "posterior_mean": 0.4128,
+                "observed_rate": 0.1818,
+                "credible_width": 0.386221
+              },
+              "PAYMENT_LINK+5": {
+                "alpha": 8.32,
+                "beta": 11.68,
+                "pulls": 6,
+                "wins": 0,
+                "posterior_mean": 0.416,
+                "observed_rate": 0.0,
+                "credible_width": 0.430233
+              },
+              "REMINDER": {
+                "alpha": 12.32,
+                "beta": 24.68,
+                "pulls": 23,
+                "wins": 4,
+                "posterior_mean": 0.333,
+                "observed_rate": 0.1739,
+                "credible_width": 0.305805
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 40
+          },
+          "INVOICE_UNPAID|a2": {
+            "arms": {
+              "PAYMENT_LINK+5": {
+                "alpha": 8.32,
+                "beta": 10.68,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.4379,
+                "observed_rate": 0.0,
+                "credible_width": 0.44375
+              },
+              "REMINDER": {
+                "alpha": 8.32,
+                "beta": 12.68,
+                "pulls": 7,
+                "wins": 0,
+                "posterior_mean": 0.3962,
+                "observed_rate": 0.0,
+                "credible_width": 0.41711
+              },
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 19.0,
+                "pulls": 18,
+                "wins": 0,
+                "posterior_mean": 0.05,
+                "observed_rate": 0.0,
+                "credible_width": 0.190238
+              }
+            },
+            "preferred": "PAYMENT_LINK+5",
+            "observations": 30
+          },
+          "TECHNICAL_ERROR|a0": {
+            "arms": {
+              "PAYMENT_LINK": {
+                "alpha": 145.56,
+                "beta": 17.44,
+                "pulls": 149,
+                "wins": 134,
+                "posterior_mean": 0.893,
+                "observed_rate": 0.8993,
+                "credible_width": 0.096548
+              },
+              "REMINDER": {
+                "alpha": 22.56,
+                "beta": 7.44,
+                "pulls": 16,
+                "wins": 11,
+                "posterior_mean": 0.752,
+                "observed_rate": 0.6875,
+                "credible_width": 0.310252
+              }
+            },
+            "preferred": "PAYMENT_LINK",
+            "observations": 165
           },
           "TECHNICAL_ERROR|a1": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 11.392,
-                "beta": 9.608,
-                "pulls": 7,
+                "alpha": 14.56,
+                "beta": 7.44,
+                "pulls": 8,
                 "wins": 3,
-                "posterior_mean": 0.5425,
-                "observed_rate": 0.4286,
-                "credible_width": 0.42486
+                "posterior_mean": 0.6618,
+                "observed_rate": 0.375,
+                "credible_width": 0.394585
               },
               "REMINDER": {
-                "alpha": 12.392,
-                "beta": 10.608,
+                "alpha": 14.56,
+                "beta": 8.44,
                 "pulls": 9,
-                "wins": 4,
-                "posterior_mean": 0.5388,
-                "observed_rate": 0.4444,
-                "credible_width": 0.407018
+                "wins": 3,
+                "posterior_mean": 0.633,
+                "observed_rate": 0.3333,
+                "credible_width": 0.393531
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 16
+            "observations": 17
+          },
+          "TECHNICAL_ERROR|a2": {
+            "arms": {
+              "STOP": {
+                "alpha": 1.0,
+                "beta": 6.0,
+                "pulls": 5,
+                "wins": 0,
+                "posterior_mean": 0.1429,
+                "observed_rate": 0.0,
+                "credible_width": 0.494872
+              }
+            },
+            "preferred": "STOP",
+            "observations": 5
           },
           "UNKNOWN|a0": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 14.36,
-                "beta": 27.64,
-                "pulls": 28,
+                "alpha": 15.8,
+                "beta": 28.2,
+                "pulls": 30,
                 "wins": 10,
-                "posterior_mean": 0.3419,
-                "observed_rate": 0.3571,
-                "credible_width": 0.289349
+                "posterior_mean": 0.3591,
+                "observed_rate": 0.3333,
+                "credible_width": 0.286058
               },
               "REMINDER": {
-                "alpha": 6.36,
-                "beta": 18.64,
+                "alpha": 7.8,
+                "beta": 17.2,
                 "pulls": 11,
                 "wins": 2,
-                "posterior_mean": 0.2544,
+                "posterior_mean": 0.312,
                 "observed_rate": 0.1818,
-                "credible_width": 0.341653
+                "credible_width": 0.36345
               }
             },
             "preferred": "PAYMENT_LINK",
-            "observations": 39
+            "observations": 41
           },
           "UNKNOWN|a1": {
             "arms": {
               "PAYMENT_LINK": {
-                "alpha": 7.36,
-                "beta": 16.64,
-                "pulls": 10,
-                "wins": 3,
-                "posterior_mean": 0.3067,
-                "observed_rate": 0.3,
-                "credible_width": 0.368888
+                "alpha": 11.8,
+                "beta": 14.2,
+                "pulls": 12,
+                "wins": 6,
+                "posterior_mean": 0.4538,
+                "observed_rate": 0.5,
+                "credible_width": 0.383257
               },
               "REMINDER": {
-                "alpha": 8.36,
-                "beta": 18.64,
+                "alpha": 7.8,
+                "beta": 19.2,
                 "pulls": 13,
-                "wins": 4,
-                "posterior_mean": 0.3096,
-                "observed_rate": 0.3077,
-                "credible_width": 0.349497
+                "wins": 2,
+                "posterior_mean": 0.2889,
+                "observed_rate": 0.1538,
+                "credible_width": 0.342622
               }
             },
-            "preferred": "REMINDER",
-            "observations": 23
+            "preferred": "PAYMENT_LINK",
+            "observations": 25
           },
           "UNKNOWN|a2": {
             "arms": {
               "REMINDER": {
-                "alpha": 4.36,
-                "beta": 14.64,
+                "alpha": 5.8,
+                "beta": 13.2,
                 "pulls": 5,
                 "wins": 0,
-                "posterior_mean": 0.2295,
+                "posterior_mean": 0.3053,
                 "observed_rate": 0.0,
-                "credible_width": 0.376102
+                "credible_width": 0.411901
               },
               "STOP": {
                 "alpha": 1.0,
-                "beta": 13.0,
-                "pulls": 12,
+                "beta": 14.0,
+                "pulls": 13,
                 "wins": 0,
-                "posterior_mean": 0.0714,
+                "posterior_mean": 0.0667,
                 "observed_rate": 0.0,
-                "credible_width": 0.265986
+                "credible_width": 0.249444
               }
             },
             "preferred": "REMINDER",
-            "observations": 17
+            "observations": 18
           }
         }
       },
@@ -2187,64 +2277,64 @@
         "parameterisation": "rules_prior_in_logit_space_plus_learned_correction",
         "learning_rate": 0.08,
         "l2": 1e-05,
-        "observations": 3054,
-        "positive_rate": 0.4656,
+        "observations": 3107,
+        "positive_rate": 0.466,
         "features_learned": 27,
         "top_weights": [
           {
-            "feature": "attempt=1",
-            "weight": 1.3068
+            "feature": "contacts",
+            "weight": -1.3778
           },
           {
             "feature": "attempt=2",
-            "weight": -1.2167
+            "weight": -1.329
+          },
+          {
+            "feature": "attempt=1",
+            "weight": 1.2772
           },
           {
             "feature": "window_contacts",
-            "weight": -1.1754
-          },
-          {
-            "feature": "contacts",
-            "weight": -1.1244
+            "weight": -0.6656
           },
           {
             "feature": "reason=AUTHENTICATION_FAILED",
-            "weight": 0.6217
-          },
-          {
-            "feature": "reason=UNKNOWN",
-            "weight": -0.5897
-          },
-          {
-            "feature": "reason=TECHNICAL_ERROR",
-            "weight": 0.5562
-          },
-          {
-            "feature": "attempt=0",
-            "weight": -0.5418
-          },
-          {
-            "feature": "reason=CARD_DECLINED",
-            "weight": -0.496
-          },
-          {
-            "feature": "ltv=high",
-            "weight": -0.4644
-          },
-          {
-            "feature": "reason=INSUFFICIENT_FUNDS",
-            "weight": -0.4643
+            "weight": 0.6394
           },
           {
             "feature": "bias",
-            "weight": -0.4514
+            "weight": -0.6195
+          },
+          {
+            "feature": "fatigued",
+            "weight": -0.6089
+          },
+          {
+            "feature": "attempt=0",
+            "weight": -0.5685
+          },
+          {
+            "feature": "reason=UNKNOWN",
+            "weight": -0.5296
+          },
+          {
+            "feature": "reason=CARD_DECLINED",
+            "weight": -0.4406
+          },
+          {
+            "feature": "reason=TECHNICAL_ERROR",
+            "weight": 0.4113
+          },
+          {
+            "feature": "reason=INSUFFICIENT_FUNDS",
+            "weight": -0.4056
           }
         ]
       },
       "memory": {
         "retrieval": "jaccard_over_sparse_feature_keys",
-        "records": 3054,
-        "total_writes": 3054,
+        "records": 3107,
+        "total_writes": 3107,
         "capacity": 20000,
         "segments_tracked": 24,
         "top_segments": {
@@ -2253,10 +2343,10 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 289,
-                "wins": 207,
-                "success_rate": 0.7163,
-                "value_rate": 0.7026
+                "attempts": 304,
+                "wins": 219,
+                "success_rate": 0.7204,
+                "value_rate": 0.704
               },
               {
                 "arm": "PAYMENT_LINK",
@@ -2267,7 +2357,7 @@
               },
               {
                 "arm": "STOP",
-                "attempts": 28,
+                "attempts": 13,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -2279,21 +2369,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 59,
-                "wins": 20,
-                "success_rate": 0.339,
-                "value_rate": 0.3148
+                "attempts": 84,
+                "wins": 30,
+                "success_rate": 0.3571,
+                "value_rate": 0.3282
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 241,
-                "wins": 113,
-                "success_rate": 0.4689,
-                "value_rate": 0.446
+                "attempts": 228,
+                "wins": 106,
+                "success_rate": 0.4649,
+                "value_rate": 0.4181
               },
               {
                 "arm": "STOP",
-                "attempts": 20,
+                "attempts": 8,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -2305,21 +2395,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 23,
-                "wins": 12,
-                "success_rate": 0.5217,
-                "value_rate": 0.5061
+                "attempts": 38,
+                "wins": 19,
+                "success_rate": 0.5,
+                "value_rate": 0.4981
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 255,
-                "wins": 209,
-                "success_rate": 0.8196,
-                "value_rate": 0.7443
+                "attempts": 243,
+                "wins": 198,
+                "success_rate": 0.8148,
+                "value_rate": 0.7129
               },
               {
                 "arm": "STOP",
-                "attempts": 7,
+                "attempts": 4,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -2331,21 +2421,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 5,
-                "wins": 0,
-                "success_rate": 0.0,
-                "value_rate": 0.0
+                "attempts": 16,
+                "wins": 6,
+                "success_rate": 0.375,
+                "value_rate": 0.322
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 230,
-                "wins": 179,
-                "success_rate": 0.7783,
-                "value_rate": 0.7388
+                "attempts": 227,
+                "wins": 177,
+                "success_rate": 0.7797,
+                "value_rate": 0.7327
               },
               {
                 "arm": "STOP",
-                "attempts": 14,
+                "attempts": 6,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -2357,21 +2447,21 @@
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 156,
-                "wins": 59,
-                "success_rate": 0.3782,
-                "value_rate": 0.3796
+                "attempts": 160,
+                "wins": 61,
+                "success_rate": 0.3812,
+                "value_rate": 0.3883
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 53,
-                "wins": 18,
-                "success_rate": 0.3396,
-                "value_rate": 0.186
+                "attempts": 55,
+                "wins": 17,
+                "success_rate": 0.3091,
+                "value_rate": 0.17
               },
               {
                 "arm": "STOP",
-                "attempts": 28,
+                "attempts": 22,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -2379,54 +2469,61 @@
             ]
           },
           "CARD_DECLINED|a1": {
-            "observations": 188,
+            "observations": 197,
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 13,
-                "wins": 1,
-                "success_rate": 0.0769,
-                "value_rate": 0.0443
+                "attempts": 26,
+                "wins": 5,
+                "success_rate": 0.1923,
+                "value_rate": 0.0775
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 144,
-                "wins": 71,
-                "success_rate": 0.4931,
-                "value_rate": 0.4314
+                "attempts": 133,
+                "wins": 64,
+                "success_rate": 0.4812,
+                "value_rate": 0.4235
               },
               {
                 "arm": "PAYMENT_LINK+5",
-                "attempts": 31,
-                "wins": 14,
-                "success_rate": 0.4516,
-                "value_rate": 0.4132
+                "attempts": 36,
+                "wins": 16,
+                "success_rate": 0.4444,
+                "value_rate": 0.4151
+              },
+              {
+                "arm": "STOP",
+                "attempts": 2,
+                "wins": 0,
+                "success_rate": 0.0,
+                "value_rate": 0.0
               }
             ]
           },
           "INSUFFICIENT_FUNDS|a1": {
-            "observations": 176,
+            "observations": 177,
             "arms": [
               {
                 "arm": "REMINDER",
-                "attempts": 100,
-                "wins": 46,
-                "success_rate": 0.46,
-                "value_rate": 0.3929
+                "attempts": 83,
+                "wins": 36,
+                "success_rate": 0.4337,
+                "value_rate": 0.369
               },
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 47,
-                "wins": 17,
-                "success_rate": 0.3617,
-                "value_rate": 0.295
+                "attempts": 60,
+                "wins": 25,
+                "success_rate": 0.4167,
+                "value_rate": 0.3299
               },
               {
                 "arm": "PAYMENT_LINK+5",
-                "attempts": 29,
-                "wins": 11,
-                "success_rate": 0.3793,
-                "value_rate": 0.3807
+                "attempts": 34,
+                "wins": 14,
+                "success_rate": 0.4118,
+                "value_rate": 0.3986
               }
             ]
           },
@@ -2435,21 +2532,21 @@
             "arms": [
               {
                 "arm": "PAYMENT_LINK",
-                "attempts": 158,
-                "wins": 142,
-                "success_rate": 0.8987,
-                "value_rate": 0.8243
+                "attempts": 149,
+                "wins": 134,
+                "success_rate": 0.8993,
+                "value_rate": 0.8157
               },
               {
                 "arm": "REMINDER",
-                "attempts": 4,
-                "wins": 1,
-                "success_rate": 0.25,
-                "value_rate": 0.1981
+                "attempts": 16,
+                "wins": 11,
+                "success_rate": 0.6875,
+                "value_rate": 0.5278
               },
               {
                 "arm": "STOP",
-                "attempts": 6,
+                "attempts": 3,
                 "wins": 0,
                 "success_rate": 0.0,
                 "value_rate": 0.0
@@ -2471,47 +2568,47 @@
           "PAYMENT_LINK"
         ],
         "stats": {
-          "reviews": 3054,
-          "accepted": 2712,
-          "softened": 14,
-          "rejected": 328,
-          "intervention_rate": 0.112,
-          "llm_reviews": 2712,
-          "llm_failures": 106,
+          "reviews": 3107,
+          "accepted": 2782,
+          "softened": 17,
+          "rejected": 308,
+          "intervention_rate": 0.1046,
+          "llm_reviews": 2782,
+          "llm_failures": 111,
           "guardrail_blocks": 0,
           "upgrade_attempts_blocked": 0,
           "reasons": {
-            "accepted": 2712,
+            "accepted": 2782,
             "contradicted_by_verified_history": 11,
-            "expected_value_below_contact_cost": 328,
-            "unnecessary_discount": 3
+            "expected_value_below_contact_cost": 308,
+            "unnecessary_discount": 6
           }
         }
       }
     },
     "llm": {
       "model": "scripted",
-      "calls": 5766,
-      "failures": 220,
-      "failure_rate": 0.0382,
+      "calls": 5889,
+      "failures": 229,
+      "failure_rate": 0.0389,
       "retries": 0,
       "cache_hits": 0,
       "parse_failures": 0,
       "circuit_trips": 0,
       "budget_blocks": 0,
-      "input_tokens_estimated": 2460276,
-      "output_tokens_estimated": 345046,
+      "input_tokens_estimated": 2512226,
+      "output_tokens_estimated": 352088,
       "mean_latency_ms": 0.02,
-      "estimated_cost_inr": 1042.191,
-      "estimated_cost_usd": 12.556518,
+      "estimated_cost_inr": 1063.8938,
+      "estimated_cost_usd": 12.817998,
       "calls_by_agent": {
-        "unattributed": 5766
+        "unattributed": 5889
       },
       "note": "Token counts are estimated at 4 chars/token, not read from a provider usage response. Costs use published list prices.",
       "injected_faults": {
-        "injection_compliance": 96,
-        "malformed_json": 220,
-        "unsafe_output": 93
+        "injection_compliance": 88,
+        "malformed_json": 229,
+        "unsafe_output": 88
       }
     }
   },
@@ -2553,49 +2650,63 @@
     "calibration": {
       "label": "oracle",
       "samples": 2611,
-      "brier": 0.236836,
-      "log_loss": 0.666388,
-      "ece": 0.126425,
-      "auc": 0.681737,
-      "sharpness": 0.009174,
+      "brier": 0.234874,
+      "log_loss": 0.66256,
+      "ece": 0.073147,
+      "auc": 0.630415,
+      "sharpness": 0.020331,
       "base_rate": 0.584833,
-      "mean_prediction": 0.458408,
-      "optimism_bias": -0.126425,
+      "mean_prediction": 0.538836,
+      "optimism_bias": -0.045997,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 74,
+          "count": 31,
           "mean_prediction": 0.28,
-          "observed_rate": 0.2838,
-          "gap": 0.003784
+          "observed_rate": 0.3548,
+          "gap": 0.074839
         },
         {
           "bin": "0.3-0.4",
-          "count": 913,
-          "mean_prediction": 0.359,
-          "observed_rate": 0.414,
-          "gap": 0.055034
+          "count": 515,
+          "mean_prediction": 0.3595,
+          "observed_rate": 0.4408,
+          "gap": 0.081283
         },
         {
           "bin": "0.4-0.5",
-          "count": 426,
-          "mean_prediction": 0.4615,
-          "observed_rate": 0.6831,
-          "gap": 0.221592
+          "count": 522,
+          "mean_prediction": 0.458,
+          "observed_rate": 0.4981,
+          "gap": 0.040134
         },
         {
           "bin": "0.5-0.6",
-          "count": 1015,
-          "mean_prediction": 0.5311,
-          "observed_rate": 0.67,
-          "gap": 0.138818
+          "count": 739,
+          "mean_prediction": 0.5436,
+          "observed_rate": 0.636,
+          "gap": 0.092425
         },
         {
           "bin": "0.6-0.7",
-          "count": 183,
-          "mean_prediction": 0.616,
-          "observed_rate": 0.8579,
-          "gap": 0.241923
+          "count": 376,
+          "mean_prediction": 0.6433,
+          "observed_rate": 0.7021,
+          "gap": 0.058803
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 281,
+          "mean_prediction": 0.7296,
+          "observed_rate": 0.6406,
+          "gap": 0.088982
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 147,
+          "mean_prediction": 0.8533,
+          "observed_rate": 0.7823,
+          "gap": 0.07102
         }
       ]
     },
@@ -2639,56 +2750,63 @@
     "calibration": {
       "label": "ungoverned",
       "samples": 16735,
-      "brier": 0.166092,
-      "log_loss": 0.518952,
-      "ece": 0.283135,
-      "auc": 0.766345,
-      "sharpness": 0.007759,
+      "brier": 0.223408,
+      "log_loss": 0.641368,
+      "ece": 0.356231,
+      "auc": 0.701251,
+      "sharpness": 0.018203,
       "base_rate": 0.108575,
-      "mean_prediction": 0.39169,
-      "optimism_bias": 0.283116,
+      "mean_prediction": 0.464806,
+      "optimism_bias": 0.356231,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 799,
+          "count": 251,
           "mean_prediction": 0.28,
-          "observed_rate": 0.0451,
-          "gap": 0.234944
+          "observed_rate": 0.0837,
+          "gap": 0.196335
         },
         {
           "bin": "0.3-0.4",
-          "count": 9958,
-          "mean_prediction": 0.3366,
-          "observed_rate": 0.0501,
-          "gap": 0.286485
+          "count": 5982,
+          "mean_prediction": 0.3384,
+          "observed_rate": 0.0522,
+          "gap": 0.286291
         },
         {
           "bin": "0.4-0.5",
-          "count": 1665,
-          "mean_prediction": 0.4401,
-          "observed_rate": 0.1988,
-          "gap": 0.241268
+          "count": 4525,
+          "mean_prediction": 0.4428,
+          "observed_rate": 0.0698,
+          "gap": 0.372973
         },
         {
           "bin": "0.5-0.6",
-          "count": 4011,
-          "mean_prediction": 0.5137,
-          "observed_rate": 0.1952,
-          "gap": 0.318483
+          "count": 2887,
+          "mean_prediction": 0.5333,
+          "observed_rate": 0.2006,
+          "gap": 0.332734
         },
         {
           "bin": "0.6-0.7",
-          "count": 301,
-          "mean_prediction": 0.616,
-          "observed_rate": 0.5548,
-          "gap": 0.061183
+          "count": 1365,
+          "mean_prediction": 0.6309,
+          "observed_rate": 0.2044,
+          "gap": 0.426541
+        },
+        {
+          "bin": "0.7-0.8",
+          "count": 1455,
+          "mean_prediction": 0.7217,
+          "observed_rate": 0.1278,
+          "gap": 0.593894
         },
         {
           "bin": "0.8-0.9",
-          "count": 1,
-          "mean_prediction": 0.84,
-          "observed_rate": 1.0,
-          "gap": 0.16
+          "count": 270,
+          "mean_prediction": 0.8481,
+          "observed_rate": 0.4593,
+          "gap": 0.388889
         }
       ]
     },
@@ -2703,86 +2821,93 @@
     "eligible_cases": 1950,
     "revenue_at_risk_paise": 587441000,
     "eligible_revenue_paise": 572549500,
-    "recovered_revenue_paise": 397999960,
+    "recovered_revenue_paise": 400863880,
     "revenue_at_risk_rupees": "5874410.00",
-    "recovered_revenue_rupees": "3979999.60",
-    "recovered_cases": 1451,
-    "recovery_rate": 0.6951,
+    "recovered_revenue_rupees": "4008638.80",
+    "recovered_cases": 1456,
+    "recovery_rate": 0.7001,
     "denied_cases": 26,
-    "escalated_cases": 473,
+    "escalated_cases": 468,
     "awaiting_approval": 0,
     "ineligible_cases": 50,
-    "contacts_made": 2755,
-    "provider_calls": 2755,
-    "webhooks_processed": 2755,
+    "contacts_made": 2744,
+    "provider_calls": 2744,
+    "webhooks_processed": 2744,
     "webhooks_rejected": 0,
-    "duplicate_webhooks_ignored": 2755,
-    "audit_records": 34125,
+    "duplicate_webhooks_ignored": 2744,
+    "audit_records": 33991,
     "strategy_mix": {
-      "PAYMENT_LINK": 1229,
-      "REMINDER": 721
+      "PAYMENT_LINK": 1348,
+      "REMINDER": 602
     },
-    "adaptive_explanations": 721,
-    "recovery_per_contact_paise": 144464.6,
+    "adaptive_explanations": 602,
+    "recovery_per_contact_paise": 146087.42,
     "policy_violations": 0,
     "policy_violation_rate": 0.0,
-    "decisions_scored": 2755,
-    "optimal_action_rate": 0.6584,
-    "mean_regret_paise": 15491.42,
-    "total_regret_rupees": 426788.73,
+    "decisions_scored": 2744,
+    "optimal_action_rate": 0.7004,
+    "mean_regret_paise": 11870.93,
+    "total_regret_rupees": 325738.42,
     "calibration": {
       "label": "recoveros",
-      "samples": 2755,
-      "brier": 0.232375,
-      "log_loss": 0.657261,
-      "ece": 0.0703,
-      "auc": 0.66889,
-      "sharpness": 0.009247,
-      "base_rate": 0.526679,
-      "mean_prediction": 0.461013,
-      "optimism_bias": -0.065665,
+      "samples": 2744,
+      "brier": 0.239785,
+      "log_loss": 0.673843,
+      "ece": 0.04293,
+      "auc": 0.623163,
+      "sharpness": 0.020125,
+      "base_rate": 0.530612,
+      "mean_prediction": 0.537175,
+      "optimism_bias": 0.006562,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 74,
+          "count": 32,
           "mean_prediction": 0.28,
-          "observed_rate": 0.3108,
-          "gap": 0.030811
+          "observed_rate": 0.375,
+          "gap": 0.095
         },
         {
           "bin": "0.3-0.4",
-          "count": 945,
-          "mean_prediction": 0.3602,
-          "observed_rate": 0.3534,
-          "gap": 0.006756
+          "count": 562,
+          "mean_prediction": 0.3615,
+          "observed_rate": 0.379,
+          "gap": 0.017544
         },
         {
           "bin": "0.4-0.5",
-          "count": 433,
-          "mean_prediction": 0.4604,
-          "observed_rate": 0.6628,
-          "gap": 0.202434
+          "count": 522,
+          "mean_prediction": 0.4579,
+          "observed_rate": 0.4789,
+          "gap": 0.021048
         },
         {
           "bin": "0.5-0.6",
-          "count": 1097,
-          "mean_prediction": 0.5299,
-          "observed_rate": 0.5743,
-          "gap": 0.044356
+          "count": 806,
+          "mean_prediction": 0.5422,
+          "observed_rate": 0.5608,
+          "gap": 0.018608
         },
         {
           "bin": "0.6-0.7",
-          "count": 198,
-          "mean_prediction": 0.619,
-          "observed_rate": 0.8535,
-          "gap": 0.234525
+          "count": 373,
+          "mean_prediction": 0.6434,
+          "observed_rate": 0.6729,
+          "gap": 0.029523
         },
         {
           "bin": "0.7-0.8",
-          "count": 8,
-          "mean_prediction": 0.717,
-          "observed_rate": 1.0,
-          "gap": 0.283
+          "count": 297,
+          "mean_prediction": 0.7279,
+          "observed_rate": 0.5556,
+          "gap": 0.172337
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 152,
+          "mean_prediction": 0.8534,
+          "observed_rate": 0.7434,
+          "gap": 0.11
         }
       ]
     },
@@ -2797,86 +2922,93 @@
     "eligible_cases": 1950,
     "revenue_at_risk_paise": 587441000,
     "eligible_revenue_paise": 572549500,
-    "recovered_revenue_paise": 397999960,
+    "recovered_revenue_paise": 400863880,
     "revenue_at_risk_rupees": "5874410.00",
-    "recovered_revenue_rupees": "3979999.60",
-    "recovered_cases": 1451,
-    "recovery_rate": 0.6951,
+    "recovered_revenue_rupees": "4008638.80",
+    "recovered_cases": 1456,
+    "recovery_rate": 0.7001,
     "denied_cases": 26,
-    "escalated_cases": 473,
+    "escalated_cases": 468,
     "awaiting_approval": 0,
     "ineligible_cases": 50,
-    "contacts_made": 2755,
-    "provider_calls": 2755,
-    "webhooks_processed": 2755,
+    "contacts_made": 2744,
+    "provider_calls": 2744,
+    "webhooks_processed": 2744,
     "webhooks_rejected": 0,
-    "duplicate_webhooks_ignored": 2755,
-    "audit_records": 34125,
+    "duplicate_webhooks_ignored": 2744,
+    "audit_records": 33991,
     "strategy_mix": {
-      "PAYMENT_LINK": 1229,
-      "REMINDER": 721
+      "PAYMENT_LINK": 1348,
+      "REMINDER": 602
     },
-    "adaptive_explanations": 721,
-    "recovery_per_contact_paise": 144464.6,
+    "adaptive_explanations": 602,
+    "recovery_per_contact_paise": 146087.42,
     "policy_violations": 0,
     "policy_violation_rate": 0.0,
-    "decisions_scored": 2755,
-    "optimal_action_rate": 0.6584,
-    "mean_regret_paise": 15491.42,
-    "total_regret_rupees": 426788.73,
+    "decisions_scored": 2744,
+    "optimal_action_rate": 0.7004,
+    "mean_regret_paise": 11870.93,
+    "total_regret_rupees": 325738.42,
     "calibration": {
       "label": "recoveros",
-      "samples": 2755,
-      "brier": 0.232375,
-      "log_loss": 0.657261,
-      "ece": 0.0703,
-      "auc": 0.66889,
-      "sharpness": 0.009247,
-      "base_rate": 0.526679,
-      "mean_prediction": 0.461013,
-      "optimism_bias": -0.065665,
+      "samples": 2744,
+      "brier": 0.239785,
+      "log_loss": 0.673843,
+      "ece": 0.04293,
+      "auc": 0.623163,
+      "sharpness": 0.020125,
+      "base_rate": 0.530612,
+      "mean_prediction": 0.537175,
+      "optimism_bias": 0.006562,
       "reliability": [
         {
           "bin": "0.2-0.3",
-          "count": 74,
+          "count": 32,
           "mean_prediction": 0.28,
-          "observed_rate": 0.3108,
-          "gap": 0.030811
+          "observed_rate": 0.375,
+          "gap": 0.095
         },
         {
           "bin": "0.3-0.4",
-          "count": 945,
-          "mean_prediction": 0.3602,
-          "observed_rate": 0.3534,
-          "gap": 0.006756
+          "count": 562,
+          "mean_prediction": 0.3615,
+          "observed_rate": 0.379,
+          "gap": 0.017544
         },
         {
           "bin": "0.4-0.5",
-          "count": 433,
-          "mean_prediction": 0.4604,
-          "observed_rate": 0.6628,
-          "gap": 0.202434
+          "count": 522,
+          "mean_prediction": 0.4579,
+          "observed_rate": 0.4789,
+          "gap": 0.021048
         },
         {
           "bin": "0.5-0.6",
-          "count": 1097,
-          "mean_prediction": 0.5299,
-          "observed_rate": 0.5743,
-          "gap": 0.044356
+          "count": 806,
+          "mean_prediction": 0.5422,
+          "observed_rate": 0.5608,
+          "gap": 0.018608
         },
         {
           "bin": "0.6-0.7",
-          "count": 198,
-          "mean_prediction": 0.619,
-          "observed_rate": 0.8535,
-          "gap": 0.234525
+          "count": 373,
+          "mean_prediction": 0.6434,
+          "observed_rate": 0.6729,
+          "gap": 0.029523
         },
         {
           "bin": "0.7-0.8",
-          "count": 8,
-          "mean_prediction": 0.717,
-          "observed_rate": 1.0,
-          "gap": 0.283
+          "count": 297,
+          "mean_prediction": 0.7279,
+          "observed_rate": 0.5556,
+          "gap": 0.172337
+        },
+        {
+          "bin": "0.8-0.9",
+          "count": 152,
+          "mean_prediction": 0.8534,
+          "observed_rate": 0.7434,
+          "gap": 0.11
         }
       ]
     },
@@ -2884,29 +3016,29 @@
     "llm": {}
   },
   "ai_lift": {
-    "recovered_revenue_delta_paise": 5808760,
-    "recovery_rate_delta": 0.0101,
-    "contacts_delta": 4,
-    "recovery_per_contact_delta_paise": 1901.46,
+    "recovered_revenue_delta_paise": 8672680,
+    "recovery_rate_delta": 0.0151,
+    "contacts_delta": -7,
+    "recovery_per_contact_delta_paise": 3524.28,
     "interpretation": "rule-based planner versus fixed payment-link baseline; both use the same governed policy"
   },
   "learning_lift": {
-    "recovered_revenue_delta_paise": -4169775,
-    "recovery_rate_delta": -0.0072,
-    "contacts_delta": -227,
-    "recovery_per_contact_delta_paise": 11322.66,
-    "optimal_action_rate_delta": 0.1521,
-    "mean_regret_delta_paise": -761.63,
-    "brier_skill_score_vs_rules": -0.010233,
+    "recovered_revenue_delta_paise": -12508150,
+    "recovery_rate_delta": -0.0218,
+    "contacts_delta": -139,
+    "recovery_per_contact_delta_paise": 2993.47,
+    "optimal_action_rate_delta": 0.0862,
+    "mean_regret_delta_paise": 4484.66,
+    "brier_skill_score_vs_rules": -0.008604,
     "interpretation": "learning agent versus the hand-written rulebook, same governed policy and same hidden world. Negative regret delta means the learner chose better actions.",
     "share_of_attainable_value": {
-      "learning": 0.9452,
-      "rules": 0.9553,
+      "learning": 0.9321,
+      "rules": 0.9621,
       "fixed_baseline": 0.9413,
       "note": "Fraction of the oracle's recovered revenue captured. The oracle has full knowledge of the hidden world and is not achievable; it bounds the scoreboard."
     }
   },
-  "wall_clock_seconds": 24.868,
+  "wall_clock_seconds": 29.852,
   "data_label": "SYNTHETIC EVALUATION DATA",
   "disclaimer": "Recovery outcomes are produced by a seeded simulation whose conversion priors were chosen by the authors. These numbers demonstrate that the control system behaves correctly at batch scale. They are NOT a prediction of real-world recovery rates."
 }

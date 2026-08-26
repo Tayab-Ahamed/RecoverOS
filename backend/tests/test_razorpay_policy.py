@@ -23,6 +23,7 @@ from app.domain.entities import (
 from app.domain.money import Money
 from app.domain.states import Actor
 from app.policies.engine import PolicyEngine
+from tests.factories import fixed_clock
 
 
 def make_case(metadata: dict | None = None) -> RecoveryCase:
@@ -62,7 +63,7 @@ def make_plan(intervention: InterventionType) -> InterventionPlan:
 
 class TestGatewayWindowRule(unittest.TestCase):
     def setUp(self):
-        self.engine = PolicyEngine()
+        self.engine = PolicyEngine(clock=fixed_clock)
 
     def test_contact_denied_while_razorpay_is_still_auto_retrying(self):
         case = make_case({"subscription_status": "pending", "days_since_failure": 0.5})
@@ -97,7 +98,7 @@ class TestGatewayWindowRule(unittest.TestCase):
 
 class TestMandateRules(unittest.TestCase):
     def setUp(self):
-        self.engine = PolicyEngine()
+        self.engine = PolicyEngine(clock=fixed_clock)
 
     def test_subscription_recovery_denied_without_a_mandate(self):
         case = make_case({"has_mandate": False})
@@ -132,7 +133,7 @@ class TestMandateRules(unittest.TestCase):
 
 class TestHardDeclineRule(unittest.TestCase):
     def setUp(self):
-        self.engine = PolicyEngine()
+        self.engine = PolicyEngine(clock=fixed_clock)
 
     def test_hard_decline_on_unchanged_instrument_is_denied(self):
         case = make_case({"decline_class": "HARD"})
@@ -162,7 +163,7 @@ class TestSyntheticDataIsUnaffected(unittest.TestCase):
         # The benchmark carries none of these provider keys, so the new rules
         # must be completely inert there. If this fails, the headline numbers
         # moved for a reason unrelated to decision quality.
-        engine = PolicyEngine()
+        engine = PolicyEngine(clock=fixed_clock)
         decision = engine.authorize(
             make_case({}), make_plan(InterventionType.PAYMENT_LINK), make_customer()
         )
