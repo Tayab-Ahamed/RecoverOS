@@ -122,7 +122,7 @@ that narration recovers more money.
 
 | Claim | Value | Command |
 | --- | --- | --- |
-| Test suite | 192 tests | `python -m unittest discover -s tests -t . -q` |
+| Test suite | 207 tests | `python -m unittest discover -s tests -t . -q` |
 | Skipped on a bare interpreter | 12 (HTTP + SQL suites) | as above, no packages installed |
 | Architectural boundary checks | pass, zero dependencies | `python -m scripts.static_check` |
 | Clock hermeticity | pass at all 24 hours | included in the suite above |

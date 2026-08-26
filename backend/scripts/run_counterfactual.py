@@ -42,7 +42,7 @@ def main() -> int:
     dataset = generate(n_events=args.events, seed=args.seed, profile=args.profile)
     result = sweep(dataset)
     report = result.to_dict()
-    report["wall_clock_seconds"] = round(time.time() - started, 3)
+    elapsed = round(time.time() - started, 3)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = (
@@ -55,7 +55,7 @@ def main() -> int:
     print(f"\n=== RecoverOS counterfactual policy sweep: {dataset.run_id} ===")
     print(f"SYNTHETIC DATA  seed={args.seed}  events={args.events}")
     print("only the policy varies; planner, dataset, world and seed are fixed")
-    print(f"wall clock: {report['wall_clock_seconds']}s\n")
+    print(f"wall clock: {elapsed}s\n")
 
     row = "{:<20} {:>14} {:>10} {:>9} {:>11} {:>11}"
     print(

@@ -38,6 +38,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+from app.evaluation.counterfactual import sweep as sweep_counterfactual  # noqa: E402
 from app.evaluation.generator import generate  # noqa: E402
 from app.evaluation.harness import compare  # noqa: E402
 
@@ -63,9 +64,22 @@ CHECKED_ARMS = (
     "ungoverned",
 )
 
+CHECKED_COUNTERFACTUAL_FIELDS = (
+    "recovered_revenue_rupees",
+    "recovery_rate",
+    "recovered_cases",
+    "contacts_made",
+    "policy_violations",
+    "optimal_action_rate",
+    "total_regret_rupees",
+    "revenue_delta_rupees",
+    "contacts_delta",
+    "verdict",
+)
 
-def check(path: pathlib.Path) -> list[str]:
-    """Re-run one artifact from its own recorded parameters and diff it."""
+
+def check_benchmark(path: pathlib.Path) -> list[str]:
+    """Re-run one benchmark artifact from its own recorded parameters and diff it."""
     committed = json.loads(path.read_text())
     dataset_meta = committed.get("dataset")
     if not dataset_meta:
@@ -96,6 +110,39 @@ def check(path: pathlib.Path) -> list[str]:
     return problems
 
 
+def check_counterfactual(path: pathlib.Path) -> list[str]:
+    """Re-run one counterfactual sweep artifact from its parameters and diff it."""
+    committed = json.loads(path.read_text())
+    dataset_meta = committed.get("dataset")
+    if not dataset_meta:
+        return [f"{path.name}: no dataset block; cannot verify provenance"]
+
+    seed = dataset_meta["seed"]
+    events = dataset_meta["events"]
+    profile = dataset_meta.get("profile", "benchmark")
+
+    fresh = sweep_counterfactual(
+        generate(n_events=events, seed=seed, profile=profile)
+    ).to_dict()
+
+    committed_variants = {v["variant"]: v for v in committed.get("variants", [])}
+    fresh_variants = {v["variant"]: v for v in fresh.get("variants", [])}
+
+    problems: list[str] = []
+    for name, old in committed_variants.items():
+        new = fresh_variants.get(name)
+        if new is None:
+            problems.append(f"{path.name}: variant '{name}' missing from fresh run")
+            continue
+        for field in CHECKED_COUNTERFACTUAL_FIELDS:
+            if old.get(field) != new.get(field):
+                problems.append(
+                    f"{path.name}: variant '{name}'.{field}: "
+                    f"committed={old.get(field)!r} current={new.get(field)!r}"
+                )
+    return problems
+
+
 QUICK_MAX_EVENTS = 2000
 
 
@@ -108,25 +155,31 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    artifacts = sorted(RUNS_DIR.glob("run_benchmark_*.json"))
-    if not artifacts:
-        print(f"no benchmark artifacts found in {RUNS_DIR}")
+    benchmarks = sorted(RUNS_DIR.glob("run_benchmark_*.json"))
+    counterfactuals = sorted(RUNS_DIR.glob("counterfactual_*.json"))
+
+    if not benchmarks and not counterfactuals:
+        print(f"no evaluation artifacts found in {RUNS_DIR}")
         return 1
+
+    all_artifacts = [(p, check_benchmark) for p in benchmarks] + [
+        (p, check_counterfactual) for p in counterfactuals
+    ]
 
     if args.quick:
         kept = []
-        for path in artifacts:
+        for path, checker in all_artifacts:
             meta = json.loads(path.read_text()).get("dataset") or {}
             if meta.get("events", 0) <= QUICK_MAX_EVENTS:
-                kept.append(path)
+                kept.append((path, checker))
             else:
                 print(f"skip  {path.name} (--quick)")
-        artifacts = kept
+        all_artifacts = kept
 
-    print(f"verifying {len(artifacts)} committed benchmark artifact(s)\n")
+    print(f"verifying {len(all_artifacts)} committed evaluation artifact(s)\n")
     all_problems: list[str] = []
-    for path in artifacts:
-        problems = check(path)
+    for path, checker in all_artifacts:
+        problems = checker(path)
         status = "ok   " if not problems else "DRIFT"
         print(f"{status} {path.name}")
         all_problems.extend(problems)
@@ -139,7 +192,8 @@ def main() -> int:
             "\nA committed artifact no longer matches current code, so any number "
             "quoted from it is stale.\nRegenerate the affected runs and update "
             "every doc that quotes them:\n"
-            "    python -m scripts.run_benchmark --events <n> --seed <seed>"
+            "    python -m scripts.run_benchmark --events <n> --seed <seed>\n"
+            "    python -m scripts.run_counterfactual --events <n> --seed <seed>"
         )
         return 1
 

@@ -147,6 +147,5 @@
     }
   ],
   "data_label": "SYNTHETIC COUNTERFACTUAL POLICY SWEEP",
-  "disclaimer": "Seeded synthetic simulation. This prices each governed constraint so the bound is a deliberate trade rather than an article of faith. It is not a production forecast.",
-  "wall_clock_seconds": 2.717
+  "disclaimer": "Seeded synthetic simulation. This prices each governed constraint so the bound is a deliberate trade rather than an article of faith. It is not a production forecast."
 }
