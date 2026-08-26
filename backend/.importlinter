@@ -8,11 +8,14 @@ type = layers
 layers =
     app.api
     app.services
-    app.agents | app.detection | app.policies | app.integrations
+    app.agents
+    app.detection
+    app.policies
+    app.integrations
     app.repositories
     app.models
-    app.domain
     app.core
+    app.domain
 
 [importlinter:contract:agents-cannot-move-money]
 # The central safety claim of this system, enforced as a build step rather
