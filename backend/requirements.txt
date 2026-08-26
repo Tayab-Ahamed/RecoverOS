@@ -1,5 +1,6 @@
 # Pinned at the minor level for reproducible container builds.
 fastapi>=0.115,<0.116
+httpx>=0.27,<0.29
 uvicorn[standard]>=0.32,<0.33
 sqlalchemy>=2.0,<2.1
 alembic>=1.14,<1.15

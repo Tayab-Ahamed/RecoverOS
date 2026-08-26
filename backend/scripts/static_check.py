@@ -27,7 +27,6 @@ from __future__ import annotations
 
 import ast
 import pathlib
-import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 APP = ROOT / "app"

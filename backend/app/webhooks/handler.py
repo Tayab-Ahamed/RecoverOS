@@ -10,9 +10,9 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 
+from app.domain.states import CaseState
 from app.integrations.idempotency import IdempotencyStore
 from app.integrations.signature import verify_signature
-from app.domain.states import CaseState
 from app.services.verifier import CAPTURED_EVENTS, FAILED_EVENTS, OutcomeVerifier
 
 

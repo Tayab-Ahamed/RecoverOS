@@ -70,7 +70,7 @@ jobs:
           # Full history: a secret removed in a later commit is still a leak.
           fetch-depth: 0
       - name: Secret scan
-        run: ./scripts/secret_scan.sh
+        run: bash ./scripts/secret_scan.sh
 
   frontend:
     runs-on: ubuntu-latest

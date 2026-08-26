@@ -6,8 +6,7 @@ import os
 import tempfile
 import unittest
 
-from app.agents.bandit import ContextualBandit, DEFAULT_ARMS, Posterior
-from app.agents.features import CaseFeatures
+from app.agents.bandit import DEFAULT_ARMS, ContextualBandit
 
 
 class TestBanditPersistence(unittest.TestCase):

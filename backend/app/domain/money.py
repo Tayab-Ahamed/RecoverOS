@@ -8,9 +8,8 @@ the unit explicit in the type and refuse to accept ambiguous input.
 
 from __future__ import annotations
 
-from decimal import ROUND_HALF_UP, Decimal
-
 from dataclasses import dataclass
+from decimal import ROUND_HALF_UP, Decimal
 
 from app.domain.errors import MoneyError
 

@@ -11,10 +11,11 @@ from collections.abc import Callable
 from datetime import UTC, datetime
 
 from app.agents.diagnosis_agent import DiagnosisAgent
-from app.agents.llm import AnthropicClient, DeterministicLLMClient
 from app.agents.learning_strategist import LearningStrategistAgent
+from app.agents.llm import AnthropicClient, DeterministicLLMClient
 from app.agents.strategist_agent import StrategistAgent
 from app.core.config import ConfigError, Settings, get_settings
+from app.core.db import get_session_factory
 from app.domain.entities import RecoveryCase
 from app.integrations.idempotency import (
     InMemoryIdempotencyStore,
@@ -22,11 +23,10 @@ from app.integrations.idempotency import (
     SqlIdempotencyStore,
 )
 from app.integrations.mock_razorpay import MockRazorpayProvider
+from app.models.sql import Base
 from app.policies.engine import PolicyEngine
 from app.repositories.memory import InMemoryCaseRepository, InMemoryCustomerRepository
 from app.repositories.sql import SqlAuditRepository, SqlCaseRepository, SqlCustomerRepository
-from app.core.db import get_session_factory
-from app.models.sql import Base
 from app.services.approval import ApprovalService
 from app.services.audit import AuditLog
 from app.services.executor import RecoveryExecutor

@@ -46,7 +46,6 @@ outcomes.
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import random
 import sqlite3
@@ -360,7 +359,7 @@ class ContextualBandit:
             conn.close()
 
     @classmethod
-    def load(cls, db_path: str, seed: str = 'bandit', arms: tuple = DEFAULT_ARMS, prior_strength: float = 12.0) -> 'ContextualBandit':
+    def load(cls, db_path: str, seed: str = 'bandit', arms: tuple = DEFAULT_ARMS, prior_strength: float = 12.0) -> ContextualBandit:
         """Load a bandit from persisted state. Returns a fresh bandit if no state exists."""
         instance = cls(seed=seed, arms=arms, prior_strength=prior_strength)
         if not os.path.exists(db_path):

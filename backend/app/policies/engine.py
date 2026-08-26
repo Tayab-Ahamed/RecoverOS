@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 
 from app.domain.entities import (
     Customer,
@@ -20,8 +20,8 @@ from app.domain.entities import (
     RecoveryCase,
     new_id,
 )
-from app.policies.config import DEFAULT_POLICY, PolicyVersion
 from app.policies import razorpay_rules
+from app.policies.config import DEFAULT_POLICY, PolicyVersion
 
 
 @dataclass(frozen=True)

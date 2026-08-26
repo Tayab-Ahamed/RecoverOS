@@ -7,12 +7,12 @@ detail are logged, never returned.
 from __future__ import annotations
 
 from app.domain.errors import (
+    DomainError,
     IllegalTransition,
     InvariantViolation,
     MissingProviderEventId,
     MoneyError,
     PolicyViolation,
-    DomainError,
     UnauthorizedActor,
 )
 

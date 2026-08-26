@@ -23,7 +23,6 @@ from app.domain.entities import (
     InterventionPlan,
     InterventionType,
     Money,
-    PromiseToPay,
     RecoveryCase,
     RiskEvent,
     RiskEventType,
@@ -31,7 +30,6 @@ from app.domain.entities import (
 )
 from app.domain.states import Actor, CaseState, PromiseStatus
 from app.integrations.mock_razorpay import MockRazorpayProvider
-from app.policies.config import PolicyRules
 from app.policies.engine import PolicyEngine
 from app.services.audit import AuditLog
 from app.services.executor import RecoveryExecutor

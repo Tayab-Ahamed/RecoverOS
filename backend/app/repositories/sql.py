@@ -10,6 +10,8 @@ from __future__ import annotations
 import json
 from datetime import UTC, datetime
 
+from sqlalchemy import select
+
 from app.domain.entities import (
     AuditRecord,
     Customer,
@@ -25,12 +27,11 @@ from app.domain.entities import (
 )
 from app.domain.money import Money
 from app.domain.states import Actor, CaseState
+from app.models.sql import AuditRecord as AuditRow
 from app.models.sql import Customer as CustomerRow
+from app.models.sql import PaymentEvidence as EvidenceRow
 from app.models.sql import RecoveryCase as CaseRow
 from app.models.sql import RiskEvent as EventRow
-from app.models.sql import PaymentEvidence as EvidenceRow
-from app.models.sql import AuditRecord as AuditRow
-from sqlalchemy import select
 
 
 def _dt(value: datetime) -> datetime:

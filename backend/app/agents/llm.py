@@ -47,8 +47,8 @@ run unattended.
 
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 import random
 import re
 import time
@@ -149,7 +149,7 @@ class TokenUsage:
     input_tokens: int = 0
     output_tokens: int = 0
 
-    def add(self, other: "TokenUsage") -> None:
+    def add(self, other: TokenUsage) -> None:
         self.input_tokens += other.input_tokens
         self.output_tokens += other.output_tokens
 
@@ -663,7 +663,7 @@ class InstrumentedLLMClient:
         self.agent = agent
         self.telemetry = LLMTelemetry(model=self.model)
 
-    def for_agent(self, agent: str) -> "InstrumentedLLMClient":
+    def for_agent(self, agent: str) -> InstrumentedLLMClient:
         """A view that attributes calls to one agent, sharing all state."""
         view = InstrumentedLLMClient.__new__(InstrumentedLLMClient)
         view.inner = self.inner

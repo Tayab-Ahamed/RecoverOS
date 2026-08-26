@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from app.domain.entities import RecoveryCase, utcnow
 from app.domain.errors import IllegalTransition, UnauthorizedActor
-from app.domain.states import CaseState, Actor, is_transition_allowed, may_actor_write
+from app.domain.states import Actor, CaseState, is_transition_allowed, may_actor_write
 from app.services.audit import AuditLog
 
 

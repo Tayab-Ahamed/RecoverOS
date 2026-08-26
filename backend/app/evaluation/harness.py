@@ -49,7 +49,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 
 from app.agents.critic_agent import CriticAgent
 from app.agents.learning_strategist import LearningStrategistAgent

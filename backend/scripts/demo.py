@@ -15,6 +15,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+from datetime import UTC, datetime, timedelta
+
 from app.domain.entities import (  # noqa: E402
     Customer,
     FailureReason,
@@ -36,8 +38,6 @@ from app.services.orchestrator import RecoveryOrchestrator  # noqa: E402
 from app.services.state_machine import StateMachine  # noqa: E402
 from app.services.verifier import OutcomeVerifier  # noqa: E402
 from app.webhooks.handler import WebhookHandler  # noqa: E402
-
-from datetime import UTC, datetime, timedelta
 
 SECRET = "demo_secret"
 RULE = "=" * 74

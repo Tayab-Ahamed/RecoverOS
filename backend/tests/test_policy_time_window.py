@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 import unittest
+from datetime import UTC, datetime
 from unittest.mock import patch
-from datetime import datetime, UTC
 
-from app.policies.engine import PolicyEngine
-from app.policies.config import PolicyRules, PolicyVersion
-from tests.factories import case, customer, plan
 from app.domain.entities import InterventionType
+from app.policies.config import PolicyRules, PolicyVersion
+from app.policies.engine import PolicyEngine
+from tests.factories import case, customer, plan
 
 
 def _engine_with_window(before: int = 8, after: int = 21) -> PolicyEngine:

@@ -20,7 +20,6 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from app.evaluation.llm_eval import run_shadow_eval  # noqa: E402
 
-
 OUT_DIR = pathlib.Path(__file__).resolve().parents[2] / "evaluation" / "runs"
 
 

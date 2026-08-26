@@ -15,13 +15,15 @@ def main() -> None:
         os.environ["LLM_PROVIDER"] = "mock"
         os.environ["ENABLE_LOCAL_WEBHOOK_REPLAY"] = "true"
 
-        from alembic import command
         from alembic.config import Config
+
+        from alembic import command
 
         config = Config(str(Path(__file__).parents[1] / "alembic.ini"))
         command.upgrade(config, "head")
 
         from fastapi.testclient import TestClient
+
         from app.api.deps import reset_container, restart_container
         from app.main import app
 

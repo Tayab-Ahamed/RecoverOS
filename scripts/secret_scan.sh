@@ -9,9 +9,9 @@ fail=0
 
 check() {
   local pattern="$1" label="$2"
-  if git grep -nIE "$pattern" -- . ':!scripts/secret_scan.sh' ':!.env.example' >/dev/null 2>&1; then
+  if git grep -nIE -e "$pattern" -- . ':!scripts/secret_scan.sh' ':!.env.example' >/dev/null 2>&1; then
     echo "FAIL: $label"
-    git grep -nIE "$pattern" -- . ':!scripts/secret_scan.sh' ':!.env.example' || true
+    git grep -nIE -e "$pattern" -- . ':!scripts/secret_scan.sh' ':!.env.example' || true
     fail=1
   else
     echo "ok:   no $label"

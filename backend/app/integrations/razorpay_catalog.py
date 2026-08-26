@@ -24,7 +24,7 @@ Subscriptions and Payments webhook event catalogues, UPI AutoPay product page.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from app.domain.entities import InterventionType
 

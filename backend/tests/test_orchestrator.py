@@ -1,7 +1,6 @@
 import json
 import unittest
 
-from app.detection.rules import detect
 from app.domain.entities import InterventionType
 from app.domain.states import Actor, CaseState
 from app.integrations.signature import compute_signature

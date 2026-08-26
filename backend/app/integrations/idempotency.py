@@ -83,6 +83,7 @@ class SqlIdempotencyStore:
 
     def seen(self, key: str) -> bool:
         from sqlalchemy import select
+
         from app.models.sql import WebhookEvent
 
         return self.session.scalar(
@@ -91,8 +92,9 @@ class SqlIdempotencyStore:
 
     def claim(self, key: str) -> bool:
         from sqlalchemy.exc import IntegrityError
-        from app.models.sql import WebhookEvent
+
         from app.domain.entities import new_id
+        from app.models.sql import WebhookEvent
 
         if self.seen(key):
             return False
