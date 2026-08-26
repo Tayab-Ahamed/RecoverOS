@@ -27,8 +27,11 @@ never prevents the process from starting.
 | Method | Path | Notes |
 | --- | --- | --- |
 | GET | `/api/v1/cases` | List cases with state, amounts, attempts |
-| GET | `/api/v1/cases/{id}` | One case with diagnosis, plan and evidence |
+| GET | `/api/v1/cases/{id}` | One case with diagnosis, plan, evidence and PTP |
 | GET | `/api/v1/cases/{id}/audit` | Full audit trail, oldest first |
+| GET | `/api/v1/cases/{id}/audit.csv` | Export case audit trail as CSV |
+| POST | `/api/v1/cases/{id}/ptp` | Record customer Promise-to-Pay (amount + timezone-aware due date) |
+| GET | `/api/v1/cases/{id}/ptp` | Current Promise-to-Pay commitment status |
 
 Every audit entry carries the actor, the transition, and the
 `policy_version_id` and `decision_id` that authorized it. An audit line that

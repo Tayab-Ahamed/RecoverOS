@@ -7,7 +7,7 @@
 AI proposes. Deterministic policy authorizes. The provider executes. Webhooks verify.
 
 [![CI](https://github.com/Tayab-Ahamed/RecoverOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Tayab-Ahamed/RecoverOS/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-192%20passing-3fb950)](backend/tests)
+[![Tests](https://img.shields.io/badge/tests-207%20passing-3fb950)](backend/tests)
 [![Policy violations](https://img.shields.io/badge/policy%20violations-0%20%2F%2010%2C000%20cases-3fb950)](evaluation/runs/run_benchmark_42_10000.json)
 [![Reproducible](https://img.shields.io/badge/artifacts-CI%20drift%20guarded-1f6feb)](backend/scripts/check_artifacts.py)
 [![Track](https://img.shields.io/badge/Razorpay%20Buildathon-03%20AI%20Revenue%20Recovery-0f8fff)](https://razorpay.com/buildathon/)
@@ -39,6 +39,7 @@ for the window between **payment failure** and **verified comeback**.
 | [The claim](#the-claim) | What this system is measured on, and why not recovery rate |
 | [Measured results](#measured-results) | The numbers, and how to reproduce them yourself |
 | [Why the gateway insight matters](#the-insight-that-changed-the-design) | The one place reading Razorpay's docs changed the architecture |
+| [Promise-to-Pay bounded grace](#promise-to-pay-bounded-grace-as-a-governed-pause) | Why waiting on customer commitments is an active policy choice |
 | [Architecture](#architecture) | Trust boundaries, agents, and what each one may not do |
 | [Prove it locally](#prove-it-locally) | One command, no network, no credentials |
 | [Honest scope](#honest-scope) | What is real, what is simulated, what is unverified |
@@ -315,6 +316,19 @@ live account, is in [`docs/RAZORPAY_ALIGNMENT.md`](docs/RAZORPAY_ALIGNMENT.md).
 
 ---
 
+## Promise-to-Pay: bounded grace as a governed pause
+
+When a customer commits to pay by a specific date (e.g., "I will settle Friday after salary credit"), the right move is not to keep dunning — it is to wait.
+
+Like the gateway retry window, **Promise-to-Pay (PTP) is a deterministic reason not to contact someone**. It is designed around four governance invariants:
+
+- **Denial, not an action space addition.** PTP enters strictly via inbound customer commitment events, never as an agent action in the contextual bandit. Outbound dunning is paused under `ptp_active_grace_period` while unexpired, keeping the primary benchmark numbers clean and unaffected.
+- **Pure authorization.** `PolicyEngine.authorize()` is a pure, non-mutating query. It never alters state or marks promises broken during authorization.
+- **Bounded grace.** To prevent indefinite dunning evasion, commitments are hard-capped at a **30-day maximum horizon** (a 400-day promise is refused at creation) and **at most 2 broken promises per case** before further grace is denied.
+- **Strict verification & budget discipline.** A promise is fulfilled only when verified capture evidence matches the **exact case reference AND exact amount in paise**. Partial payments before the due date remain `PENDING` (allowing top-up) rather than prematurely broken. Any customer reminder consumes the standard contact ceiling without loopholes.
+
+---
+
 ## Architecture
 
 ```mermaid
@@ -440,17 +454,18 @@ shadow audit. Individually:
 
 ```bash
 python3 -m scripts.static_check                      # AST boundary checks, zero deps
-python3 -m unittest discover -s tests -t . -q        # 166 tests
-python3 -m scripts.demo                              # four narrated scenarios
+python3 -m unittest discover -s tests -t . -q        # 207 tests
+python3 -m scripts.demo                              # five narrated scenarios
 python3 -m scripts.run_benchmark --events 10000 --seed 42
 python3 -m scripts.check_artifacts                   # published numbers still reproduce
+python3 -m scripts.run_counterfactual --events 2000 --seed 42  # prices safety rules
 python3 -m scripts.run_shadow_eval --events 120 --seed 42
 ```
 
 On a bare interpreter the HTTP and SQL suites skip cleanly
-(`OK (skipped=12)`); CI installs `backend/requirements.txt` and runs all 166.
+(`OK (skipped=12)`); CI installs `backend/requirements.txt` and runs all 207.
 
-### The four narrated scenarios, and why each exists
+### The five narrated scenarios, and why each exists
 
 | Scenario | What it demonstrates |
 | --- | --- |
@@ -458,8 +473,9 @@ On a bare interpreter the HTTP and SQL suites skip cleanly
 | **B.** ₹4,999 permanent decline → escalated | Stopping rules are real. The system gives up on purpose |
 | **C.** ₹1,299 recoverable, customer opted out | Terminates at `INELIGIBLE`, **zero** provider calls. Money deliberately left on the table |
 | **D.** ₹75,000 above threshold | Holds at `AWAITING_APPROVAL` indefinitely rather than self-approving |
+| **E.** ₹6,499 customer promises to pay | Outbound contact paused under `ptp_active_grace_period`, **zero** calls during grace |
 
-Scenario C is the important one.
+Scenarios C and E are the important ones: both demonstrate the system declining to act.
 
 ### Run the full stack
 
@@ -488,6 +504,8 @@ credentials are included in this repository.**
 | `GET /api/v1/metrics` | Portfolio metrics and provenance summary |
 | `GET /api/v1/cases` | Case ledger, with state filtering and pagination |
 | `GET /api/v1/cases/{id}` | Case detail and full audit trail |
+| `POST /api/v1/cases/{id}/ptp` | Register customer Promise-to-Pay (amount + timezone-aware due date) |
+| `GET /api/v1/cases/{id}/ptp` | Inspect current Promise-to-Pay status |
 | `GET /api/v1/benchmark` | Learning, rulebook, baseline, oracle and ungoverned arms |
 | `GET /api/v1/agents` | Learning strategist, bandit, memory, critic, LLM telemetry |
 | `GET /api/v1/agents/shadow-eval` | Paired model influence and guardrail evaluation |
@@ -506,6 +524,7 @@ Full contract in [`docs/API.md`](docs/API.md).
 | --- | --- |
 | Domain model, money arithmetic, state machine | Executed and tested |
 | Detection, diagnosis, strategy, policy, executor, verifier | Executed and tested |
+| Promise-to-Pay (PTP) lifecycle tracker & grace periods | Executed and tested |
 | Webhook signature verification and replay handling | Executed and tested |
 | Learning-versus-baseline benchmark | Seeded, reproducible, CI drift-guarded |
 | Architectural import boundaries | Statically verified, twice |

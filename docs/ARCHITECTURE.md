@@ -98,6 +98,16 @@ Integer paise everywhere, `BIGINT` in the database. `Money` rejects float
 construction outright and scales through `Decimal` with explicit
 `ROUND_HALF_UP`. There is no code path where an amount becomes a binary float.
 
+## Promise-to-Pay (PTP) Governance
+
+A customer commitment to pay by date $T$ enters via an inbound event and is recorded on the case. It is **not** an agentic action in the contextual bandit; rather, it acts as a deterministic denial constraint:
+- **`ptp_active_grace_period` rule**: While active ($t < T$), `PolicyEngine.authorize()` denies outbound contact.
+- **Pure Authorization**: `authorize()` is a pure function that performs zero state mutations.
+- **Bounded Grace**: Capped at a 30-day maximum horizon; cases with $\ge 2$ broken promises cannot register further grace.
+- **Strict Verification**: Fulfills only on exact case reference AND exact captured payment amount in paise. Underpayment leaves the promise `PENDING` until the due date.
+- **Audited Lifecycle**: Every phase emits structured audit events (`PTP_RECORDED`, `PTP_FULFILLED`, `PTP_PARTIAL_PAYMENT`, `PTP_BROKEN`).
+
+
 ## Provenance
 
 Every customer, event and case is labelled `SYNTHETIC` or `LIVE_TEST_MODE`.
