@@ -463,7 +463,7 @@ python3 -m scripts.run_shadow_eval --events 120 --seed 42
 ```
 
 On a bare interpreter the HTTP and SQL suites skip cleanly
-(`OK (skipped=12)`); CI installs `backend/requirements.txt` and runs all 207.
+(`OK (skipped=13)`); CI installs `backend/requirements.txt` and runs all 207.
 
 ### The five narrated scenarios, and why each exists
 

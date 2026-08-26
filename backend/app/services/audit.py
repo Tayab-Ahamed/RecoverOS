@@ -7,13 +7,26 @@ be quietly rewritten.
 
 from __future__ import annotations
 
+from collections.abc import Callable
+from datetime import datetime
+
 from app.domain.entities import AuditRecord, new_id, utcnow
 from app.domain.states import Actor, CaseState
 
 
 class AuditLog:
-    def __init__(self) -> None:
+    """Append-only trail.
+
+    The clock is injectable for the same reason PolicyEngine's is: a caller that
+    pins policy evaluation to a fixed instant must be able to pin the audit
+    timestamps to the same instant, or the trail will describe decisions as
+    happening at a time the decider never saw. Production passes nothing and
+    gets real UTC wall time.
+    """
+
+    def __init__(self, clock: Callable[[], datetime] | None = None) -> None:
         self._records: list[AuditRecord] = []
+        self._clock = clock or utcnow
 
     def record(
         self,
@@ -35,7 +48,7 @@ class AuditLog:
             from_state=from_state,
             to_state=to_state,
             detail=detail,
-            at=utcnow(),
+            at=self._clock(),
             policy_version_id=policy_version_id,
             decision_id=decision_id,
             external_event_id=external_event_id,

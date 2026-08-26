@@ -38,7 +38,7 @@ def main() -> int:
         dataset_seed=args.seed,
     )
     payload = report.to_dict()
-    payload["wall_clock_seconds"] = round(time.time() - started, 3)
+    elapsed = round(time.time() - started, 3)
     payload["data_label"] = "SYNTHETIC SHADOW EVALUATION"
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -46,6 +46,7 @@ def main() -> int:
     out.write_text(json.dumps(payload, indent=2) + "\n")
 
     print(f"=== RecoverOS shadow evaluation: {args.events} events, seed {args.seed} ===")
+    print(f"wall clock: {elapsed}s")
     print(f"paired decisions: {payload['decisions_compared']}")
     print(f"model agreement: {payload['agreement_rate']:.1%}")
     print(f"model influence: {payload['influence_rate']:.1%}")

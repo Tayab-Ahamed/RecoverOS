@@ -35,7 +35,7 @@ def main() -> int:
     started = time.time()
     dataset = generate(n_events=args.events, seed=args.seed, profile=args.profile)
     report = compare(dataset)
-    report["wall_clock_seconds"] = round(time.time() - started, 3)
+    elapsed = round(time.time() - started, 3)
     report["data_label"] = "SYNTHETIC EVALUATION DATA"
     report["disclaimer"] = (
         "Recovery outcomes are produced by a seeded simulation whose conversion "
@@ -51,7 +51,7 @@ def main() -> int:
     g, b, u = report["governed"], report["fixed_baseline"], report["ungoverned"]
     print(f"\n=== RecoverOS benchmark: {dataset.run_id} ===")
     print(f"SYNTHETIC EVALUATION DATA  seed={args.seed}  events={args.events}")
-    print(f"wall clock: {report['wall_clock_seconds']}s\n")
+    print(f"wall clock: {elapsed}s\n")
     row = "{:<26} {:>18} {:>18}"
     print(row.format("metric", "adaptive", "fixed baseline"))
     print("-" * 64)

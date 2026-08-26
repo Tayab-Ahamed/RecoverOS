@@ -2044,7 +2044,6 @@
       "note": "Fraction of the oracle's recovered revenue captured. The oracle has full knowledge of the hidden world and is not achievable; it bounds the scoreboard."
     }
   },
-  "wall_clock_seconds": 0.899,
   "data_label": "SYNTHETIC EVALUATION DATA",
   "disclaimer": "Recovery outcomes are produced by a seeded simulation whose conversion priors were chosen by the authors. These numbers demonstrate that the control system behaves correctly at batch scale. They are NOT a prediction of real-world recovery rates."
 }

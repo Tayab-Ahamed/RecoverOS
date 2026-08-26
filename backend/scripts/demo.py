@@ -44,7 +44,12 @@ RULE = "=" * 74
 
 
 def build(approver=None, clock=None):
-    audit = AuditLog()
+    # One clock for the whole demo. The policy engine and the audit trail must
+    # read the same instant, or the trail timestamps a decision at a time the
+    # decider never saw -- which is exactly how a promise due 2026-08-22 can
+    # appear on screen next to an audit line stamped four days later.
+    clock_fn = clock or (lambda: datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC))
+    audit = AuditLog(clock=clock_fn)
     sm = StateMachine(audit)
     provider = MockRazorpayProvider(seed="demo")
     executor = RecoveryExecutor(provider, sm, audit)
@@ -52,7 +57,7 @@ def build(approver=None, clock=None):
     cases: dict[str, RecoveryCase] = {}
     handler = WebhookHandler(SECRET, verifier, InMemoryIdempotencyStore(), cases.get)
     orch = RecoveryOrchestrator(
-        policy=PolicyEngine(clock=clock or (lambda: datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC))),
+        policy=PolicyEngine(clock=clock_fn),
         executor=executor,
         state_machine=sm,
         audit=audit,

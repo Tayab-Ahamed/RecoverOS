@@ -6,13 +6,13 @@ No database, no Redis, no credentials, no network:
 
 ```bash
 cd backend
-python3 -m scripts.demo                                   # four narrated scenarios
-python3 -m unittest discover -s tests -t . -q              # 166 tests
+python3 -m scripts.demo                                   # five narrated scenarios
+python3 -m unittest discover -s tests -t . -q              # 207 tests
 python3 -m scripts.run_benchmark --events 10000 --seed 42  # measured batch
 python3 -m scripts.check_artifacts                         # published numbers still reproduce
 ```
 
-## The four scenarios, and why each exists
+## The five scenarios, and why each exists
 
 ### A. Recoverable failure, money actually recovered
 
