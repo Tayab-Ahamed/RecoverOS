@@ -52,15 +52,6 @@ def _build_llm(settings: Settings):
     return DeterministicLLMClient()
 
 
-def _default_clock(settings: Settings) -> Callable[[], datetime]:
-    # In mock / demo / local mode, match the demo dataset's noon reference time so
-    # that local demonstrations and API contract tests do not depend on the wall
-    # clock hour the reviewer happens to run them. Production uses live UTC now.
-    if settings.is_production or settings.app_env == "production":
-        return lambda: datetime.now(UTC)
-    return lambda: datetime(2026, 8, 20, 12, 0, 0, tzinfo=UTC)
-
-
 class Container:
     def __init__(
         self,
@@ -77,7 +68,7 @@ class Container:
         self.state_machine = StateMachine(self.audit)
         self.provider = _build_provider(self.settings)
         self.llm = _build_llm(self.settings)
-        self.policy = PolicyEngine(clock=clock or _default_clock(self.settings))
+        self.policy = PolicyEngine(clock=clock or (lambda: datetime.now(UTC)))
         self.executor = RecoveryExecutor(self.provider, self.state_machine, self.audit)
         self.verifier = OutcomeVerifier(self.state_machine, self.audit)
         self._db_session = None
@@ -144,12 +135,21 @@ class Container:
 
 
 _container: Container | None = None
+_clock: Callable[[], datetime] | None = None
 
 
-def get_container() -> Container:
+def set_clock(clock: Callable[[], datetime] | None) -> None:
+    """Inject an explicit clock for tests. None restores the live UTC wall clock."""
+    global _clock, _container
+    _clock = clock
+    if _container is not None:
+        reset_container()
+
+
+def get_container(clock: Callable[[], datetime] | None = None) -> Container:
     global _container
     if _container is None:
-        _container = Container()
+        _container = Container(clock=clock or _clock)
     return _container
 
 
@@ -161,7 +161,7 @@ def restart_container() -> None:
     _container = None
 
 
-def reset_container() -> None:
+def reset_container(clock: Callable[[], datetime] | None = None) -> None:
     """Used by the demo reset endpoint and by tests; clears durable demo state."""
     global _container
     if _container is not None:
@@ -174,4 +174,4 @@ def reset_container() -> None:
                 _container._db_session.execute(table.delete())
             _container._db_session.commit()
         _container.close()
-    _container = None
+    _container = Container(clock=clock or _clock) if (clock is not None or _clock is not None) else None

@@ -9,22 +9,28 @@ os.environ.setdefault("PAYMENT_PROVIDER", "mock")
 os.environ.setdefault("LLM_PROVIDER", "mock")
 os.environ.setdefault("ENABLE_LOCAL_WEBHOOK_REPLAY", "true")
 
+from tests.factories import fixed_clock  # noqa: E402
 from tests.optional_deps import HAS_FASTAPI, REQUIRES_FASTAPI  # noqa: E402
 
 if HAS_FASTAPI:  # pragma: no branch - import guard
     from fastapi.testclient import TestClient  # noqa: E402
 
+    from app.api.deps import set_clock  # noqa: E402
     from app.main import app  # noqa: E402
 
 
 @unittest.skipUnless(HAS_FASTAPI, REQUIRES_FASTAPI)
 class PaginationTests(unittest.TestCase):
     def setUp(self) -> None:
+        set_clock(fixed_clock)
         self.client = TestClient(app)
         # Reset and seed demo data (40 cases)
         self.client.post("/api/v1/demo/reset")
         self.client.post("/api/v1/demo/seed")
         self.client.post("/api/v1/demo/run")
+
+    def tearDown(self) -> None:
+        set_clock(None)
 
     # ------------------------------------------------------------------ #
     # 1. Default pagination returns page 1 with page_size 50

@@ -8,19 +8,25 @@ os.environ.setdefault("PAYMENT_PROVIDER", "mock")
 os.environ.setdefault("LLM_PROVIDER", "mock")
 os.environ.setdefault("ENABLE_LOCAL_WEBHOOK_REPLAY", "true")
 
+from tests.factories import fixed_clock  # noqa: E402
 from tests.optional_deps import HAS_FASTAPI, REQUIRES_FASTAPI  # noqa: E402
 
 if HAS_FASTAPI:  # pragma: no branch - import guard
     from fastapi.testclient import TestClient  # noqa: E402
 
+    from app.api.deps import set_clock  # noqa: E402
     from app.main import app  # noqa: E402
 
 
 @unittest.skipUnless(HAS_FASTAPI, REQUIRES_FASTAPI)
 class AgentApiTests(unittest.TestCase):
     def setUp(self) -> None:
+        set_clock(fixed_clock)
         self.client = TestClient(app)
         self.client.post("/api/v1/demo/reset")
+
+    def tearDown(self) -> None:
+        set_clock(None)
 
     def test_agent_snapshot_exposes_learning_state(self) -> None:
         response = self.client.get("/api/v1/agents")
