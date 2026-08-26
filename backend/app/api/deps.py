@@ -123,6 +123,8 @@ class Container:
     def persist(self) -> None:
         if self._db_session is None:
             return
+        for case in self.cases.all():
+            self.cases.add(case)
         self.sql_audit.sync(self.audit.all())
         self._db_session.commit()
 

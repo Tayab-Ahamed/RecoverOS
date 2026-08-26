@@ -14,7 +14,7 @@ RecoverOS detects revenue at risk, uses an evidence-backed agent to choose a pro
 
 The project is not only a failure detector. It closes the loop across detection, diagnosis, intervention selection, execution, verification, escalation, and audit. The learning planner is evaluated against both a fixed payment-link baseline and a hand-written rulebook on the same synthetic batch, under the same policy gate, against a hidden world model the agents provably cannot read. The benchmark also includes an ungoverned risk arm to make the cost of unsafe autonomy visible, and an oracle arm to bound the scoreboard.
 
-The headline claim is deliberately **not** recovery rate. Recovery rate can be raised by contacting more people, which is why the ungoverned arm reaches 90.35% while committing 4,281 policy violations. The defensible claim is action quality: on the 10,000-event run the learner selects the value-maximising action **86.74%** of the time versus **61.61%** for the fixed baseline, cuts total regret by **51.7%**, and does it with **1,223 fewer customer contacts**. Same money, less trust spent.
+The headline claim is deliberately **not** recovery rate. Recovery rate can be raised by contacting more people, which is why the ungoverned arm reaches 90.35% while committing 4,281 policy violations. The defensible claim is action quality: on the 10,000-event run the learner selects the value-maximising action **86.73%** of the time versus **61.61%** for the fixed baseline, cuts total regret by **42.5%**, and does it with **1,155 fewer customer contacts**. Same money, less trust spent.
 
 The central trust boundary is deliberately simple:
 
@@ -44,7 +44,7 @@ Open the opted-out case. Show `INELIGIBLE`, zero contacts, and no provider actio
 
 Open **Adaptive recovery, measured**. Explain that every arm sees the same cases, the same policy, and the same hidden world, with common random numbers so identical cases face identical luck.
 
-Lead with **optimal-action rate and regret**, not recovery rate: 86.74% versus 61.61%, regret down 51.7%, on 1,223 fewer contacts, capturing 97.45% of what the oracle proves was attainable. Say plainly that recovery rate is the wrong headline because the ungoverned arm wins it (90.35%) by committing 4,281 violations. The ungoverned arm exists to demonstrate why governance matters; it is not a production recommendation.
+Lead with **optimal-action rate and regret**, not recovery rate: 86.73% versus 61.61%, regret down 42.5%, on 1,155 fewer contacts, capturing 97.45% of what the oracle proves was attainable. Say plainly that recovery rate is the wrong headline because the ungoverned arm wins it (90.35%) by committing 4,281 violations. The ungoverned arm exists to demonstrate why governance matters; it is not a production recommendation.
 
 ### 3:35–4:20 — Explain implementation depth
 

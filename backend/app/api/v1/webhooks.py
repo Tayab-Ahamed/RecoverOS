@@ -45,6 +45,7 @@ async def razorpay_webhook(
     except MissingProviderEventId as exc:
         raise HTTPException(400, "missing provider event id") from exc
     result = container.webhooks.handle(raw, x_razorpay_signature, event_id)
+    container.persist()
 
     log.info(
         "webhook processed",
