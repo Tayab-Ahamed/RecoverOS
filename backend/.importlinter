@@ -10,7 +10,7 @@ layers =
     app.services
     app.agents | app.detection | app.policies | app.integrations
     app.repositories
-    app.models | app.schemas
+    app.models
     app.domain
     app.core
 
