@@ -85,6 +85,44 @@ class TestNoBarePolicyEngineInTests(unittest.TestCase):
             + ". Pass clock=f.fixed_clock (see tests/factories.py).",
         )
 
+    def test_every_testclient_module_sets_clock(self):
+        """Any test file constructing TestClient must call set_clock in its setup."""
+        offenders: list[str] = []
+
+        for path in sorted(TESTS_DIR.glob("test_*.py")):
+            text = path.read_text()
+            if "TestClient" not in text:
+                continue
+            tree = ast.parse(text, filename=str(path))
+            has_test_client = False
+            has_set_clock = False
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Call):
+                    func = node.func
+                    name = (
+                        func.id
+                        if isinstance(func, ast.Name)
+                        else func.attr
+                        if isinstance(func, ast.Attribute)
+                        else None
+                    )
+                    if name == "TestClient":
+                        has_test_client = True
+                    elif name == "set_clock":
+                        has_set_clock = True
+
+            if has_test_client and not has_set_clock:
+                offenders.append(path.name)
+
+        self.assertEqual(
+            offenders,
+            [],
+            "Test module uses TestClient without calling set_clock(): "
+            + ", ".join(offenders)
+            + ". Without set_clock(fixed_clock), the global API container will read "
+            "the live wall clock and fail outside contact hours.",
+        )
+
     def test_the_wired_test_system_pins_its_clock(self):
         """factories.System must not hand out a wall-clock engine."""
         system = f.System()
