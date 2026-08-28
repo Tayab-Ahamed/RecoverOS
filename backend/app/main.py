@@ -14,8 +14,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.deps import get_container
 from app.api.auth import verify_bearer
+from app.api.deps import get_container
 from app.api.v1 import agents, approvals, benchmark, cases, demo, events, health, metrics, webhooks
 from app.core.config import get_settings
 from app.core.errors import classify, error_body
