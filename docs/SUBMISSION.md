@@ -44,7 +44,7 @@ Open the opted-out case. Show `INELIGIBLE`, zero contacts, and no provider actio
 
 Open **Adaptive recovery, measured**. Explain that every arm sees the same cases, the same policy, and the same hidden world, with common random numbers so identical cases face identical luck.
 
-Lead with **optimal-action rate and regret**, not recovery rate: 86.73% versus 61.61%, regret down 42.5%, on 1,155 fewer contacts, capturing 97.45% of what the oracle proves was attainable. Say plainly that recovery rate is the wrong headline because the ungoverned arm wins it (90.35%) by committing 4,281 violations. The ungoverned arm exists to demonstrate why governance matters; it is not a production recommendation.
+Lead with **optimal-action rate and regret**, not recovery rate: 86.73% versus 61.61%, regret down 42.5%, on 1,155 fewer contacts, capturing 97.09% of what the oracle proves was attainable. Say plainly that recovery rate is the wrong headline because the ungoverned arm wins it (90.35%) by committing 4,281 violations. The ungoverned arm exists to demonstrate why governance matters; it is not a production recommendation.
 
 ### 3:35–4:20 — Explain implementation depth
 
@@ -58,7 +58,7 @@ Close with: “RecoverOS is not an AI that sends messages until someone pays. It
 
 The state machine, policy engine, executor, verifier, signature validation, replay protection, audit trail, benchmark harness, and dashboard are executable locally. The default demo uses labelled synthetic data and a deterministic mock provider. Synthetic results must never be presented as production recovery performance.
 
-Razorpay Test Mode support is implemented through the Payment Links adapter and webhook path. A final live-test-mode run still requires merchant credentials, a public HTTPS endpoint, and a webhook configured in Razorpay Test Mode. Never use Live Mode credentials for the buildathon demo.
+Razorpay Test Mode support is implemented through the Payment Links adapter and webhook path, and the end-to-end flow has been confirmed: a Test Mode payment succeeded, signed `payment.captured` and `payment_link.paid` events were received after correcting the webhook path, and the case transitioned from `AWAITING_PAYMENT` to `RECOVERED`. Never use Live Mode credentials for the buildathon demo.
 
 ## Reviewer proof commands
 

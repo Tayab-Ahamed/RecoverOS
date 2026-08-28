@@ -2,6 +2,20 @@
 
 This is the final gate that turns RecoverOS from a reproducible simulation into a payment-recovery prototype: one case, one real Payment Link, one real signed webhook, and one `RECOVERED` state reached only because Razorpay confirmed captured money.
 
+## Confirmed Test Mode verification
+
+The Razorpay Test Mode flow was completed and confirmed externally:
+
+| Check | Confirmed result |
+| --- | --- |
+| Payment | Test Mode payment succeeded |
+| Webhook endpoint | Corrected to `/api/webhooks/razorpay` after the initial root-path 404 |
+| Events | Signed `payment.captured` and `payment_link.paid` events were received |
+| Case transition | `AWAITING_PAYMENT` → `RECOVERED` |
+| Provenance | `LIVE_TEST_MODE` |
+
+The webhook URL, credentials, payment identifiers, and customer details are intentionally not stored in this repository. The initial delivery failure was caused by the dashboard URL omitting the webhook path; after correcting the URL, the webhook was resent successfully.
+
 Razorpay documents that webhooks are asynchronous server-to-server notifications, that Test Mode has its own webhook configuration, that webhook URLs must be publicly reachable on ports 80 or 443, and that signatures use HMAC-SHA256 over the raw request body. Razorpay also recommends identifying duplicate deliveries with `x-razorpay-event-id` and not assuming webhook order. See [About Webhooks](https://razorpay.com/docs/webhooks/), [Validate and Test Webhooks](https://razorpay.com/docs/webhooks/validate-test/), [Payment Webhook Events](https://razorpay.com/docs/webhooks/payments/), and [Payment Link Webhook Events](https://razorpay.com/docs/webhooks/payment-links/).
 
 ## Prerequisites
@@ -85,7 +99,7 @@ curl -X POST localhost:8000/api/v1/demo/live-test-case \
   -d '{"amount_rupees":4999,"reason":"CARD_EXPIRED"}'
 ```
 
-The endpoint refuses to run unless `PAYMENT_PROVIDER=razorpay`, resets the demo store to prevent provenance mixing, creates one `LIVE_TEST_MODE` case, and sends the bounded plan through the real Razorpay Payment Links adapter. Open the returned Payment Link and complete it with Razorpay Test Mode credentials.
+The endpoint refuses to run unless `PAYMENT_PROVIDER=razorpay`, resets the demo store to prevent provenance mixing, creates one `LIVE_TEST_MODE` case, and sends the bounded plan through the real Razorpay Payment Links adapter. Notification delivery is disabled for this manual proof, so the flow does not depend on an account accepting the placeholder contact details; open the returned Payment Link directly and complete it with Razorpay Test Mode credentials.
 
 ## 6. Verify the state transition
 

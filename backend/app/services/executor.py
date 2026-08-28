@@ -108,7 +108,11 @@ class RecoveryExecutor:
             customer_name=customer.name,
             customer_email=customer.email,
             customer_contact=customer.contact,
-            notify_email=True,
+            # The live Test Mode launcher is intentionally manual: the
+            # reviewer opens the returned link. Avoid making the demo depend
+            # on Razorpay accepting notification delivery for placeholder
+            # contact details.
+            notify_email=False,
             notify_sms=False,
             reminder_enable=True,
             notes={
