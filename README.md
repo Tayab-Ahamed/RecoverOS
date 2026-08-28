@@ -532,7 +532,7 @@ Full contract in [`docs/API.md`](docs/API.md).
 | React + TypeScript frontend | Production build passes in CI |
 | Bandit posterior persistence | Implemented and tested |
 | Propensity / memory / attribution persistence | **Process-local — not yet durable** |
-| Razorpay Test Mode live run | **Adapter implemented; awaiting credentials + public webhook URL** |
+| Razorpay Test Mode live run | **Confirmed: payment captured and signed webhook events verified** |
 | Production traffic, Postgres deployment | Not included |
 
 Two limitations stated plainly, because they are the first questions a reviewer

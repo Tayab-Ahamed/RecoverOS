@@ -16,7 +16,8 @@ it runs in CI and fails the build on drift.
 These are **seeded synthetic** results from a simulation whose conversion priors
 were chosen by the author. They demonstrate that the control system behaves
 correctly and measurably at batch scale. They are **not** a forecast of
-production recovery rates, and no live Razorpay Test Mode run is included yet.
+production recovery rates. A separate Razorpay Test Mode payment and signed
+webhook flow has been confirmed and is documented in `RAZORPAY_TESTMODE.md`.
 
 All arms share the same cases, the same policy gate, and the same hidden world,
 with **common random numbers**: identical cases face identical luck, so a
@@ -206,4 +207,3 @@ That is why they lead.
 Promise-to-Pay is an **inbound deterministic denial constraint**: when a customer commits to pay by date $T$, the `ptp_active_grace_period` rule pauses outbound dunning until $T$. It is not an agent action in the contextual bandit, and the synthetic benchmark generator intentionally emits no PTP events to keep the primary benchmark numbers bit-identical and reproducible.
 
 Consequently, the counterfactual policy sweep does not price PTP: evaluating an `ignore_promise_to_pay` variant on a synthetic dataset without inbound customer commitments would yield ₹0.00 delta, which would misleadingly imply the safety rule has zero value rather than reflecting that it was not exercised. PTP is instead verified deterministically via unit test suites (`tests/test_promise_to_pay.py`) and live demo walkthroughs (`Scenario E` in `docs/DEMO.md`).
-
