@@ -6,7 +6,7 @@ configuration flag nobody can see.
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Body, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Request
 
 from app.api.deps import get_container
 from app.api.schemas import case_out
@@ -31,7 +31,7 @@ def list_pending() -> dict:
 
 
 @router.post("/{case_id}/approve")
-def approve(case_id: str, approver: str = Body(embed=True)) -> dict:
+def approve(case_id: str, request: Request) -> dict:
     container = get_container()
     case = container.cases.get(case_id)
     if case is None:
@@ -40,6 +40,8 @@ def approve(case_id: str, approver: str = Body(embed=True)) -> dict:
     if customer is None:
         raise HTTPException(409, "customer record missing for this case")
     try:
+        principal = getattr(request.state, "principal", None)
+        approver = principal.subject if principal is not None else "demo-operator"
         container.approvals.approve(case, customer, approver)
     except IllegalTransition as exc:
         raise HTTPException(409, str(exc)) from exc
@@ -50,7 +52,7 @@ def approve(case_id: str, approver: str = Body(embed=True)) -> dict:
 @router.post("/{case_id}/deny")
 def deny(
     case_id: str,
-    approver: str = Body(embed=True),
+    request: Request,
     reason: str = Body(embed=True, default="no reason supplied"),
 ) -> dict:
     container = get_container()
@@ -58,6 +60,8 @@ def deny(
     if case is None:
         raise HTTPException(404, "case not found")
     try:
+        principal = getattr(request.state, "principal", None)
+        approver = principal.subject if principal is not None else "demo-operator"
         container.approvals.deny(case, approver, reason)
     except IllegalTransition as exc:
         raise HTTPException(409, str(exc)) from exc

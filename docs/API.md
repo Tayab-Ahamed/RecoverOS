@@ -6,8 +6,8 @@ the root and the versioned prefix, because probes should not have to know about
 API versioning.
 
 This surface is executed by the local TestClient contract suite and the SQL
-restart check. The live Razorpay path still requires merchant Test Mode
-credentials and a public webhook URL.
+restart check. The live Razorpay path has been confirmed in Test Mode; see
+`docs/RAZORPAY_TESTMODE.md` for the redacted verification record.
 
 
 ## Health
@@ -21,6 +21,14 @@ credentials and a public webhook URL.
 
 A dependency being down returns 503 with a shaped body, not a stack trace, and
 never prevents the process from starting.
+
+## Authentication
+
+In production, `/api/v1/*` business endpoints require an
+`Authorization: Bearer <JWT>` header. Tokens use HS256 and `JWT_SECRET`, and
+must include a non-empty `sub` claim. Approval audit entries use that subject
+as the operator identity. Razorpay webhooks use their signature instead of a
+bearer token; local demo mode remains unauthenticated.
 
 ## Cases
 

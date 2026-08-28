@@ -56,7 +56,7 @@ Close with: “RecoverOS is not an AI that sends messages until someone pays. It
 
 ## What is real versus simulated
 
-The state machine, policy engine, executor, verifier, signature validation, replay protection, audit trail, benchmark harness, and dashboard are executable locally. The default demo uses labelled synthetic data and a deterministic mock provider. Synthetic results must never be presented as production recovery performance.
+The state machine, policy engine, executor, verifier, signature validation, replay protection, audit trail, benchmark harness, and dashboard are executable locally. Production business APIs require signed bearer authentication and approval identity comes from the authenticated token subject. The default demo uses labelled synthetic data and a deterministic mock provider. Synthetic results must never be presented as production recovery performance.
 
 Razorpay Test Mode support is implemented through the Payment Links adapter and webhook path, and the end-to-end flow has been confirmed: a Test Mode payment succeeded, signed `payment.captured` and `payment_link.paid` events were received after correcting the webhook path, and the case transitioned from `AWAITING_PAYMENT` to `RECOVERED`. Never use Live Mode credentials for the buildathon demo.
 

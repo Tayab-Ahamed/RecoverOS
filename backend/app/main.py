@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.deps import get_container
+from app.api.auth import verify_bearer
 from app.api.v1 import agents, approvals, benchmark, cases, demo, events, health, metrics, webhooks
 from app.core.config import get_settings
 from app.core.errors import classify, error_body
@@ -56,6 +57,20 @@ def create_app() -> FastAPI:
             request_id_var.reset(token)
         response.headers["x-request-id"] = request_id
         return response
+
+    @app.middleware("http")
+    async def production_api_auth(request: Request, call_next):
+        # Provider webhooks and infrastructure probes authenticate through
+        # their own mechanisms. Business APIs require an operator token in
+        # production; local/demo mode intentionally remains frictionless.
+        if (
+            settings.is_production
+            and request.url.path.startswith(settings.api_prefix)
+            and not request.url.path.startswith(f"{settings.api_prefix}/health")
+        ):
+            principal = verify_bearer(request, settings.jwt_secret)
+            request.state.principal = principal
+        return await call_next(request)
 
     @app.exception_handler(Exception)
     async def unhandled(request: Request, exc: Exception):
