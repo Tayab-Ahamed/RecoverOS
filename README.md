@@ -1,6 +1,6 @@
 <div align="center">
 
-# Recover<span style="color:#2f8ff0">OS</span>
+<img src="docs/ui/recoveros-wordmark.svg" alt="RecoverOS" width="360">
 
 **A governed recovery system for failed payments.**
 
@@ -15,10 +15,6 @@ The provider executes it, and signed webhooks verify the result.
 [![Docker](https://img.shields.io/badge/run-Docker-2496ed?logo=docker&logoColor=white)](docker-compose.yml)
 [![Synthetic data](https://img.shields.io/badge/data-synthetic%20demo-8b5cf6)](docs/RESULTS.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
-<br>
-
-<sub>RECOVEROS / MERCHANT COMMAND CENTER · KEEP THE GOOD MONEY MOVING</sub>
 
 </div>
 
