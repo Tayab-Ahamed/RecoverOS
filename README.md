@@ -1,6 +1,6 @@
 <div align="center">
 
-# RecoverOS
+# Recover<span style="color:#2f8ff0">OS</span>
 
 **A governed recovery system for failed payments.**
 
@@ -8,7 +8,17 @@ AI helps diagnose and recommend. Deterministic policy decides what is allowed.
 The provider executes it, and signed webhooks verify the result.
 
 [![CI](https://github.com/Tayab-Ahamed/RecoverOS/actions/workflows/ci.yml/badge.svg)](https://github.com/Tayab-Ahamed/RecoverOS/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-207%20passing-22c55e)](backend/tests)
+[![Python](https://img.shields.io/badge/backend-Python-3776ab?logo=python&logoColor=white)](backend)
+[![React](https://img.shields.io/badge/frontend-React-20232a?logo=react&logoColor=61dafb)](frontend)
+[![TypeScript](https://img.shields.io/badge/code-TypeScript-3178c6?logo=typescript&logoColor=white)](frontend)
+[![Docker](https://img.shields.io/badge/run-Docker-2496ed?logo=docker&logoColor=white)](docker-compose.yml)
+[![Synthetic data](https://img.shields.io/badge/data-synthetic%20demo-8b5cf6)](docs/RESULTS.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+<br>
+
+<sub>RECOVEROS / MERCHANT COMMAND CENTER · KEEP THE GOOD MONEY MOVING</sub>
 
 </div>
 
