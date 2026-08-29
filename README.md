@@ -64,6 +64,17 @@ provider directly, or declare a case recovered. The policy engine checks the
 proposal first. The executor performs only an authorized action. The outcome
 verifier requires signature-verified capture evidence before marking recovery.
 
+## AI’s role
+
+RecoverOS uses AI where it adds useful judgment, while keeping payment actions
+behind deterministic controls. The contextual learning strategist adapts its
+recommendations from observed outcomes. The LLM supports diagnosis, narration,
+and dissent during evaluation; it does not directly execute payments or decide
+whether a provider action is authorized.
+
+This distinction is intentional: AI can suggest a better next step, but policy
+code remains responsible for consent, limits, approvals, and final authority.
+
 The four roles shown in the dashboard have separate responsibilities:
 
 | Role | Responsibility |
