@@ -1,75 +1,83 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 210" width="960" height="210" role="img" aria-label="RecoverOS pipeline: detect, diagnose, decide, govern, act, verify">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">RecoverOS governed payment recovery workflow</title>
+  <desc id="desc">Four agents propose a recovery action. A deterministic policy gate allows, blocks, or escalates it. Allowed actions are executed by a provider and verified by a signed webhook.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0b1120"/>
-      <stop offset="100%" stop-color="#111c33"/>
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef4fb"/>
     </linearGradient>
-    <linearGradient id="wire" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#1f6feb"/>
-      <stop offset="50%" stop-color="#3fb950"/>
-      <stop offset="100%" stop-color="#1f6feb"/>
-    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#172554" flood-opacity=".12"/>
+    </filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0 0L9 4.5L0 9Z" fill="#64748b"/>
+    </marker>
     <style>
-      .stage { fill: #0f1a2e; stroke: #26334d; stroke-width: 1.5; }
-      .ai    { stroke: #1f6feb; }
-      .det   { stroke: #3fb950; }
-      .lbl   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #e6edf3; }
-      .sub   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 10px; fill: #8b949e; }
-      .tag   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .08em; }
-      .title { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 700; fill: #c9d1d9; letter-spacing: .16em; }
-      .flow  { stroke: url(#wire); stroke-width: 2.5; fill: none; stroke-dasharray: 10 8; animation: dash 1.4s linear infinite; }
-      .pulse { animation: pulse 2.6s ease-in-out infinite; }
-      .p2 { animation-delay: .3s; } .p3 { animation-delay: .6s; }
-      .p4 { animation-delay: .9s; } .p5 { animation-delay: 1.2s; } .p6 { animation-delay: 1.5s; }
-      @keyframes dash  { to { stroke-dashoffset: -36; } }
-      @keyframes pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
-      @media (prefers-reduced-motion: reduce) {
-        .flow { animation: none; } .pulse { animation: none; opacity: 1; }
-      }
+      .kicker { font: 700 12px 'Segoe UI',Arial,sans-serif; letter-spacing: .16em; fill:#2563eb }
+      .headline { font: 700 24px 'Segoe UI',Arial,sans-serif; fill:#0f172a }
+      .label { font: 700 15px 'Segoe UI',Arial,sans-serif; fill:#0f172a }
+      .body { font: 13px 'Segoe UI',Arial,sans-serif; fill:#475569 }
+      .small { font: 700 11px 'Segoe UI',Arial,sans-serif; letter-spacing:.08em; fill:#64748b }
+      .card { fill:#fff; stroke:#dbe4ef; stroke-width:1.5 }
+      .ai { stroke:#60a5fa; }
+      .code { stroke:#34a853; }
+      .line { stroke:#94a3b8; stroke-width:2; fill:none; marker-end:url(#arrow) }
+      .dashed { stroke:#f59e0b; stroke-width:2; stroke-dasharray:7 6; fill:none; marker-end:url(#arrow) }
     </style>
   </defs>
 
-  <rect width="960" height="210" rx="10" fill="url(#bg)"/>
-  <text class="title" x="28" y="32">AI PROPOSES &#183; POLICY AUTHORIZES &#183; PROVIDER EXECUTES &#183; WEBHOOKS VERIFY</text>
+  <rect width="1200" height="360" rx="18" fill="url(#bg)"/>
+  <text class="kicker" x="42" y="42">RECOVEROS / GOVERNED RECOVERY LOOP</text>
+  <text class="headline" x="42" y="76">AI proposes. Policy decides. Evidence proves.</text>
 
-  <path class="flow" d="M 28 118 H 932"/>
+  <rect class="card" x="42" y="105" width="232" height="166" rx="12" filter="url(#shadow)"/>
+  <text class="small" x="64" y="132">01 / AGENTS</text>
+  <text class="label" x="64" y="160">Understand the case</text>
+  <text class="body" x="64" y="187">Revenue Sentinel detects risk.</text>
+  <text class="body" x="64" y="210">Diagnosis Agent explains why.</text>
+  <text class="body" x="64" y="233">Strategist recommends a next step.</text>
+  <circle cx="64" cy="254" r="4" fill="#2563eb"/>
+  <text class="body" x="76" y="258">AI can propose, never authorize.</text>
 
-  <g class="pulse">
-    <rect class="stage det" x="28" y="86" width="136" height="64" rx="8"/>
-    <text class="lbl" x="44" y="112">DETECT</text>
-    <text class="sub" x="44" y="130">deterministic rules</text>
-    <text class="tag" x="44" y="78" fill="#3fb950">CODE</text>
-  </g>
-  <g class="pulse p2">
-    <rect class="stage ai" x="180" y="86" width="136" height="64" rx="8"/>
-    <text class="lbl" x="196" y="112">DIAGNOSE</text>
-    <text class="sub" x="196" y="130">evidence hypothesis</text>
-    <text class="tag" x="196" y="78" fill="#1f6feb">AI</text>
-  </g>
-  <g class="pulse p3">
-    <rect class="stage ai" x="332" y="86" width="136" height="64" rx="8"/>
-    <text class="lbl" x="348" y="112">DECIDE</text>
-    <text class="sub" x="348" y="130">bandit + narration</text>
-    <text class="tag" x="348" y="78" fill="#1f6feb">AI</text>
-  </g>
-  <g class="pulse p4">
-    <rect class="stage det" x="484" y="86" width="136" height="64" rx="8"/>
-    <text class="lbl" x="500" y="112">GOVERN</text>
-    <text class="sub" x="500" y="130">allow / deny / escalate</text>
-    <text class="tag" x="500" y="78" fill="#3fb950">CODE</text>
-  </g>
-  <g class="pulse p5">
-    <rect class="stage det" x="636" y="86" width="136" height="64" rx="8"/>
-    <text class="lbl" x="652" y="112">ACT</text>
-    <text class="sub" x="652" y="130">Razorpay adapter</text>
-    <text class="tag" x="652" y="78" fill="#3fb950">CODE</text>
-  </g>
-  <g class="pulse p6">
-    <rect class="stage det" x="788" y="86" width="144" height="64" rx="8"/>
-    <text class="lbl" x="804" y="112">VERIFY</text>
-    <text class="sub" x="804" y="130">signed capture only</text>
-    <text class="tag" x="804" y="78" fill="#3fb950">CODE</text>
-  </g>
+  <path class="line" d="M274 188H326"/>
 
-  <text class="sub" x="28" y="182">Reasoning layers cannot import a provider. Only the executor calls Razorpay. Only the verifier writes RECOVERED.</text>
+  <rect class="card" x="326" y="105" width="260" height="166" rx="12" filter="url(#shadow)"/>
+  <text class="small" x="348" y="132">02 / POLICY GATE</text>
+  <text class="label" x="348" y="160">Check before acting</text>
+  <text class="body" x="348" y="187">Consent, contact budget, timing,</text>
+  <text class="body" x="348" y="209">value, and attempt limits are checked</text>
+  <text class="body" x="348" y="231">by deterministic code.</text>
+  <rect x="348" y="246" width="67" height="18" rx="9" fill="#dcfce7"/>
+  <text x="359" y="259" font-size="10" font-family="Segoe UI,Arial" font-weight="700" fill="#15803d">ALLOW</text>
+  <rect x="425" y="246" width="60" height="18" rx="9" fill="#fee2e2"/>
+  <text x="437" y="259" font-size="10" font-family="Segoe UI,Arial" font-weight="700" fill="#b91c1c">BLOCK</text>
+  <rect x="495" y="246" width="70" height="18" rx="9" fill="#fef3c7"/>
+  <text x="505" y="259" font-size="10" font-family="Segoe UI,Arial" font-weight="700" fill="#a16207">ESCALATE</text>
+
+  <path class="line" d="M586 170H635"/>
+  <path class="dashed" d="M456 271V299H194"/>
+
+  <rect class="card" x="635" y="105" width="220" height="166" rx="12" filter="url(#shadow)"/>
+  <text class="small" x="657" y="132">03 / EXECUTOR</text>
+  <text class="label" x="657" y="160">Perform only allowed work</text>
+  <text class="body" x="657" y="187">The executor receives an</text>
+  <text class="body" x="657" y="209">authorized decision and calls</text>
+  <text class="body" x="657" y="231">the mock or live provider.</text>
+  <circle cx="657" cy="254" r="4" fill="#34a853"/>
+  <text class="body" x="669" y="258">No self-authorization.</text>
+
+  <path class="line" d="M855 188H904"/>
+
+  <rect class="card" x="904" y="105" width="254" height="166" rx="12" filter="url(#shadow)"/>
+  <text class="small" x="926" y="132">04 / OUTCOME VERIFIER</text>
+  <text class="label" x="926" y="160">Prove the outcome</text>
+  <text class="body" x="926" y="187">A signed captured-payment</text>
+  <text class="body" x="926" y="209">webhook is required before</text>
+  <text class="body" x="926" y="231">a case becomes RECOVERED.</text>
+  <circle cx="926" cy="254" r="4" fill="#34a853"/>
+  <text class="body" x="938" y="258">Authorization is not recovery.</text>
+
+  <rect x="42" y="286" width="152" height="28" rx="14" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="58" y="304" font-size="11" font-family="Segoe UI,Arial" font-weight="700" letter-spacing=".06em" fill="#a16207">STOP / ESCALATE</text>
+  <text class="small" x="42" y="338">Blocked cases stop safely and are not counted as recoveries.</text>
 </svg>
