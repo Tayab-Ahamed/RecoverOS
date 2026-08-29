@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 100" role="img" aria-labelledby="title desc">
   <title id="title">RecoverOS</title>
   <desc id="desc">RecoverOS wordmark with a blue OS accent.</desc>
   <rect x="8" y="28" width="14" height="44" rx="7" fill="#34a853"/>
   <text x="42" y="70" font-family="Segoe UI, Arial, sans-serif" font-size="60" font-weight="500" letter-spacing="-2" fill="#0b102f">Recover</text>
-  <text x="302" y="70" font-family="Segoe UI, Arial, sans-serif" font-size="60" font-weight="500" letter-spacing="-2" fill="#2f8ff0">OS</text>
+  <text x="253" y="70" font-family="Segoe UI, Arial, sans-serif" font-size="60" font-weight="500" letter-spacing="-2" fill="#2f8ff0">OS</text>
 </svg>
