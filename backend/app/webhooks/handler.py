@@ -68,11 +68,17 @@ class WebhookHandler:
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             return WebhookResult(False, f"unparseable body: {exc}")
 
+        if not isinstance(body, dict):
+            return WebhookResult(False, "invalid body: expected an object")
+
         event_type = body.get("event")
-        if not event_type:
+        if not isinstance(event_type, str) or not event_type:
             return WebhookResult(False, "missing event field")
 
-        reference_id, payment_id, amount, captured = self._extract(body, event_type)
+        try:
+            reference_id, payment_id, amount, captured = self._extract(body, event_type)
+        except ValueError:
+            return WebhookResult(False, "invalid webhook payload", event_type=event_type)
         if reference_id is None:
             return WebhookResult(False, "no resolvable case reference", event_type=event_type)
 
@@ -101,19 +107,34 @@ class WebhookHandler:
 
     @staticmethod
     def _extract(body: dict, event_type: str):
-        payload = body.get("payload", {})
-        link = payload.get("payment_link", {}).get("entity", {})
-        payment = payload.get("payment", {}).get("entity", {})
+        def object_field(value):
+            if not isinstance(value, dict):
+                raise ValueError("expected a webhook object")
+            return value
+
+        payload = object_field(body.get("payload", {}))
+        link = object_field(object_field(payload.get("payment_link", {})).get("entity", {}))
+        payment = object_field(object_field(payload.get("payment", {})).get("entity", {}))
 
         reference_id = link.get("reference_id")
         if not reference_id:
             # A failed attempt on a link arrives as a payment event, so the
             # association is carried in notes. This is exactly the linkage that
             # remains UNVERIFIED against a live account.
-            reference_id = (payment.get("notes") or {}).get("reference_id")
+            reference_id = object_field(payment.get("notes") or {}).get("reference_id")
 
-        amount = payment.get("amount") or link.get("amount")
+        amount = payment.get("amount")
+        if amount is None:
+            amount = link.get("amount")
+        # Do not coerce strings, floats, or booleans into proof of money moved.
+        if amount is not None and (type(amount) is not int or amount < 0):
+            raise ValueError("expected a non-negative integer amount")
+        if reference_id is not None and not isinstance(reference_id, str):
+            raise ValueError("expected a string reference")
+        payment_id = payment.get("id")
+        if payment_id is not None and not isinstance(payment_id, str):
+            raise ValueError("expected a string payment id")
         captured = payment.get("status") == "captured" or (
             event_type == "payment_link.paid" and link.get("status") == "paid"
         )
-        return reference_id, payment.get("id"), amount, captured
+        return reference_id, payment_id, amount, captured
